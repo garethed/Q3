@@ -1,0 +1,8 @@
+*.suo
+server/artifacts/obj/Q3ServerTests/Debug/ProjectRawReferences/ASP.NET Core 5.0/Microsoft.AspNet.Diagnostics.IErrorHandlerFeature.dll
+server/artifacts/obj/
+server/.vs/
+client/packages/
+client/Q3Client/obj/
+*.pdb
+client/Q3Client/bin/
