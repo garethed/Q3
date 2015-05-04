@@ -7,7 +7,7 @@ namespace Q3Server
 {
     public class Queue
     {
-        private ConcurrentQueue<string> members = new ConcurrentQueue<string>();
+        private List<string> members = new List<string>();
         private object lockable = new object();
 
         public Queue (int id, string name, string creatingUser)
@@ -15,7 +15,7 @@ namespace Q3Server
             this.Id = id;
             this.Name = name;
             this.Status = QueueStatus.Waiting;
-            this.members.Enqueue(creatingUser);
+            this.members.Add(creatingUser);
         }
 
         public int Id { get; private set; }
@@ -27,10 +27,16 @@ namespace Q3Server
             get { return members; }
         }
 
-        internal void AddUser(string name)
+        public void AddUser(string name)
         {
-            members.Enqueue(name);
-            MembershipChanged();
+            lock (lockable)
+            {
+                if (!members.Contains(name))
+                {
+                    members.Add(name);
+                    MembershipChanged();
+                }
+            }
         }
 
         private void MembershipChanged()
@@ -38,6 +44,18 @@ namespace Q3Server
             if (QueueMembershipChanged != null)
             {
                 QueueMembershipChanged(this, new QueueEventArgs(this));
+            }
+        }
+
+        public void RemoveUser(string user)
+        {
+            lock (lockable)
+            {
+                if (members.Contains(user))
+                {
+                    members.Remove(user);
+                    MembershipChanged();
+                }
             }
         }
 

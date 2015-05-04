@@ -31,6 +31,12 @@ namespace Q3Server
             queueManager.GetQueue(id).AddUser(userAccessor.User);
         }
 
+        public void LeaveQueue(int id)
+        {
+            Trace.WriteLine("-> LeaveQueue: " + id);
+            queueManager.GetQueue(id).RemoveUser(userAccessor.User);
+        }
+
         public void ActivateQueue(int id)
         {
             Trace.WriteLine("-> ActivateQueue: " + id);

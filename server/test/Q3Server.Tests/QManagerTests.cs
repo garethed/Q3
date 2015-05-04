@@ -9,6 +9,8 @@ namespace Q3Tests
     public class QManagerTests
     {
         private QManager manager;
+        private bool membershipChangedEventFired = false;
+        private bool statusChangedEventFired = false;
 
         public QManagerTests()
         {
@@ -70,14 +72,58 @@ namespace Q3Tests
         [Fact]
         public void ICanCloseAQueue()
         {
-            var q = manager.CreateQueue("shorLived", "me");
-            var eventFired = false;
-            q.QueueStatusChanged += (s,e) => eventFired = true;
+            var q = createQueue();
 
             manager.CloseQueue(q.Id);
 
             Assert.Equal(QueueStatus.Closed, q.Status);
-            Assert.True(eventFired);
+            Assert.True(statusChangedEventFired);
+        }
+
+        [Fact]
+        public void ICanLeaveAQueue()
+        {
+            var q = createQueue();
+            q.RemoveUser("me");
+
+            Assert.Empty(q.Members);
+            Assert.True(membershipChangedEventFired);
+        }
+
+        [Fact]
+        public void ICanJoinAQueue()
+        {
+            var q = createQueue();
+            q.AddUser("him");
+
+            Assert.Contains("him", q.Members);
+            Assert.True(membershipChangedEventFired);
+        }
+
+        [Fact]
+        public void JoiningTwiceHasNoEffect()
+        {
+            var q = createQueue();
+            q.AddUser("me");
+
+            Assert.False(membershipChangedEventFired);
+        }
+
+        [Fact]
+        public void LeavingTwiceHasNoEffect()
+        {
+            var q = createQueue();
+            q.RemoveUser("her");
+
+            Assert.False(membershipChangedEventFired);
+        }
+
+        private Queue createQueue()
+        {
+            var q = manager.CreateQueue("q", "me");
+            q.QueueMembershipChanged += (s,e) => membershipChangedEventFired = true;
+            q.QueueStatusChanged += (s, e) => statusChangedEventFired = true;
+            return q;
         }
     }
 }
