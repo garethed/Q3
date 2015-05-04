@@ -12,7 +12,8 @@ namespace Q3Server
         {
             services.AddSignalR();
             services.AddSingleton<IQManager, QManager>();
-            services.AddSingleton<QEventsListener>();
+            services.AddSingleton<IQEventsListener, QEventsListener>();
+            services.AddTransient<IUserAccessor, UserAccessor>();
         }
 
         public void Configure(IApplicationBuilder app)

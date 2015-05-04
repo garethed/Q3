@@ -5,7 +5,12 @@ using System.Diagnostics;
 
 namespace Q3Server
 {
-    public class QEventsListener
+    public interface IQEventsListener
+    {
+        void OnQueueCreated(object sender, QueueEventArgs e);
+    }
+
+    public class QEventsListener : IQEventsListener
     {
         private IHubContext hubContext;
 

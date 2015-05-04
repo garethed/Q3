@@ -10,11 +10,12 @@ namespace Q3Server
         private ConcurrentQueue<string> members = new ConcurrentQueue<string>();
         private object lockable = new object();
 
-        public Queue (int id, string name)
+        public Queue (int id, string name, string creatingUser)
         {
             this.Id = id;
             this.Name = name;
             this.Status = QueueStatus.Waiting;
+            this.members.Enqueue(creatingUser);
         }
 
         public int Id { get; private set; }

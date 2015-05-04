@@ -1,12 +1,23 @@
 ﻿using System;
-using Q3;
+using Q3Server;
 using Xunit;
+using Moq;
+using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
 
 namespace Q3Tests
 {
-    public class Class1
+    public class QHubTests
     {
-        private QHub hub = new QHub();
+        private QHub hub;
+
+        public QHubTests()
+        {
+            var manager = new Mock<IQManager>();
+            var userAccessor = new Mock<IUserAccessor>();
+            userAccessor.Setup(c => c.User).Returns("mockUser");
+            hub = new QHub(manager.Object, userAccessor.Object);
+        }
 
         [Fact]
         public void ICanStartAQueue()

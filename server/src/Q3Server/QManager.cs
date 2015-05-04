@@ -7,7 +7,7 @@ namespace Q3Server
 {
     public interface IQManager
     {
-        Queue CreateQueue(string QueueName);
+        Queue CreateQueue(string QueueName, string creatingUser);
         Queue GetQueue(int QueueId);
         event EventHandler<QueueEventArgs> queueCreated;
 
@@ -20,12 +20,12 @@ namespace Q3Server
         private Dictionary<int, Queue> queues = new Dictionary<int, Queue>();
         private int lastQueueId = 0;
 
-        public QManager(QEventsListener eventListener)
+        public QManager(IQEventsListener eventListener)
         {
             this.queueCreated += eventListener.OnQueueCreated;
         }
 
-        public Queue CreateQueue(string queueName)
+        public Queue CreateQueue(string queueName, string creatingUser)
         {
             lock (lockable)
             {
@@ -34,7 +34,7 @@ namespace Q3Server
                     throw new DuplicateQueueException();
                 }
 
-                var queue = new Queue(++lastQueueId, queueName);
+                var queue = new Queue(++lastQueueId, queueName, creatingUser);
                 queues.Add(queue.Id, queue);
 
                 if (queueCreated != null)
@@ -48,14 +48,12 @@ namespace Q3Server
 
         public Queue GetQueue(int queueId)
         {
-            var queue = queues[queueId];
-
-            if (queue == null)
+            if (!queues.ContainsKey(queueId))
             {
                 throw new QueueNotFoundException();
             }
 
-            return queue;
+            return queues[queueId];
         }
 
         public IEnumerable<Queue> ListQueues()
