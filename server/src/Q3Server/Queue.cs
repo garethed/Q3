@@ -3,21 +3,28 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Q3
+namespace Q3Server
 {
     public class Queue
     {
         private ConcurrentQueue<string> members = new ConcurrentQueue<string>();
         private object lockable = new object();
 
-        public Queue (string Name)
+        public Queue (int id, string name)
         {
-            this.Name = Name;
+            this.Id = id;
+            this.Name = name;
             this.Status = QueueStatus.Waiting;
         }
 
+        public int Id { get; private set; }
         public string Name { get; private set; }
         public QueueStatus Status { get; private set; }
+
+        public IEnumerable<string> Members
+        {
+            get { return members; }
+        }
 
         internal void AddUser(string name)
         {
@@ -29,12 +36,12 @@ namespace Q3
         {
             if (QueueMembershipChanged != null)
             {
-                QueueMembershipChanged(this, new QueueMembershipChangedEventArgs() { Name = Name,  Members = members.ToList() });
+                QueueMembershipChanged(this, new QueueEventArgs(this));
             }
         }
 
-        public event EventHandler<QueueMembershipChangedEventArgs> QueueMembershipChanged;
-        public event EventHandler<QueueStatusChangedEventArgs> QueueStatusChanged;
+        public event EventHandler<QueueEventArgs> QueueMembershipChanged;
+        public event EventHandler<QueueEventArgs> QueueStatusChanged;
 
         internal void Activate()
         {
@@ -46,22 +53,16 @@ namespace Q3
                     
                     if (QueueStatusChanged != null)
                     {
-                        QueueStatusChanged(this, new QueueStatusChangedEventArgs() { Name = Name });
+                        QueueStatusChanged(this, new QueueEventArgs(this));
                     }              
                 }
 
             }
         }
-    }
 
-    public class QueueMembershipChangedEventArgs : EventArgs
-    {
-        public string Name;
-        public IEnumerable<string> Members;
-    }
-
-    public class QueueStatusChangedEventArgs : EventArgs
-    {
-        public string Name;
+        public override string ToString()
+        {
+            return "Q" + this.Id + ": " + this.Name;
+        }
     }
 }

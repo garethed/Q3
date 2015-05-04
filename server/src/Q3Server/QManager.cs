@@ -1,46 +1,54 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Q3
+namespace Q3Server
 {
     public interface IQManager
     {
         Queue CreateQueue(string QueueName);
-        Queue GetQueue(string QueueName);
-        event EventHandler<QueueCreatedEventArgs> queueCreated;
+        Queue GetQueue(int QueueId);
+        event EventHandler<QueueEventArgs> queueCreated;
 
-        IEnumerable<string> ListQueues();
+        IEnumerable<Queue> ListQueues();
     }
 
     public class QManager : IQManager
     {
+        private object lockable = new object();
+        private Dictionary<int, Queue> queues = new Dictionary<int, Queue>();
+        private int lastQueueId = 0;
+
         public QManager(QEventsListener eventListener)
         {
             this.queueCreated += eventListener.OnQueueCreated;
         }
 
-        ConcurrentDictionary<string, Queue> queues = new ConcurrentDictionary<string, Queue>();
-
         public Queue CreateQueue(string queueName)
         {
-            var queue = new Queue(queueName);
-            if (queues.TryAdd(queueName, queue))
+            lock (lockable)
             {
-                if (queueCreated != null)
+                if (queues.Any(q => q.Value.Name.Equals(queueName, StringComparison.InvariantCultureIgnoreCase)))
                 {
-                    queueCreated(this, new QueueCreatedEventArgs() { Queue = queue });
+                    throw new DuplicateQueueException();
                 }
 
-                return queue;
-            }
+                var queue = new Queue(++lastQueueId, queueName);
+                queues.Add(queue.Id, queue);
 
-            throw new DuplicateQueueException();
+                if (queueCreated != null)
+                {
+                    queueCreated(this, new QueueEventArgs(queue));
+                }
+
+                return queue;               
+            }
         }
 
-        public Queue GetQueue(string queueName)
+        public Queue GetQueue(int queueId)
         {
-            var queue = queues[queueName];
+            var queue = queues[queueId];
 
             if (queue == null)
             {
@@ -50,16 +58,11 @@ namespace Q3
             return queue;
         }
 
-        public IEnumerable<string> ListQueues()
+        public IEnumerable<Queue> ListQueues()
         {
-            return queues.Keys;
+            return queues.Values;
         }
 
-        public event EventHandler<QueueCreatedEventArgs> queueCreated;
-    }
-
-    public class QueueCreatedEventArgs
-    {
-        public Queue Queue;
+        public event EventHandler<QueueEventArgs> queueCreated;
     }
 }

@@ -23,6 +23,7 @@ namespace Q3Client
     {
         private HubConnection hubConnection;
         private IHubProxy hub;
+        private List<Queue> queues = new List<Queue>();
 
 
         public MainWindow()
@@ -30,33 +31,41 @@ namespace Q3Client
             InitializeComponent();
             hubConnection = new HubConnection("http://localhost:51442/");
             hub = hubConnection.CreateHubProxy("QHub");
-            hub.On<string>("NewQueue", NewQueue);
-            hub.On<string, IEnumerable<string>>("QueueMembershipChanged", QueueMembershipChanged);
-            hub.On<string>("QueueStatusChanged", QueueStatusChanged);
+            hub.On<Queue>("NewQueue", NewQueue);
+            hub.On<Queue>("QueueMembershipChanged", QueueMembershipChanged);
+            hub.On<Queue>("QueueStatusChanged", QueueStatusChanged);
+            hubConnection.Headers["User"] = DateTime.Now.Ticks.ToString();
             hubConnection.Start().Wait();
 
             this.Activated += OnActivated;
         }
 
-        private void QueueStatusChanged(string queueName)
+        private void QueueStatusChanged(Queue queue)
         {
-            UpdateLabel("queue activated: " + queueName);
+            UpdateLabel("queue activated: " + queue);
         }
 
-        private void QueueMembershipChanged(string name, IEnumerable<string> members)
+        private void QueueMembershipChanged(Queue queue)
         {
-            UpdateLabel("membership changed: " + name + " - " + string.Join(", ", members));
+            UpdateLabel("membership changed: " + queue);
         }
 
         private async void OnActivated(object sender, EventArgs eventArgs)
         {
-            var queues = await hub.Invoke<IEnumerable<string>>("ListQueues");
+            var queues = await hub.Invoke<IEnumerable<Queue>>("ListQueues");
             UpdateLabel("existing queues " + string.Join(", ", queues));
+            this.queues = new List<Queue>(queues);
+            updateList();
         }
 
-        private void NewQueue(string queueName)
+        private void updateList()
         {
-            UpdateLabel("new queue: " + queueName);
+            QueueList.ItemsSource = queues;
+        }
+
+        private void NewQueue(Queue queue)
+        {
+            UpdateLabel("new queue: " + queue);
         }
 
         private void UpdateLabel(string message)
@@ -72,13 +81,18 @@ namespace Q3Client
 
         private async void JoinQueue_Click(object sender, RoutedEventArgs e)
         {
-            await hub.Invoke("JoinQueue", QueueName.Text);
+            await hub.Invoke("JoinQueue", SelectedQueueId);
 
+        }
+
+        public int SelectedQueueId
+        {
+            get { return ((Queue) QueueList.SelectedItem).Id; } 
         }
 
         private async void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            await hub.Invoke("ActivateQueue", QueueName.Text);
+            await hub.Invoke("ActivateQueue", SelectedQueueId);
         }
 
     }

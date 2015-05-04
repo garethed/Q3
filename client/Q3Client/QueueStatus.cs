@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Q3Server
+namespace Q3Client
 {
     public enum QueueStatus
     {

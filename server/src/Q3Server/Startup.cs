@@ -3,7 +3,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
 using Microsoft.Framework.DependencyInjection;
 
-namespace Q3
+namespace Q3Server
 {
     public class Startup
     {
@@ -17,6 +17,7 @@ namespace Q3
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseMiddleware<SimpleHeaderAuthenticator>();
             app.UseSignalR();            
         }
     }

@@ -3,7 +3,7 @@ using Microsoft.AspNet.SignalR.Infrastructure;
 using System;
 using System.Diagnostics;
 
-namespace Q3
+namespace Q3Server
 {
     public class QEventsListener
     {
@@ -14,26 +14,26 @@ namespace Q3
             hubContext = connectionManager.GetHubContext<QHub>();
         }
 
-        public void OnQueueCreated(object sender, QueueCreatedEventArgs e)
+        public void OnQueueCreated(object sender, QueueEventArgs e)
         {
-            Trace.WriteLine("<- NewQueue " + e.Queue.Name);
-            hubContext.Clients.All.NewQueue(e.Queue.Name);
+            Trace.WriteLine("<- NewQueue " + e.Queue);
+            hubContext.Clients.All.NewQueue(e.Queue);
 
             e.Queue.QueueMembershipChanged += QueueMembershipChanged;
             e.Queue.QueueStatusChanged += QueueStatusChanged;
         }
 
-        private void QueueStatusChanged(object sender, QueueStatusChangedEventArgs e)
+        private void QueueStatusChanged(object sender, QueueEventArgs e)
         {
-            Trace.WriteLine("<- QueueStatusChanged " + e.Name);
-            hubContext.Clients.All.QueueStatusChanged(e.Name);
+            Trace.WriteLine("<- QueueStatusChanged " + e.Queue);
+            hubContext.Clients.All.QueueStatusChanged(e.Queue);
         }
 
-        private void QueueMembershipChanged(object sender, QueueMembershipChangedEventArgs e)
+        private void QueueMembershipChanged(object sender, QueueEventArgs e)
         {
-            Trace.WriteLine("<- QueueMembershipChanged " + e.Name);
+            Trace.WriteLine("<- QueueMembershipChanged " + e.Queue);
             //TODO: only send this to the group of clients who are already on this queue
-            hubContext.Clients.All.QueueMembershipChanged(e.Name, e.Members);
+            hubContext.Clients.All.QueueMembershipChanged(e.Queue);
         }
     }
 }
