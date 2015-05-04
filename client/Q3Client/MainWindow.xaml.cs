@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Q3Client
     {
         private HubConnection hubConnection;
         private IHubProxy hub;
-        private List<Queue> queues = new List<Queue>();
+        private ObservableCollection<Queue> queues = new ObservableCollection<Queue>(); 
 
 
         public MainWindow()
@@ -43,6 +44,11 @@ namespace Q3Client
         private void QueueStatusChanged(Queue queue)
         {
             UpdateLabel("queue activated: " + queue);
+            if (queue.Status == QueueStatus.Closed)
+            {
+                Dispatcher.Invoke(() => queues.Remove(queue));
+                updateList();
+            }
         }
 
         private void QueueMembershipChanged(Queue queue)
@@ -54,18 +60,29 @@ namespace Q3Client
         {
             var queues = await hub.Invoke<IEnumerable<Queue>>("ListQueues");
             UpdateLabel("existing queues " + string.Join(", ", queues));
-            this.queues = new List<Queue>(queues);
+            this.queues.Clear();
+            foreach (var q in queues)
+            {
+                this.queues.Add(q);
+            }
+            
             updateList();
         }
 
         private void updateList()
         {
-            QueueList.ItemsSource = queues;
+            Dispatcher.Invoke(() =>
+            {
+                QueueList.ItemsSource = queues;
+                QueueList.InvalidateVisual();
+            });
         }
 
         private void NewQueue(Queue queue)
         {
             UpdateLabel("new queue: " + queue);
+            Dispatcher.Invoke(() => queues.Add(queue));
+            updateList();
         }
 
         private void UpdateLabel(string message)
@@ -82,7 +99,6 @@ namespace Q3Client
         private async void JoinQueue_Click(object sender, RoutedEventArgs e)
         {
             await hub.Invoke("JoinQueue", SelectedQueueId);
-
         }
 
         public int SelectedQueueId
@@ -93,6 +109,11 @@ namespace Q3Client
         private async void Button_Click_2(object sender, RoutedEventArgs e)
         {
             await hub.Invoke("ActivateQueue", SelectedQueueId);
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            await hub.Invoke("CloseQueue", SelectedQueueId);
         }
 
     }

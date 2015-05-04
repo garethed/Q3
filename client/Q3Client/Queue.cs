@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Q3Client
 {
-    public class Queue
+    public class Queue : IEquatable<Queue>
     {
         public int Id;
         public string Name;
@@ -16,6 +16,13 @@ namespace Q3Client
         public override string ToString()
         {
             return "Q" + this.Id + ": " + this.Name + " (" + string.Join(", ", Members) + ")";
+        }
+
+
+
+        public bool Equals(Queue other)
+        {
+            return other.Id == this.Id;
         }
     }
 }

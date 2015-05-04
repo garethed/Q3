@@ -12,6 +12,7 @@ namespace Q3Server
         event EventHandler<QueueEventArgs> queueCreated;
 
         IEnumerable<Queue> ListQueues();
+        void CloseQueue(int id);
     }
 
     public class QManager : IQManager
@@ -59,6 +60,19 @@ namespace Q3Server
         public IEnumerable<Queue> ListQueues()
         {
             return queues.Values;
+        }
+
+        public void CloseQueue(int id)
+        {
+            lock (lockable)
+            {
+                if (queues.ContainsKey(id))
+                {
+                    var queueToRemove = queues[id];
+                    queueToRemove.Close();
+                    queues.Remove(id);                    
+                }
+            }
         }
 
         public event EventHandler<QueueEventArgs> queueCreated;

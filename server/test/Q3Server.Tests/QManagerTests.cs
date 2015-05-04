@@ -66,5 +66,18 @@ namespace Q3Tests
             Assert.Equal(user, q.Members.First());
 
         }
+
+        [Fact]
+        public void ICanCloseAQueue()
+        {
+            var q = manager.CreateQueue("shorLived", "me");
+            var eventFired = false;
+            q.QueueStatusChanged += (s,e) => eventFired = true;
+
+            manager.CloseQueue(q.Id);
+
+            Assert.Equal(QueueStatus.Closed, q.Status);
+            Assert.True(eventFired);
+        }
     }
 }

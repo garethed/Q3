@@ -46,24 +46,33 @@ namespace Q3Server
 
         internal void Activate()
         {
-            lock (lockable)
-            {
-                if (Status == QueueStatus.Waiting)
-                {
-                    Status = QueueStatus.Activated;      
-                    
-                    if (QueueStatusChanged != null)
-                    {
-                        QueueStatusChanged(this, new QueueEventArgs(this));
-                    }              
-                }
-
-            }
+            UpdateStatus(QueueStatus.Activated);
         }
 
         public override string ToString()
         {
             return "Q" + this.Id + ": " + this.Name;
+        }
+
+        internal void Close()
+        {
+            UpdateStatus(QueueStatus.Closed);
+        }
+
+        private void UpdateStatus(QueueStatus newStatus)
+        {
+            lock (lockable)
+            {
+                if (Status < newStatus)
+                {
+                    Status = newStatus;
+
+                    if (QueueStatusChanged != null)
+                    {
+                        QueueStatusChanged(this, new QueueEventArgs(this));
+                    }
+                }
+            }
         }
     }
 }

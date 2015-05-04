@@ -5,6 +5,7 @@ namespace Q3Client
     public enum QueueStatus
     {
         Waiting,
-        Activated
+        Activated,
+        Closed
     }
 }

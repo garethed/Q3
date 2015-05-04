@@ -37,6 +37,12 @@ namespace Q3Server
             queueManager.GetQueue(id).Activate();
         }
 
+        public void CloseQueue(int id)
+        {
+            Trace.WriteLine("-> CloseQueue: " + id);
+            queueManager.CloseQueue(id);
+        }
+
         public IEnumerable<Queue> ListQueues()
         {
             return queueManager.ListQueues();

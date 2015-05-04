@@ -9,6 +9,7 @@
         <Button x:Name="JoinQueue" Content="Join" HorizontalAlignment="Left" Margin="156,38,0,0" VerticalAlignment="Top" Width="75" Click="JoinQueue_Click"/>
         <Button Content="Activate" HorizontalAlignment="Left" Margin="236,38,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
         <ComboBox x:Name="QueueList" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0"/>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="316,38,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
 
     </Grid>
 </Window>
