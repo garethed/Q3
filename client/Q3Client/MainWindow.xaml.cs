@@ -81,7 +81,12 @@ namespace Q3Client
         private void NewQueue(Queue queue)
         {
             UpdateLabel("new queue: " + queue);
-            Dispatcher.Invoke(() => queues.Add(queue));
+            Dispatcher.Invoke(() =>
+            {
+                queues.Add(queue);
+                new QueueNotification(queue).Show();
+
+            });
             updateList();
         }
 
