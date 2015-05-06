@@ -33,6 +33,16 @@ namespace Q3Client
             text.Inlines.Add(new Run(" queue"));
 
             this.LabelTitle.Content = text;
-        }        
+        }
+
+        public event EventHandler<QueueActionEventArgs> JoinQueue;
+
+        private void ButtonJoin_Click(object sender, RoutedEventArgs e)
+        {
+            if (JoinQueue != null)
+            {
+                JoinQueue(this, new QueueActionEventArgs(queue));
+            }
+        }
     }
 }
