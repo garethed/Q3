@@ -68,6 +68,7 @@
       <DependentUpon>QueueNotification.xaml</DependentUpon>
     </Compile>
     <Compile Include="QueueStatus.cs" />
+    <Compile Include="QueueUpdater.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

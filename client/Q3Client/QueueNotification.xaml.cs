@@ -19,11 +19,13 @@ namespace Q3Client
     /// </summary>
     public partial class QueueNotification : Window
     {
-        private Queue queue;
+        private readonly Queue queue;
+        private readonly string userId;
 
-        public QueueNotification(Queue queue)
+        public QueueNotification(Queue queue, string userId)
         {
             this.queue = queue;
+            this.userId = userId;
             InitializeComponent();
 
             var text = new TextBlock();
@@ -33,16 +35,28 @@ namespace Q3Client
             text.Inlines.Add(new Run(" queue"));
 
             this.LabelTitle.Content = text;
+
+            updateButtons();
+        }
+
+        private void updateButtons()
+        {
+            var containsMe = (queue.Members.Contains(userId));
+            ButtonJoin.Visibility = containsMe ? Visibility.Collapsed : Visibility.Visible;
+            ButtonLeave.Visibility = !containsMe ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public event EventHandler<QueueActionEventArgs> JoinQueue;
+        public event EventHandler<QueueActionEventArgs> LeaveQueue;
 
         private void ButtonJoin_Click(object sender, RoutedEventArgs e)
         {
-            if (JoinQueue != null)
-            {
-                JoinQueue(this, new QueueActionEventArgs(queue));
-            }
+            JoinQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
+        }
+
+        private void ButtonLeave_Click(object sender, RoutedEventArgs e)
+        {
+            LeaveQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
     }
 }

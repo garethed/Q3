@@ -24,17 +24,26 @@ namespace Q3Client
     {
         private ObservableCollection<Queue> queues = new ObservableCollection<Queue>();
         private readonly Hub hub;
+        private string userId;
+        private readonly QueueUpdater queueUpdater;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            hub = new Hub();
+            userId = "user" + (DateTime.Now.Ticks%100).ToString();
+
+            hub = new Hub(userId);
+            queueUpdater = new QueueUpdater(hub);
+
+
             hub.QueueMembershipChanged += QueueMembershipChanged;
             hub.QueueCreated += QueueCreated;
             hub.QueueStatusChanged += QueueStatusChanged;
+            
             this.Activated += OnActivated;
-            QueueList.ItemsSource = queues;
+
+            QueueList.ItemsSource = queueUpdater.Queues;
         }
 
         private void QueueStatusChanged(object sender, QueueActionEventArgs args)
@@ -58,13 +67,8 @@ namespace Q3Client
 
         private async void OnActivated(object sender, EventArgs eventArgs)
         {
-            var queues = await hub.ListQueues();
-            UpdateLabel("existing queues " + string.Join(", ", queues));
-            this.queues.Clear();
-            foreach (var q in queues)
-            {
-                this.queues.Add(q);
-            }
+            await queueUpdater.RefreshALl();
+            UpdateLabel("existing queues " + string.Join(", ", queueUpdater.Queues));
             
         }
 
@@ -78,8 +82,9 @@ namespace Q3Client
                 UpdateLabel("new queue: " + queue);
 
                 queues.Add(queue);
-                var window = new QueueNotification(queue);
+                var window = new QueueNotification(queue, userId);
                 window.JoinQueue += (s, e) => hub.JoinQueue(queue.Id);
+                window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
                 window.Show();
 
             });

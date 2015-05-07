@@ -9,19 +9,22 @@ namespace Q3Client
 {
     public class Hub
     {
+        private readonly string userId;
 
         private HubConnection hubConnection;
         private IHubProxy hub;
 
-        public Hub()
+
+        public Hub(string userId)
         {
+            this.userId = userId;
 
             hubConnection = new HubConnection("http://localhost:51442/");
             hub = hubConnection.CreateHubProxy("QHub");
             hub.On<Queue>("NewQueue", q => RaiseEvent(QueueCreated, q));
             hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent(QueueMembershipChanged, q));
             hub.On<Queue>("QueueStatusChanged", q => RaiseEvent(QueueStatusChanged, q));
-            hubConnection.Headers["User"] = DateTime.Now.Ticks.ToString();
+            hubConnection.Headers["User"] = userId;
             hubConnection.Start().Wait();
         }
 
@@ -41,6 +44,11 @@ namespace Q3Client
         {
             await hub.Invoke("JoinQueue", queueId);
             
+        }
+
+        public async Task LeaveQueue(int queueId)
+        {
+            await hub.Invoke("LeaveQueue", queueId);
         }
 
         public async Task ActivateQueue(int queueId)
