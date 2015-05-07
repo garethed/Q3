@@ -17,7 +17,7 @@ namespace Q3Client
     /// <summary>
     /// Interaction logic for QueueNotification.xaml
     /// </summary>
-    public partial class QueueNotification : Window
+    public partial class QueueNotification : UserControl
     {
         private readonly Queue queue;
         private readonly string userId;
@@ -29,13 +29,32 @@ namespace Q3Client
             InitializeComponent();
 
             var text = new TextBlock();
-            text.Inlines.Add(new Bold(new Run(queue.Members.First())));
+            text.Inlines.Add(new Bold(new Run(queue.Members.FirstOrDefault() ?? "Someone") { FontSize = 20 }));
             text.Inlines.Add(new Run(" has started a "));
-            text.Inlines.Add(new Bold(new Run(queue.Name)));
+            text.Inlines.Add(new Bold(new Run(queue.Name)) { FontSize = 20});
             text.Inlines.Add(new Run(" queue"));
 
             this.LabelTitle.Content = text;
 
+            this.queue.MembersChanged += MembersChanged;
+            this.queue.StatusChanged += StatusChanged;
+
+            updateButtons();
+        }
+
+        private void StatusChanged(object sender, EventArgs eventArgs)
+        {
+            if (queue.Status == QueueStatus.Closed)
+            {
+                //qq this.Close();
+                return;
+            }
+
+            updateButtons();
+        }
+
+        private void MembersChanged(object sender, EventArgs eventArgs)
+        {
             updateButtons();
         }
 

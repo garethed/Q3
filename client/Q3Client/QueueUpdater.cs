@@ -11,12 +11,20 @@ namespace Q3Client
     {
         private readonly Hub hub;
         private readonly ObservableCollection<Queue> queues = new ObservableCollection<Queue>();
-        private Dictionary<int, Queue> queuesById = new Dictionary<int, Queue>(); 
+        private Dictionary<int, Queue> queuesById = new Dictionary<int, Queue>();
+        private string userId;
+
+        private QueueList queueList;
 
 
-        public QueueUpdater(Hub hub)
+        public QueueUpdater(Hub hub, string userId)
         {
             this.hub = hub;
+            this.userId = userId;
+
+            queueList = new QueueList();
+            queueList.Show();
+
         }
 
         public ObservableCollection<Queue> Queues
@@ -37,8 +45,7 @@ namespace Q3Client
                 }
                 else
                 {
-                    queuesById.Add(q.Id, q);
-                    queues.Add(q);
+                    AddQueue(q);
                 }
             }
 
@@ -58,6 +65,24 @@ namespace Q3Client
             clientQueue.Name = serverQueue.Name;
             clientQueue.Status = serverQueue.Status;
             clientQueue.Members = serverQueue.Members;
+        }
+
+        public void AddQueue(Queue queue)
+        {
+            
+            queues.Add(queue);
+            queuesById.Add(queue.Id, queue);
+
+            var window = new QueueNotification(queue, userId);
+            window.JoinQueue += (s, e) => hub.JoinQueue(queue.Id);
+            window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
+            queueList.QueuesPanel.Children.Add(window);
+        }
+
+        public void UpdateQueue(Queue serverQueue)
+        {
+            MergeChanges(queuesById[serverQueue.Id], serverQueue);
+
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Q3Client
             userId = "user" + (DateTime.Now.Ticks%100).ToString();
 
             hub = new Hub(userId);
-            queueUpdater = new QueueUpdater(hub);
+            queueUpdater = new QueueUpdater(hub, userId);
 
 
             hub.QueueMembershipChanged += QueueMembershipChanged;
@@ -62,7 +62,11 @@ namespace Q3Client
 
         private void QueueMembershipChanged(object sender, QueueActionEventArgs args)
         {
-            Dispatcher.Invoke(() => UpdateLabel("membership changed: " + args.Queue));
+            Dispatcher.Invoke(() =>
+            {
+                UpdateLabel("membership changed: " + args.Queue);
+                queueUpdater.UpdateQueue(args.Queue);
+            });
         }
 
         private async void OnActivated(object sender, EventArgs eventArgs)
@@ -79,13 +83,8 @@ namespace Q3Client
 
             Dispatcher.Invoke(() =>
             {
+                queueUpdater.AddQueue(queue);
                 UpdateLabel("new queue: " + queue);
-
-                queues.Add(queue);
-                var window = new QueueNotification(queue, userId);
-                window.JoinQueue += (s, e) => hub.JoinQueue(queue.Id);
-                window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
-                window.Show();
 
             });
         }
