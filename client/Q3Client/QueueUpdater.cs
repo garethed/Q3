@@ -69,13 +69,15 @@ namespace Q3Client
 
         public void AddQueue(Queue queue)
         {
-            
+            queue.UserId = userId;
             queues.Add(queue);
             queuesById.Add(queue.Id, queue);
 
-            var window = new QueueNotification(queue, userId);
+            var window = new QueueNotification(queue);
             window.JoinQueue += (s, e) => hub.JoinQueue(queue.Id);
             window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
+            window.ActivateQueue += (s, e) => hub.ActivateQueue(queue.Id);
+            window.CloseQueue += (s, e) => hub.CloseQueue(queue.Id);
             queueList.QueuesPanel.Children.Add(window);
         }
 

@@ -20,13 +20,13 @@ namespace Q3Client
     public partial class QueueNotification : UserControl
     {
         private readonly Queue queue;
-        private readonly string userId;
 
-        public QueueNotification(Queue queue, string userId)
+        public QueueNotification(Queue queue)
         {
             this.queue = queue;
-            this.userId = userId;
             InitializeComponent();
+
+            this.DataContext = queue;
 
             var text = new TextBlock();
             text.Inlines.Add(new Bold(new Run(queue.Members.FirstOrDefault() ?? "Someone") { FontSize = 20 }));
@@ -36,18 +36,19 @@ namespace Q3Client
 
             this.LabelTitle.Content = text;
 
-            this.queue.MembersChanged += MembersChanged;
-            this.queue.StatusChanged += StatusChanged;
-
             updateButtons();
         }
 
         private void StatusChanged(object sender, EventArgs eventArgs)
         {
-            if (queue.Status == QueueStatus.Closed)
+            switch (queue.Status)
             {
-                //qq this.Close();
-                return;
+                    case QueueStatus.Waiting:
+                    break;
+                    case QueueStatus.Closed:
+                    break;
+                    case QueueStatus.Activated:
+                    break;
             }
 
             updateButtons();
@@ -60,13 +61,21 @@ namespace Q3Client
 
         private void updateButtons()
         {
-            var containsMe = (queue.Members.Contains(userId));
-            ButtonJoin.Visibility = containsMe ? Visibility.Collapsed : Visibility.Visible;
-            ButtonLeave.Visibility = !containsMe ? Visibility.Collapsed : Visibility.Visible;
+          /*  var containsMe = (queue.Members.Contains(userId));
+            ButtonJoin.Visibility = VisibleIf(!containsMe);
+            ButtonLeave.Visibility = VisibleIf(containsMe);
+            ButtonActivate.Visibility = VisibleIf(queue.Status == QueueStatus.Waiting);*/
+        }
+
+        private Visibility VisibleIf(bool visible)
+        {
+            return visible ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public event EventHandler<QueueActionEventArgs> JoinQueue;
         public event EventHandler<QueueActionEventArgs> LeaveQueue;
+        public event EventHandler<QueueActionEventArgs> ActivateQueue;
+        public event EventHandler<QueueActionEventArgs> CloseQueue;
 
         private void ButtonJoin_Click(object sender, RoutedEventArgs e)
         {
@@ -76,6 +85,16 @@ namespace Q3Client
         private void ButtonLeave_Click(object sender, RoutedEventArgs e)
         {
             LeaveQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
+        }
+
+        private void ButtonActivate_Click(object sender, RoutedEventArgs e)
+        {
+            ActivateQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
+        }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            CloseQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
     }
 }

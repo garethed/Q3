@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,9 @@ namespace Q3Client
 
             hubConnection = new HubConnection("http://localhost:51442/");
             hub = hubConnection.CreateHubProxy("QHub");
-            hub.On<Queue>("NewQueue", q => RaiseEvent(QueueCreated, q));
-            hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent(QueueMembershipChanged, q));
-            hub.On<Queue>("QueueStatusChanged", q => RaiseEvent(QueueStatusChanged, q));
+            hub.On<Queue>("NewQueue", q => RaiseEvent("created", QueueCreated, q));
+            hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent("membershipchanged", QueueMembershipChanged, q));
+            hub.On<Queue>("QueueStatusChanged", q => RaiseEvent("statuschanged", QueueStatusChanged, q));
             hubConnection.Headers["User"] = userId;
             hubConnection.Start().Wait();
         }
@@ -68,8 +69,9 @@ namespace Q3Client
         public event EventHandler<QueueActionEventArgs> QueueMembershipChanged;
         public event EventHandler<QueueActionEventArgs> QueueStatusChanged;
 
-        private void RaiseEvent(EventHandler<QueueActionEventArgs> eventHandler, Queue queue)
+        private void RaiseEvent(string name, EventHandler<QueueActionEventArgs> eventHandler, Queue queue)
         {
+            Trace.WriteLine("hub " + name + " " + queue.Id);
             eventHandler.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 

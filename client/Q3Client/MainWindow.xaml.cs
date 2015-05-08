@@ -53,10 +53,7 @@ namespace Q3Client
             {
 
                 UpdateLabel("queue activated: " + queue);
-                if (queue.Status == QueueStatus.Closed)
-                {
-                    queues.Remove(queue);
-                }
+                queueUpdater.UpdateQueue(queue);
             });
         }
 
