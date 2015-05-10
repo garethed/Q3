@@ -3,20 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:q3Client="clr-namespace:Q3Client"
         Height="104" Width="500"  
-         Focusable="False">
+         Focusable="False" Margin="0,0,0,10">
     <UserControl.Resources>
         <Style TargetType="q3Client:QueueNotification">
             <Setter Property="Background" Value="#FF16169E"></Setter>
             <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
-                <Setter Property="Background" Value="#FF47BB47" />
-            </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                    <Setter Property="Background" Value="#FF47BB47" />
+                </DataTrigger>
                 <DataTrigger Binding="{Binding Path=Status}" Value="Closed">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="Button" x:Key="LeaveButton">
+        <Style TargetType="Button" x:Key="Button">
+            <Setter Property="Background" Value="#FF3737A2"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                    <Setter Property="Background" Value="#FF6CBD6C" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button" x:Key="LeaveButton" BasedOn="{StaticResource Button}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="false">
@@ -24,7 +32,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="Button" x:Key="JoinButton">
+        <Style TargetType="Button" x:Key="JoinButton" BasedOn="{StaticResource Button}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="true">
@@ -32,7 +40,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="Button" x:Key="ActivateButton">
+        <Style TargetType="Button" x:Key="ActivateButton" BasedOn="{StaticResource Button}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
@@ -57,10 +65,10 @@
         <Label Name="LabelTitle" Grid.Column="1" Grid.Row="0" Foreground="#FFFFFF" FontSize="16"></Label>
         
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="ButtonLeave" Style="{StaticResource LeaveButton}" Width="80" HorizontalAlignment="Right" Margin="2" Background="#FF3737A2" BorderThickness="0" Content="Leave" Foreground="White" Click="ButtonLeave_Click" FontSize="16"/>
-            <Button x:Name="ButtonJoin" Style="{StaticResource JoinButton}" Grid.Row ="1" Grid.Column="1" Width="80" HorizontalAlignment="Right" Margin="2" Background="#FF3737A2" BorderThickness="0" Content="Join" Foreground="White" Click="ButtonJoin_Click" FontSize="16"/>
-            <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" Width="80" HorizontalAlignment="Right" Margin="2" Background="#FF3737A2" BorderThickness="0" Content="Activate" Foreground="White"  FontSize="16" Click="ButtonActivate_Click"/>
-            <Button x:Name="ButtonClose" Grid.Row ="1" Grid.Column="1" Width="80" HorizontalAlignment="Right" Margin="2" Background="#FF3737A2" BorderThickness="0" Content="Close" Foreground="White" FontSize="16" Click="ButtonClose_Click"/>
+            <Button x:Name="ButtonLeave" Style="{StaticResource LeaveButton}" Width="80" HorizontalAlignment="Right" Margin="2"  BorderThickness="0" Content="Leave" Foreground="White" Click="ButtonLeave_Click" FontSize="16"/>
+            <Button x:Name="ButtonJoin" Style="{StaticResource JoinButton}" Grid.Row ="1" Grid.Column="1" Width="80" HorizontalAlignment="Right" Margin="2" BorderThickness="0" Content="Join" Foreground="White" Click="ButtonJoin_Click" FontSize="16"/>
+            <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" Width="80" HorizontalAlignment="Right" Margin="2"  BorderThickness="0" Content="Activate" Foreground="White"  FontSize="16" Click="ButtonActivate_Click"/>
+            <Button x:Name="ButtonClose" Style="{StaticResource Button}" Width="80" HorizontalAlignment="Right" Margin="2"  BorderThickness="0" Content="Close" Foreground="White" FontSize="16" Click="ButtonClose_Click"/>
         </StackPanel>
         
     </Grid>
