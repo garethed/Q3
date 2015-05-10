@@ -15,21 +15,21 @@ using System.Windows.Shapes;
 namespace Q3Client
 {
     /// <summary>
-    /// Interaction logic for QueueList.xaml
+    /// Interaction logic for NewQueue.xaml
     /// </summary>
-    public partial class QueueList : Window
+    public partial class NewQueue : Window
     {
-        public QueueList(Hub hub)
+        public NewQueue()
         {
             InitializeComponent();
-            Header.Hub = hub;
         }
 
-        protected override void OnInitialized(EventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            base.OnInitialized(e);
-            this.Left = SystemParameters.WorkArea.Right - this.Width;
+            NewQueueName = QueueName.Text;
+            Close();
         }
-    }
 
+        public string NewQueueName { get; private set; }
+    }
 }

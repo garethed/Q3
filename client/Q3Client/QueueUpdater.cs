@@ -22,7 +22,7 @@ namespace Q3Client
             this.hub = hub;
             this.userId = userId;
 
-            queueList = new QueueList();
+            queueList = new QueueList(hub);
             queueList.Show();
 
         }

@@ -10,26 +10,32 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Q3Client
 {
     /// <summary>
-    /// Interaction logic for QueueList.xaml
+    /// Interaction logic for Header.xaml
     /// </summary>
-    public partial class QueueList : Window
+    public partial class Header : UserControl
     {
-        public QueueList(Hub hub)
+        public Header()
         {
             InitializeComponent();
-            Header.Hub = hub;
         }
 
-        protected override void OnInitialized(EventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            base.OnInitialized(e);
-            this.Left = SystemParameters.WorkArea.Right - this.Width;
-        }
-    }
+            var window = new NewQueue();
+            window.ShowDialog();
 
+            if (!string.IsNullOrWhiteSpace(window.NewQueueName))
+            {
+                Hub.CreateQueue(window.NewQueueName);
+            }
+        }
+
+        public Hub Hub { get; set; }
+    }
 }

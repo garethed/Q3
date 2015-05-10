@@ -61,7 +61,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EventExtensions.cs" />
+    <Compile Include="Header.xaml.cs">
+      <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Hub.cs" />
+    <Compile Include="NewQueue.xaml.cs">
+      <DependentUpon>NewQueue.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Queue.cs" />
     <Compile Include="QueueActionEventArgs.cs" />
     <Compile Include="QueueList.xaml.cs">
@@ -72,6 +78,14 @@
     </Compile>
     <Compile Include="QueueStatus.cs" />
     <Compile Include="QueueUpdater.cs" />
+    <Page Include="CommonStyling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,6 +98,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NewQueue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="QueueList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

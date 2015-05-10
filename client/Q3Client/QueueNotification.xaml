@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:q3Client="clr-namespace:Q3Client"
         Height="104" Width="500"  
-         Focusable="False" Margin="0,0,0,10">
+         Focusable="False" Margin="0,10,0,0">
     <UserControl.Resources>
         <Style TargetType="q3Client:QueueNotification">
             <Setter Property="Background" Value="#FF16169E"></Setter>
