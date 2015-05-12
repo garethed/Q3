@@ -37,5 +37,21 @@ namespace Q3Client
         }
 
         public Hub Hub { get; set; }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            window.ShowInTaskbar = false;
+            window.Hide();
+            
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            window.ShowInTaskbar = true;
+            window.WindowState = WindowState.Minimized;
+
+        }
     }
 }
