@@ -29,43 +29,39 @@ namespace Q3Client
             this.DataContext = queue;
 
             var text = new TextBlock();
-            text.Inlines.Add(new Bold(new Run(queue.Members.FirstOrDefault() ?? "Someone") { FontSize = 20 }));
-            text.Inlines.Add(new Run(" has started a "));
             text.Inlines.Add(new Bold(new Run(queue.Name)) { FontSize = 20});
             text.Inlines.Add(new Run(" queue"));
 
-            this.LabelTitle.Content = text;
+            this.LabelTitle.Content = queue.Name;
 
-            updateButtons();
+            MembersChanged();
+
+            queue.PropertyChanged += (sender, args) => MembersChanged();
         }
 
-        private void StatusChanged(object sender, EventArgs eventArgs)
+
+        private void MembersChanged()
         {
-            switch (queue.Status)
+            if (queue.Members.Any())
             {
-                    case QueueStatus.Waiting:
-                    break;
-                    case QueueStatus.Closed:
-                    break;
-                    case QueueStatus.Activated:
-                    break;
+
+                var text = new TextBlock();
+                text.Inlines.Add(new Bold(new Run(queue.Members.First())));
+
+                foreach (string member in queue.Members.Skip(1))
+                {
+                    text.Inlines.Add(new Run(", " + member));
+                }
+                LabelMembers.Content = text;
             }
+            else
+            {
+                LabelMembers.Content = null;
 
-            updateButtons();
+            }
         }
 
-        private void MembersChanged(object sender, EventArgs eventArgs)
-        {
-            updateButtons();
-        }
 
-        private void updateButtons()
-        {
-          /*  var containsMe = (queue.Members.Contains(userId));
-            ButtonJoin.Visibility = VisibleIf(!containsMe);
-            ButtonLeave.Visibility = VisibleIf(containsMe);
-            ButtonActivate.Visibility = VisibleIf(queue.Status == QueueStatus.Waiting);*/
-        }
 
         private Visibility VisibleIf(bool visible)
         {

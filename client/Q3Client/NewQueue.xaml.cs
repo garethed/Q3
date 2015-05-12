@@ -31,5 +31,18 @@ namespace Q3Client
         }
 
         public string NewQueueName { get; private set; }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            QueueName.Focus();
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 }

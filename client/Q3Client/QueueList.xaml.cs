@@ -30,6 +30,12 @@ namespace Q3Client
             base.OnInitialized(e);
             this.Left = SystemParameters.WorkArea.Right - this.Width;
         }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Application.Current.Shutdown();
+        }
     }
 
 }
