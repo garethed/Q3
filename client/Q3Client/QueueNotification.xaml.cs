@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfAnimatedGif;
 
 namespace Q3Client
 {
@@ -34,9 +35,30 @@ namespace Q3Client
 
             this.LabelTitle.Content = queue.Name;
 
+
             MembersChanged();
 
-            queue.PropertyChanged += (sender, args) => MembersChanged();
+            queue.PropertyChanged += (sender, args) => MembersChanged();            
+        }
+
+        protected override async void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            await UpdateHashtagImage();
+
+        }
+
+        private async Task UpdateHashtagImage()
+        {
+            var hashtag = HashtagParser.FindHashtags(queue.Name).FirstOrDefault();
+
+            if (hashtag != null)
+            {
+                // BitmapImage here gives an odd error - https://wpfanimatedgif.codeplex.com/discussions/439040
+                var image = BitmapFrame.Create(new Uri("https://softwire.ontoast.io/hashtags/image/" + hashtag, UriKind.Absolute));
+
+                ImageBehavior.SetAnimatedSource(HashtagImage, image);
+            }
         }
 
 
