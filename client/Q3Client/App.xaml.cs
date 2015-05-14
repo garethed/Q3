@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,7 +16,7 @@ namespace Q3Client
     public partial class App : Application
     {
         private Hub hub;
-        private string userId;
+        private User user;
         private QueueUpdater queueUpdater;
 
 
@@ -25,10 +26,10 @@ namespace Q3Client
             base.OnStartup(e);
 
 
-            userId = "user" + (DateTime.Now.Ticks % 100).ToString();
+            user = GetUser();
 
-            hub = new Hub(userId);
-            queueUpdater = new QueueUpdater(hub, userId);
+            hub = new Hub(user);
+            queueUpdater = new QueueUpdater(hub, user);
 
 
             hub.QueueMembershipChanged += QueueMembershipChanged;
@@ -55,6 +56,27 @@ namespace Q3Client
             var queue = args.Queue;
 
             Dispatcher.Invoke(() => queueUpdater.AddQueue(queue));
+        }
+
+        private User GetUser()
+        {
+            var principal = UserPrincipal.Current;
+
+            var user = new User()
+            {
+                UserName = principal.SamAccountName,
+                EmailAddress = principal.EmailAddress,
+                FullName = principal.DisplayName
+            };
+
+
+#if DEBUG
+            var suffix = (DateTime.Now.Ticks % 100).ToString();
+            user.UserName = user.UserName + suffix;
+            user.FullName = user.FullName + suffix;
+#endif
+
+            return user;
         }
 
     }

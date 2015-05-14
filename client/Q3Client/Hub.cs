@@ -10,22 +10,22 @@ namespace Q3Client
 {
     public class Hub
     {
-        private readonly string userId;
+        private readonly User user;
 
         private HubConnection hubConnection;
         private IHubProxy hub;
 
 
-        public Hub(string userId)
+        public Hub(User user)
         {
-            this.userId = userId;
+            this.user = user;
 
             hubConnection = new HubConnection("http://localhost:51442/");
             hub = hubConnection.CreateHubProxy("QHub");
             hub.On<Queue>("NewQueue", q => RaiseEvent("created", QueueCreated, q));
             hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent("membershipchanged", QueueMembershipChanged, q));
             hub.On<Queue>("QueueStatusChanged", q => RaiseEvent("statuschanged", QueueStatusChanged, q));
-            hubConnection.Headers["User"] = userId;
+            hubConnection.Headers["User"] = this.user.ToString();
             hubConnection.Start().Wait();
         }
 

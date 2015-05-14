@@ -45,12 +45,12 @@ namespace Q3Client
             if (queue.Members.Any())
             {
 
-                var text = new TextBlock();
-                text.Inlines.Add(new Bold(new Run(queue.Members.First())));
+                var text = new TextBlock() { TextWrapping = TextWrapping.WrapWithOverflow};
+                text.Inlines.Add(new Bold(new Run(queue.Members.First().FullName)));
 
-                foreach (string member in queue.Members.Skip(1))
+                foreach (User member in queue.Members.Skip(1))
                 {
-                    text.Inlines.Add(new Run(", " + member));
+                    text.Inlines.Add(new Run(", " + member.FullName));
                 }
                 LabelMembers.Content = text;
             }
@@ -61,12 +61,6 @@ namespace Q3Client
             }
         }
 
-
-
-        private Visibility VisibleIf(bool visible)
-        {
-            return visible ? Visibility.Visible : Visibility.Collapsed;
-        }
 
         public event EventHandler<QueueActionEventArgs> JoinQueue;
         public event EventHandler<QueueActionEventArgs> LeaveQueue;

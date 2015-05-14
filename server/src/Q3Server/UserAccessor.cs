@@ -5,7 +5,7 @@ namespace Q3Server
 {
     public interface IUserAccessor
     {
-        string User { get; }
+        User User { get; }
     }
 
     public class UserAccessor : IUserAccessor
@@ -17,11 +17,11 @@ namespace Q3Server
             this.context = context;
         }
 
-        public string User
+        public User User
         {
             get
             {
-                return context.Value.User.Identity.Name;
+                return new User(context.Value.User.Identity.Name);
             }
         }
     }

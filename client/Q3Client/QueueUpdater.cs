@@ -12,15 +12,15 @@ namespace Q3Client
         private readonly Hub hub;
         private readonly ObservableCollection<Queue> queues = new ObservableCollection<Queue>();
         private Dictionary<int, Queue> queuesById = new Dictionary<int, Queue>();
-        private string userId;
+        private User user;
 
         private QueueList queueList;
 
 
-        public QueueUpdater(Hub hub, string userId)
+        public QueueUpdater(Hub hub, User user)
         {
             this.hub = hub;
-            this.userId = userId;
+            this.user = user;
 
             queueList = new QueueList(hub);
             queueList.Show();
@@ -69,7 +69,7 @@ namespace Q3Client
 
         public void AddQueue(Queue queue)
         {
-            queue.UserId = userId;
+            queue.User = user;
             queues.Add(queue);
             queuesById.Add(queue.Id, queue);
 

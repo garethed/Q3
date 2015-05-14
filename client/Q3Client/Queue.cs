@@ -16,22 +16,22 @@ namespace Q3Client
         public int Id;
         public string Name;
         private QueueStatus status;
-        private List<string> members;
-        public string UserId;
+        private List<User> members;
+        public User User;
 
         public override string ToString()
         {
-            return "Q" + this.Id + ": " + this.Name + " (" + string.Join(", ", Members) + ")";
+            return "Q" + this.Id + ": " + this.Name + " (" + string.Join(", ", Members.Select(u => u.UserName)) + ")";
         }
 
-        public IEnumerable<string> Members
+        public IEnumerable<User> Members
         {
             get { return members; }
             set
             {
                 if (members == null || !value.SequenceEqual(members))
                 {
-                    members = new List<string>(value);
+                    members = new List<User>(value);
                     OnPropertyChanged();
                     OnPropertyChanged("UserIsOnQueue");
                 }
@@ -53,7 +53,7 @@ namespace Q3Client
 
         public bool UserIsOnQueue
         {
-            get { return members.Contains(UserId); }
+            get { return members.Contains(User); }
         }
 
         public bool Equals(Queue other)

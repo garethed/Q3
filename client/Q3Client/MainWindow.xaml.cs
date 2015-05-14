@@ -31,7 +31,7 @@ namespace Q3Client
         {
             InitializeComponent();
 
-            userId = "user" + (DateTime.Now.Ticks%100).ToString();
+           /* userId = "user" + (DateTime.Now.Ticks%100).ToString();
 
             hub = new Hub(userId);
             queueUpdater = new QueueUpdater(hub, userId);
@@ -43,7 +43,7 @@ namespace Q3Client
             
             this.Activated += OnActivated;
 
-            QueueList.ItemsSource = queueUpdater.Queues;
+            QueueList.ItemsSource = queueUpdater.Queues;*/
         }
 
         private void QueueStatusChanged(object sender, QueueActionEventArgs args)

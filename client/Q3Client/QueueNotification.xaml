@@ -58,7 +58,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition ></RowDefinition>
-            <RowDefinition Height="28"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -68,10 +68,10 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0">
             <Label Name="LabelTitle"  Foreground="#FFFFFF" FontSize="20" FontWeight="Bold"></Label>
-            <Label Name="LabelMembers"  Foreground="#FFFFFF" FontSize="14" Padding="20,0,0,5"></Label>
+            <Label Name="LabelMembers"  Foreground="#FFFFFF" FontSize="14" Padding="20,0,0,10"></Label>
         </StackPanel>
         
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,3">
             <Button x:Name="ButtonLeave" Style="{StaticResource LeaveButton}"  Content="Leave" Foreground="White" Click="ButtonLeave_Click" />
             <Button x:Name="ButtonJoin" Style="{StaticResource JoinButton}"  HorizontalAlignment="Right"  Content="Join" Foreground="White" Click="ButtonJoin_Click" />
             <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" HorizontalAlignment="Right"  Content="Activate" Foreground="White"   Click="ButtonActivate_Click"/>

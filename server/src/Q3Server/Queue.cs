@@ -7,10 +7,10 @@ namespace Q3Server
 {
     public class Queue
     {
-        private List<string> members = new List<string>();
+        private List<User> members = new List<User>();
         private object lockable = new object();
 
-        public Queue (int id, string name, string creatingUser)
+        public Queue (int id, string name, User creatingUser)
         {
             this.Id = id;
             this.Name = name;
@@ -22,12 +22,12 @@ namespace Q3Server
         public string Name { get; private set; }
         public QueueStatus Status { get; private set; }
 
-        public IEnumerable<string> Members
+        public IEnumerable<User> Members
         {
             get { return members; }
         }
 
-        public void AddUser(string name)
+        public void AddUser(User name)
         {
             lock (lockable)
             {
@@ -47,7 +47,7 @@ namespace Q3Server
             }
         }
 
-        public void RemoveUser(string user)
+        public void RemoveUser(User user)
         {
             lock (lockable)
             {

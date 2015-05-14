@@ -7,7 +7,7 @@ namespace Q3Server
 {
     public interface IQManager
     {
-        Queue CreateQueue(string QueueName, string creatingUser);
+        Queue CreateQueue(string QueueName, User creatingUser);
         Queue GetQueue(int QueueId);
         event EventHandler<QueueEventArgs> queueCreated;
 
@@ -26,7 +26,7 @@ namespace Q3Server
             this.queueCreated += eventListener.OnQueueCreated;
         }
 
-        public Queue CreateQueue(string queueName, string creatingUser)
+        public Queue CreateQueue(string queueName, User creatingUser)
         {
             lock (lockable)
             {
