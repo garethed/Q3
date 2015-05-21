@@ -16,6 +16,17 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Label" x:Key="HashtagPlaceholder">
+            <Setter Property="Background" Value="{StaticResource BlueHighlightBrush}"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource BlueBackgroundBrush}"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                    <Setter Property="Background" Value="{StaticResource GreenHighlightBrush}"></Setter>
+                    <Setter Property="Foreground" Value="{StaticResource GreenBackgroundBrush}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style TargetType="Button" x:Key="Button">
             <Setter Property="Background" Value="#FF3737A2"></Setter>
             <Setter Property="Width" Value="80" />
@@ -66,7 +77,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="5" Background="{StaticResource BlueHighlightBrush}" Foreground="{StaticResource BlueBackgroundBrush}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="92" FontSize="50">Q</Label>
+        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="5" Style="{StaticResource HashtagPlaceholder}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="92" FontSize="50">Q</Label>
         <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Name="HashtagImage" Height="92" Width="80" StretchDirection="DownOnly"  MaxHeight="92" MaxWidth="80"/>
 
         <StackPanel Grid.Column="1" Grid.Row="0">

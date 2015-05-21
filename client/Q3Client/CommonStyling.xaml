@@ -7,6 +7,8 @@
            
     <SolidColorBrush x:Key="BlueBackgroundBrush" Color="{StaticResource BlueBackground}"></SolidColorBrush>
     <SolidColorBrush x:Key="BlueHighlightBrush" Color="{StaticResource BlueHighlight}"></SolidColorBrush>
+    <SolidColorBrush x:Key="GreenBackgroundBrush" Color="{StaticResource GreenBackground}"></SolidColorBrush>
+    <SolidColorBrush x:Key="GreenHighlightBrush" Color="{StaticResource GreenHighlight}"></SolidColorBrush>
 
     <Style TargetType="Button">
         <Setter Property="BorderThickness" Value="0"></Setter>

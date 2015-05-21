@@ -14,7 +14,7 @@
         <tb:TaskbarIcon ToolTipText="hello world" IconSource="q3.ico">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Show queues" Click="ShowQueuesClicked"></MenuItem>
+                    <MenuItem Header="Show queues" Click="ShowQueuesClicked" FontWeight="Bold"></MenuItem>
                     <MenuItem Header="Start new queue" Click="StartQueueClicked"></MenuItem>
                     <MenuItem Header="Quit" Click="QuitClicked"></MenuItem>
                 </ContextMenu>                
