@@ -31,10 +31,20 @@ namespace Q3Client
             this.Left = SystemParameters.WorkArea.Right - this.Width;
         }
 
-        protected override void OnClosed(EventArgs e)
+        private void ShowQueuesClicked(object sender, RoutedEventArgs e)
         {
-            base.OnClosed(e);
-            Application.Current.Shutdown();
+            this.Show();
+            this.Activate();
+        }
+
+        private void StartQueueClicked(object sender, RoutedEventArgs e)
+        {
+            Header.NewQueueClicked(sender, e);
+        }
+
+        private void QuitClicked(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 
