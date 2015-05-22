@@ -83,23 +83,12 @@ namespace Q3Client
 
         private void MembersChanged()
         {
-            if (queue.Members.Any())
+            Members.Children.Clear();
+            foreach (var user in queue.Members)
             {
-
-                var text = new TextBlock() { TextWrapping = TextWrapping.WrapWithOverflow};
-                text.Inlines.Add(new Bold(new Run(queue.Members.First().FullName)));
-
-                foreach (User member in queue.Members.Skip(1))
-                {
-                    text.Inlines.Add(new Run(", " + member.FullName));
-                }
-                LabelMembers.Content = text;
+                Members.Children.Add(new Avatar(user));
             }
-            else
-            {
-                LabelMembers.Content = null;
-
-            }
+            
         }
 
 

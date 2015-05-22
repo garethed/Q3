@@ -44,6 +44,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NGravatar.Core">
+      <HintPath>..\packages\NGravatar.Core.1.0.1\lib\net40\NGravatar.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Spectrum">
+      <HintPath>..\packages\Spectrum.0.1.0\lib\portable-net45+sl5+win8+wp8+wpa81\Spectrum.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
@@ -67,6 +73,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Avatar.xaml.cs">
+      <DependentUpon>Avatar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EventExtensions.cs" />
     <Compile Include="HashtagParser.cs" />
     <Compile Include="Header.xaml.cs">
@@ -87,6 +96,10 @@
     <Compile Include="QueueStatus.cs" />
     <Compile Include="QueueUpdater.cs" />
     <Compile Include="User.cs" />
+    <Page Include="Avatar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CommonStyling.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

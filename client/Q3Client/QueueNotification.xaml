@@ -97,7 +97,7 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0">
             <Label Name="LabelTitle"  Foreground="#FFFFFF" FontSize="20" FontWeight="Bold"></Label>
-            <Label Name="LabelMembers"  Foreground="#FFFFFF" FontSize="14" Padding="20,0,0,10"></Label>
+            <WrapPanel Name="Members"></WrapPanel>
         </StackPanel>
         
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,3">

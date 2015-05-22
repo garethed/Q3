@@ -72,8 +72,15 @@ namespace Q3Client
 
 #if DEBUG
             var suffix = (DateTime.Now.Ticks % 100).ToString();
+            var alphabet = "abcdefghijklmnopqrstuvwxyz";
             user.UserName = user.UserName + suffix;
             user.FullName = user.FullName + suffix;
+
+            var first = (int) (DateTime.Now.Ticks%26);
+            var second = (int) ((DateTime.Now.Ticks/26) %26);
+
+            user.EmailAddress = alphabet[first] + "." + alphabet[second] + "@softwire.com";
+
 #endif
 
             return user;
