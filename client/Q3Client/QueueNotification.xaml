@@ -5,11 +5,17 @@
         MinHeight="98" Width="500"  
          Focusable="False" Margin="0,10,0,0">
     <UserControl.Resources>
+        <Storyboard x:Key="FlashStoryboard">
+            <ColorAnimation  By="#ccc" Storyboard.TargetProperty="(UserControl.Background).(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True"  Duration="0:0:0.5"/>
+        </Storyboard>
         <Style TargetType="q3Client:QueueNotification">
             <Setter Property="Background" Value="#FF16169E"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
                     <Setter Property="Background" Value="#FF47BB47" />
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource FlashStoryboard}"></BeginStoryboard>
+                    </DataTrigger.EnterActions>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=Status}" Value="Closed">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -68,12 +74,12 @@
     </UserControl.Resources>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="q3Client:QueueNotification.Flash">
-            <BeginStoryboard>
-                <Storyboard>
-                    <ColorAnimation  By="#ccc" Storyboard.TargetProperty="(UserControl.Background).(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True"  Duration="0:0:0.5"/>
-                </Storyboard>
-            </BeginStoryboard>
+            <BeginStoryboard Storyboard="{StaticResource FlashStoryboard}" />
         </EventTrigger>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource FlashStoryboard}" />
+        </EventTrigger>
+
     </UserControl.Triggers>
     <Grid>
         <Grid.RowDefinitions>

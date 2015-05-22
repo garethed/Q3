@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -39,15 +40,29 @@ namespace Q3Client
 
             MembersChanged();
 
-            queue.PropertyChanged += (sender, args) => MembersChanged();            
+            queue.PropertyChanged += QueuePropertyChanged;
 
             this.Loaded += OnLoaded;
             
         }
 
+        private void QueuePropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            switch (propertyChangedEventArgs.PropertyName)
+            {
+                case "Members":
+                    MembersChanged();
+                    break;
+            }
+        }
+
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             await UpdateHashtagImage();
+        }
+
+        private void RaiseFlashEvent()
+        {
             Trace.WriteLine("flash fired");
             RaiseEvent(new RoutedEventArgs(FlashEvent));
         }

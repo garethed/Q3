@@ -10,7 +10,7 @@
     </Window.Background>
     <StackPanel Name="QueuesPanel">
         <q:Header x:Name="Header"></q:Header>
-        <tb:TaskbarIcon ToolTipText="hello world" IconSource="q3.ico">
+        <tb:TaskbarIcon ToolTipText="Q3" IconSource="q3.ico">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Show queues" Click="ShowQueuesClicked" FontWeight="Bold"></MenuItem>
