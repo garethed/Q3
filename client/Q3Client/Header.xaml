@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="500" Height="50" Background="{StaticResource BlueBackgroundBrush}">
-    <DockPanel>
+    <DockPanel MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
         <Label DockPanel.Dock="Left" Width="40" Height="50" Background="White" Margin="5" Foreground="{StaticResource BlueBackgroundBrush}" FontSize="24" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center">Q&#0179;</Label>
         <Button DockPanel.Dock="Right" Margin="0,0,10,0" Width="30" Height="30" Background="{StaticResource BlueHighlightBrush}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="1,1,1,4" Click="Button_Click_1">&#x274E;</Button>
         <Button DockPanel.Dock="Right" Margin="0,0,10,0" Width="30" Height="30" Background="{StaticResource BlueHighlightBrush}" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"  VerticalContentAlignment="Bottom"  HorizontalAlignment="Center" Padding="1" Click="Button_Click_2"><Label Width="18" Height="3" Background="White" Margin="0,5"></Label></Button>

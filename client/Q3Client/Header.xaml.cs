@@ -53,5 +53,10 @@ namespace Q3Client
             window.WindowState = WindowState.Minimized;
 
         }
+
+        private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Window.GetWindow(this).DragMove();
+        }
     }
 }
