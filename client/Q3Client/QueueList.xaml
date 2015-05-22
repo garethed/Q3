@@ -4,7 +4,6 @@
         xmlns:q="clr-namespace:Q3Client"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="QueueList" Height="600" Width="500" WindowStyle="None" WindowStartupLocation="Manual" AllowsTransparency="True" ResizeMode="NoResize"
-        ShowInTaskbar="False" Topmost="True" 
         Left="5" Top="5" Focusable="False" ShowActivated="False" Icon="q3.ico">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="Black"></SolidColorBrush>

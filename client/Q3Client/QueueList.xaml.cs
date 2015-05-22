@@ -35,6 +35,7 @@ namespace Q3Client
         {
             this.Show();
             this.Activate();
+            this.ShowInTaskbar = true;
         }
 
         private void StartQueueClicked(object sender, RoutedEventArgs e)
