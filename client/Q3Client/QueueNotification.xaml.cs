@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,13 +40,16 @@ namespace Q3Client
             MembersChanged();
 
             queue.PropertyChanged += (sender, args) => MembersChanged();            
+
+            this.Loaded += OnLoaded;
+            
         }
 
-        protected override async void OnInitialized(EventArgs e)
+        private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            base.OnInitialized(e);
             await UpdateHashtagImage();
-
+            Trace.WriteLine("flash fired");
+            RaiseEvent(new RoutedEventArgs(FlashEvent));
         }
 
         private async Task UpdateHashtagImage()
@@ -88,6 +92,22 @@ namespace Q3Client
         public event EventHandler<QueueActionEventArgs> LeaveQueue;
         public event EventHandler<QueueActionEventArgs> ActivateQueue;
         public event EventHandler<QueueActionEventArgs> CloseQueue;
+
+        public static readonly RoutedEvent FlashEvent = EventManager.RegisterRoutedEvent("Flash", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(QueueNotification));
+
+        public event RoutedEventHandler Flash
+        {
+            add
+            {
+                this.AddHandler(FlashEvent, value);
+            }
+
+            remove
+            {
+                this.RemoveHandler(FlashEvent, value);
+            }
+        }
+
 
         private void ButtonJoin_Click(object sender, RoutedEventArgs e)
         {

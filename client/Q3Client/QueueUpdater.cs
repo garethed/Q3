@@ -79,6 +79,8 @@ namespace Q3Client
             window.ActivateQueue += (s, e) => hub.ActivateQueue(queue.Id);
             window.CloseQueue += (s, e) => hub.CloseQueue(queue.Id);
             queueList.QueuesPanel.Children.Add(window);
+            queueList.Show();
+            queueList.Activate();
         }
 
         public void UpdateQueue(Queue serverQueue)

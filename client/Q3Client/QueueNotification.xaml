@@ -66,6 +66,15 @@
         </Style>
 
     </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="q3Client:QueueNotification.Flash">
+            <BeginStoryboard>
+                <Storyboard>
+                    <ColorAnimation  By="#ccc" Storyboard.TargetProperty="(UserControl.Background).(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True"  Duration="0:0:0.5"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition ></RowDefinition>
