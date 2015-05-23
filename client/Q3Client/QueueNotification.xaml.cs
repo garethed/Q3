@@ -83,12 +83,27 @@ namespace Q3Client
 
         private void MembersChanged()
         {
-            Members.Children.Clear();
-            foreach (var user in queue.Members)
+            var oldUsers = Members.Children.Cast<Avatar>().ToList();
+            var newUsers = queue.Members.ToList();
+
+            var removedCount = 0;
+
+            // First look for any existing users who need to be removed
+            // Don't just clear the children since creating new user UI triggers the flash animation
+            for (int i = 0; i < oldUsers.Count; ++i)
             {
-                Members.Children.Add(new Avatar(user));
+                while (!oldUsers[i + removedCount].User.Equals(newUsers[i]))
+                {
+                    Members.Children.Remove(oldUsers[i + removedCount]);
+                    removedCount++;
+                }
             }
-            
+
+            // All remaining users are new and need to be added
+            for (int i = oldUsers.Count - removedCount; i < newUsers.Count; ++i)
+            {
+                Members.Children.Add(new Avatar(newUsers[i]));
+            }            
         }
 
 

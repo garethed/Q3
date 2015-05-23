@@ -52,6 +52,8 @@ namespace Q3Client
 
         }
 
+        public User User { get { return user; } }
+
         private string GetInitials()
         {
             var initials = user.EmailAddress.Substring(0,1);

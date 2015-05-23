@@ -16,5 +16,12 @@
         <Setter Property="FontSize" Value="16"></Setter>
     </Style>
 
+    <Storyboard x:Key="FlashStoryboard">
+        <ColorAnimation  By="#ccc" Storyboard.TargetProperty="(UserControl.Background).(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True"  Duration="0:0:0.5"/>
+    </Storyboard>
+    <Storyboard x:Key="FlashBorderStoryboard">
+        <DoubleAnimation  To="1" Storyboard.TargetProperty="(UserControl.BorderBrush).(SolidColorBrush.Opacity)" AutoReverse="True"  Duration="0:0:0.5"/>
+    </Storyboard>
+
 
 </ResourceDictionary>
