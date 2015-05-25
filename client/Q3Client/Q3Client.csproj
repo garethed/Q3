@@ -83,6 +83,7 @@
       <DependentUpon>Header.xaml</DependentUpon>
     </Compile>
     <Compile Include="Hub.cs" />
+    <Compile Include="IdleTimer.cs" />
     <Compile Include="NewQueue.xaml.cs">
       <DependentUpon>NewQueue.xaml</DependentUpon>
     </Compile>

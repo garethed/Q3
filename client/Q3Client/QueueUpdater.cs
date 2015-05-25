@@ -115,5 +115,11 @@ namespace Q3Client
             MergeChanges(queuesById[serverQueue.Id], serverQueue);
 
         }
+
+        public void UpdateQueueStatus(Queue queue)
+        {
+            alertDisplayTimer.ShowAlert();
+            UpdateQueue(queue);
+        }
     }
 }

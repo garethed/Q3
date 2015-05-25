@@ -63,7 +63,7 @@ namespace Q3Client
         private void QueueStatusChanged(object sender, QueueActionEventArgs args)
         {
             var queue = args.Queue;
-            Dispatcher.Invoke(() => queueUpdater.UpdateQueue(queue));
+            Dispatcher.Invoke(() => queueUpdater.UpdateQueueStatus(queue));
         }
 
         private void QueueMembershipChanged(object sender, QueueActionEventArgs args)

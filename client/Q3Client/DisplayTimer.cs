@@ -13,11 +13,14 @@ namespace Q3Client
         private QueueList targetWindow;
         private QueueList.eWindowStateExtended previousState;
         private volatile bool cancel;
+        private IdleTimer idleTimer;
 
         public DisplayTimer(QueueList targetWindow)
         {
             this.targetWindow = targetWindow;
             targetWindow.GotFocus += (s, e) => cancel = true;
+            idleTimer = new IdleTimer();
+            idleTimer.Start();
         }
 
         public async void ShowAlert()
@@ -25,26 +28,33 @@ namespace Q3Client
             if (!targetWindow.IsActive)
             {
                 cancel = false;
+                idleTimer.IsActive = false;
+
+                Action reset; 
 
                 if (targetWindow.WindowStateExtended != QueueList.eWindowStateExtended.Normal)
                 {
                     previousState = targetWindow.WindowStateExtended;
                     targetWindow.WindowStateExtended = QueueList.eWindowStateExtended.Normal;
-                    await Task.Delay(TimeSpan.FromSeconds(4));
-                    if (!cancel)
-                    {
-                        targetWindow.WindowStateExtended = previousState;
-                    }
+                    reset = () => targetWindow.WindowStateExtended = previousState;
                 }
                 else
                 {
                     Win32.BringToFront(targetWindow);
-                    await Task.Delay(TimeSpan.FromSeconds(4));
-                    if (!cancel && !targetWindow.IsActive)
-                    {
-                        Win32.SendToBack(targetWindow);
-                    }
+                    reset = () => Win32.SendToBack(targetWindow);
                 }
+
+                while (!idleTimer.IsActive)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+                await Task.Delay(TimeSpan.FromSeconds(3));
+
+                if (!cancel && !targetWindow.IsActive)
+                {
+                    reset();
+                }
+
             }
 
         }
