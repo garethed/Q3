@@ -38,7 +38,7 @@ namespace Q3Client
             var serverQueues = await hub.ListQueues();
 
 
-            foreach (var q in serverQueues)
+            foreach (var q in serverQueues.OrderBy(q => q.Id))
             {
                 if (queuesById.ContainsKey(q.Id))
                 {
@@ -90,7 +90,7 @@ namespace Q3Client
             window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
             window.ActivateQueue += (s, e) => hub.ActivateQueue(queue.Id);
             window.CloseQueue += (s, e) => hub.CloseQueue(queue.Id);
-            queueList.QueuesPanel.Children.Add(window);
+            queueList.QueuesPanel.Children.Insert(0, window);
             queueList.Show();
             queueList.Activate();
         }
