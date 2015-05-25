@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Q3Client
 {
@@ -55,6 +56,17 @@ namespace Q3Client
                 {
                     queues.Remove(q);
                     queuesById.Remove(q.Id);
+
+                    queueList.Dispatcher.Invoke(() =>
+                    {
+                        var window =
+                            queueList.QueuesPanel.Children.OfType<QueueNotification>()
+                                .FirstOrDefault(w => w.Queue.Id == q.Id);
+                        if (window != null)
+                        {
+                            queueList.QueuesPanel.Children.Remove(window);
+                        }
+                    });
                 }
             }
             

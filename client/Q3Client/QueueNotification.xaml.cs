@@ -46,6 +46,8 @@ namespace Q3Client
             
         }
 
+        public Queue Queue { get { return queue; } }
+
         private void QueuePropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             switch (propertyChangedEventArgs.PropertyName)

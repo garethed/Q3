@@ -24,5 +24,15 @@
         {
             return input.Replace(";", "");
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is User && UserName.Equals(((User)obj).UserName);
+        }
+
+        public override int GetHashCode()
+        {
+            return UserName.GetHashCode();
+        }
     }
 }
