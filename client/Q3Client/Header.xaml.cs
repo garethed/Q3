@@ -20,6 +20,10 @@ namespace Q3Client
     /// </summary>
     public partial class Header : UserControl
     {
+        public static readonly DependencyProperty HubProperty =
+            DependencyProperty.Register("Hub", typeof (Hub), typeof (Header));
+
+
         public Header()
         {
             InitializeComponent();
@@ -36,7 +40,10 @@ namespace Q3Client
             }
         }
 
-        public Hub Hub { get; set; }
+        public Hub Hub {
+            get { return (Hub) GetValue(HubProperty); }
+            set { SetValue(HubProperty, value);}
+        }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ConnectionState = Microsoft.AspNet.SignalR.Client.ConnectionState;
 
 namespace Q3Client
 {
@@ -36,9 +38,28 @@ namespace Q3Client
             hub.QueueCreated += QueueCreated;
             hub.QueueStatusChanged += QueueStatusChanged;
 
-            await queueUpdater.RefreshALl();
+            hub.PropertyChanged += HubPropertyChanged;
+
+            if (hub.ConnectionState == ConnectionState.Connected)
+            {
+                await queueUpdater.RefreshALl();
+            }
+
 
         }
+
+        private async void HubPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ConnectionState")
+            {
+                if (hub.ConnectionState == ConnectionState.Connected)
+                {
+                    Trace.WriteLine("refresh all");
+                    await queueUpdater.RefreshALl();
+                }
+            }
+        }
+
         private void QueueStatusChanged(object sender, QueueActionEventArgs args)
         {
             var queue = args.Queue;

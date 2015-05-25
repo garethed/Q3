@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 
 namespace Q3Client
 {
-    public class Hub
+    public class Hub : INotifyPropertyChanged
     {
         private readonly User user;
 
@@ -26,7 +28,37 @@ namespace Q3Client
             hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent("membershipchanged", QueueMembershipChanged, q));
             hub.On<Queue>("QueueStatusChanged", q => RaiseEvent("statuschanged", QueueStatusChanged, q));
             hubConnection.Headers["User"] = this.user.ToString();
-            hubConnection.Start().Wait();
+            hubConnection.StateChanged += HubConnectionOnStateChanged;
+
+            TryConnect();
+        }
+
+        private async Task TryConnect()
+        {
+            try
+            {
+                await hubConnection.Start();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("cannot connect" + e.ToString());
+            }
+        }
+
+        private async void HubConnectionOnStateChanged(StateChange stateChange)
+        {
+            Trace.WriteLine("hub: " + stateChange.OldState + " -> " + stateChange.NewState);
+            OnPropertyChanged("ConnectionState");
+            if (hubConnection.State == ConnectionState.Disconnected)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(10));
+                await TryConnect();
+            }
+        }
+
+        public ConnectionState ConnectionState
+        {
+            get { return hubConnection.State; }
         }
 
 
@@ -76,6 +108,15 @@ namespace Q3Client
         }
 
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            Trace.WriteLine("hub changed " + propertyName);
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
 
     }
 }
