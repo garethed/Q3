@@ -6,7 +6,7 @@
              xmlns:q3Client="clr-namespace:Q3Client"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
-             d:DesignHeight="300" d:DesignWidth="300" Width="500" Height="50" Background="{StaticResource BlueBackgroundBrush}">
+             d:DesignHeight="300" d:DesignWidth="300" Width="520" Height="50" Background="{StaticResource BlueBackgroundBrush}">
     <UserControl.Resources>
         <Style TargetType="Label" x:Key="LogoStyle">
             <Setter Property="Background" Value="#666"></Setter>

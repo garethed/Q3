@@ -3,21 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:q="clr-namespace:Q3Client"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        Title="QueueList" Height="600" Width="500" WindowStyle="None" WindowStartupLocation="Manual" AllowsTransparency="True" ResizeMode="NoResize"
+        Title="QueueList" Height="800" Width="520" WindowStyle="None" WindowStartupLocation="Manual" AllowsTransparency="True" ResizeMode="NoResize"
         Left="5" Top="5" Focusable="False" ShowActivated="False" Icon="q3.ico">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="Black"></SolidColorBrush>
     </Window.Background>
-    <StackPanel Name="QueuesPanel">
-        <q:Header x:Name="Header"></q:Header>
-        <tb:TaskbarIcon ToolTipText="Q3" IconSource="q3.ico">
-            <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Show queues" Click="ShowQueuesClicked" FontWeight="Bold"></MenuItem>
-                    <MenuItem Header="Start new queue" Click="StartQueueClicked"></MenuItem>
-                    <MenuItem Header="Quit" Click="QuitClicked"></MenuItem>
-                </ContextMenu>                
-            </tb:TaskbarIcon.ContextMenu>
-        </tb:TaskbarIcon>
-    </StackPanel>
+    <DockPanel>
+        <q:Header DockPanel.Dock="Top" x:Name="Header"></q:Header>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Name="QueuesPanel">
+                <tb:TaskbarIcon ToolTipText="Q3" IconSource="q3.ico">
+                    <tb:TaskbarIcon.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Show queues" Click="ShowQueuesClicked" FontWeight="Bold"></MenuItem>
+                            <MenuItem Header="Start new queue" Click="StartQueueClicked"></MenuItem>
+                            <MenuItem Header="Quit" Click="QuitClicked"></MenuItem>
+                        </ContextMenu>
+                    </tb:TaskbarIcon.ContextMenu>
+                </tb:TaskbarIcon>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </Window>

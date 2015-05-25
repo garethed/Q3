@@ -115,8 +115,8 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0">
             <DockPanel>
-                <Label DockPanel.Dock="Right" Style="{StaticResource StatusLabel}"  FontSize="16" FontWeight="Bold" Margin="5" Padding="6,3" MinWidth="0" MinHeight="0"></Label>
-                <TextBlock  Name="LabelTitle"  Foreground="#FFFFFF" FontSize="20" FontWeight="Bold" TextWrapping="Wrap"></TextBlock>
+                <Label DockPanel.Dock="Right" Style="{StaticResource StatusLabel}"  FontSize="16" FontWeight="Bold" Margin="5" Padding="6,3" MinWidth="0" MinHeight="0" ></Label>
+                <TextBlock  Name="LabelTitle"  Foreground="#FFFFFF" FontSize="20" FontWeight="Bold" TextWrapping="Wrap" MinHeight="37"></TextBlock>
             </DockPanel>
             <WrapPanel Name="Members"></WrapPanel>
         </StackPanel>
