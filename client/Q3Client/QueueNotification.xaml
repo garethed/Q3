@@ -19,6 +19,27 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="Label" x:Key="StatusLabel">
+            <Setter Property="Background" Value="#FFF"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource BlueBackgroundBrush}" />
+            <Setter Property="Visibility" Value="Collapsed"></Setter>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="true">
+                    <Setter Property="Content" Value="JOINED"></Setter>
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                    <Setter Property="Foreground" Value="{StaticResource GreenBackgroundBrush}" />
+                    <Setter Property="Content" Value="ACTIVE"></Setter>
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
         <Style TargetType="Label" x:Key="HashtagPlaceholder">
             <Setter Property="Background" Value="{StaticResource BlueHighlightBrush}"></Setter>
             <Setter Property="Foreground" Value="{StaticResource BlueBackgroundBrush}"></Setter>
@@ -93,7 +114,10 @@
         <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Name="HashtagImage" Height="92" Width="80" StretchDirection="DownOnly"  MaxHeight="92" MaxWidth="80"/>
 
         <StackPanel Grid.Column="1" Grid.Row="0">
-            <Label Name="LabelTitle"  Foreground="#FFFFFF" FontSize="20" FontWeight="Bold"></Label>
+            <DockPanel>
+                <Label DockPanel.Dock="Right" Style="{StaticResource StatusLabel}"  FontSize="16" FontWeight="Bold" Margin="5" Padding="6,3" MinWidth="0" MinHeight="0"></Label>
+                <TextBlock  Name="LabelTitle"  Foreground="#FFFFFF" FontSize="20" FontWeight="Bold" TextWrapping="Wrap"></TextBlock>
+            </DockPanel>
             <WrapPanel Name="Members"></WrapPanel>
         </StackPanel>
         

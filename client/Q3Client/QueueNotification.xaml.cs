@@ -35,7 +35,7 @@ namespace Q3Client
             text.Inlines.Add(new Bold(new Run(queue.Name)) { FontSize = 20});
             text.Inlines.Add(new Run(" queue"));
 
-            this.LabelTitle.Content = queue.Name;
+            this.LabelTitle.Text = queue.Name;
 
 
             MembersChanged();
@@ -89,14 +89,19 @@ namespace Q3Client
             var newUsers = queue.Members.ToList();
 
             var removedCount = 0;
+            var newIndex = 0;
 
             // First look for any existing users who need to be removed
             // Don't just clear the children since creating new user UI triggers the flash animation
-            for (int i = 0; i < oldUsers.Count; ++i)
+            for (var oldIndex = 0; oldIndex < oldUsers.Count; ++oldIndex)
             {
-                while (!oldUsers[i + removedCount].User.Equals(newUsers[i]))
+                if (newIndex < newUsers.Count && oldUsers[oldIndex].User.Equals(newUsers[newIndex]))
                 {
-                    Members.Children.Remove(oldUsers[i + removedCount]);
+                    newIndex++;
+                }
+                else
+                {
+                    Members.Children.Remove(oldUsers[oldIndex]);
                     removedCount++;
                 }
             }
