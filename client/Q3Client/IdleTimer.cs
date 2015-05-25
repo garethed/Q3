@@ -9,7 +9,14 @@ namespace Q3Client
         public bool IsActive
         {
             get { return _isActive; }
-            set { _isActive = value; }
+            set
+            {
+                if (_isActive != value)
+                {
+                    Trace.WriteLine("user is active");
+                    _isActive = value;
+                }
+            }
         }
 
         int _hHookKbd;
@@ -51,7 +58,7 @@ namespace Q3Client
         {
             //user is active, at least with the mouse
             IsActive = true;
-            Debug.Print("Mouse active");
+            //Debug.Print("Mouse active");
 
             //just return the next hook
             return CallNextHookEx(_hHookMouse, nCode, wParam, lParam);
@@ -61,7 +68,7 @@ namespace Q3Client
         {
             //user is active, at least with the keyboard
             IsActive = true;
-            Debug.Print("Keyboard active");
+            //Debug.Print("Keyboard active");
 
             //just return the next hook
             return CallNextHookEx(_hHookKbd, nCode, wParam, lParam);
