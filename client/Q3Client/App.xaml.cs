@@ -107,5 +107,10 @@ namespace Q3Client
             return user;
         }
 
+        private void Application_Deactivated(object sender, EventArgs e)
+        {
+            Trace.WriteLine("app deactivated");
+        }
+
     }
 }

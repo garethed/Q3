@@ -29,15 +29,18 @@ namespace Q3Client
             InitializeComponent();
         }
 
-        public void NewQueueClicked(object sender, RoutedEventArgs e)
+        public async void NewQueueClicked(object sender, RoutedEventArgs e)
         {
             var window = new NewQueue();
+            window.Owner = ParentQueueList;
             window.ShowDialog();
 
             if (!string.IsNullOrWhiteSpace(window.NewQueueName))
             {
-                Hub.CreateQueue(window.NewQueueName);
+                var hub = Hub;
+                Dispatcher.InvokeAsync(() => hub.CreateQueue(window.NewQueueName));
             }
+            Win32.IsApplicationActive();
         }
 
         public Hub Hub {
@@ -47,18 +50,18 @@ namespace Q3Client
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            window.ShowInTaskbar = false;
-            window.Hide();
+            ParentQueueList.WindowStateExtended = QueueList.eWindowStateExtended.Closed;
             
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            window.ShowInTaskbar = true;
-            window.WindowState = WindowState.Minimized;
+            ParentQueueList.WindowStateExtended = QueueList.eWindowStateExtended.Minimized;
+        }
 
+        private QueueList ParentQueueList
+        {
+            get { return (QueueList) Window.GetWindow(this); }
         }
 
         private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

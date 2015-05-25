@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace Q3Client
@@ -16,6 +17,7 @@ namespace Q3Client
         private User user;
 
         private QueueList queueList;
+        private DisplayTimer alertDisplayTimer;
 
 
         public QueueUpdater(Hub hub, User user)
@@ -26,6 +28,7 @@ namespace Q3Client
             queueList = new QueueList(hub);
             queueList.Show();
 
+            alertDisplayTimer = new DisplayTimer(queueList);
         }
 
         public ObservableCollection<Queue> Queues
@@ -46,7 +49,7 @@ namespace Q3Client
                 }
                 else
                 {
-                    AddQueue(q);
+                    AddQueue(q, false);
                 }
             }
 
@@ -81,18 +84,30 @@ namespace Q3Client
 
         public void AddQueue(Queue queue)
         {
-            queue.User = user;
-            queues.Add(queue);
-            queuesById.Add(queue.Id, queue);
+            AddQueue(queue, true);
+        }
 
-            var window = new QueueNotification(queue);
-            window.JoinQueue += (s, e) => hub.JoinQueue(queue.Id);
-            window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
-            window.ActivateQueue += (s, e) => hub.ActivateQueue(queue.Id);
-            window.CloseQueue += (s, e) => hub.CloseQueue(queue.Id);
-            queueList.QueuesPanel.Children.Insert(0, window);
-            queueList.Show();
-            queueList.Activate();
+        private void AddQueue(Queue queue, bool isNew)
+        {
+            queueList.Dispatcher.Invoke(() =>
+            {
+
+                queue.User = user;
+                queues.Add(queue);
+                queuesById.Add(queue.Id, queue);
+
+                var window = new QueueNotification(queue);
+                window.JoinQueue += (s, e) => hub.JoinQueue(queue.Id);
+                window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
+                window.ActivateQueue += (s, e) => hub.ActivateQueue(queue.Id);
+                window.CloseQueue += (s, e) => hub.CloseQueue(queue.Id);
+                queueList.QueuesPanel.Children.Insert(0, window);
+            });
+
+            if (isNew)
+            {
+                alertDisplayTimer.ShowAlert();
+            }
         }
 
         public void UpdateQueue(Queue serverQueue)

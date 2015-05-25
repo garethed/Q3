@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,20 @@ namespace Q3Client
     /// </summary>
     public partial class QueueList : Window
     {
+        public enum eWindowStateExtended
+        {
+            Normal,
+            Minimized,
+            Closed
+        }
+
         public QueueList(Hub hub)
         {
             InitializeComponent();
             Header.Hub = hub;
+
+            this.Activated += (sender, args) => Trace.WriteLine("Activated");
+            this.Deactivated+= (sender, args) => Trace.WriteLine("Deactivated");
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -33,9 +44,7 @@ namespace Q3Client
 
         private void ShowQueuesClicked(object sender, RoutedEventArgs e)
         {
-            this.Show();
-            this.Activate();
-            this.ShowInTaskbar = true;
+            WindowStateExtended = eWindowStateExtended.Normal;
         }
 
         private void StartQueueClicked(object sender, RoutedEventArgs e)
@@ -46,6 +55,35 @@ namespace Q3Client
         private void QuitClicked(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        public eWindowStateExtended WindowStateExtended
+        {
+            get { return this.Visibility == Visibility.Hidden ? eWindowStateExtended.Closed : 
+                (WindowState == WindowState.Minimized ? eWindowStateExtended.Minimized : eWindowStateExtended.Normal); }
+            set
+            {
+                switch (value)
+                {
+                    case eWindowStateExtended.Closed:
+                        ShowInTaskbar = false;
+                        Hide();
+                        break;
+                    case eWindowStateExtended.Minimized:
+                        ShowInTaskbar = true;
+                        WindowState = WindowState.Minimized;
+                        Show();
+                        break;
+                    case eWindowStateExtended.Normal:
+                        ShowInTaskbar = true;
+                        WindowState = WindowState.Normal;
+                        Topmost = true;
+                        Show();
+                        Topmost = false;
+                        break;
+                }
+            }
+
         }
     }
 
