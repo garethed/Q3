@@ -21,8 +21,11 @@ namespace Q3Client
         public Hub(User user)
         {
             this.user = user;
-
+#if DEBUG
             hubConnection = new HubConnection("http://localhost:51442/");
+#else
+            hubConnection = new HubConnection("http://poolq3/");
+#endif
             hub = hubConnection.CreateHubProxy("QHub");
             hub.On<Queue>("NewQueue", q => RaiseEvent("created", QueueCreated, q));
             hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent("membershipchanged", QueueMembershipChanged, q));
