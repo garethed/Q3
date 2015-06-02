@@ -118,7 +118,7 @@ namespace Q3Client
 
         public void UpdateQueueStatus(Queue queue)
         {
-            if (queue.Members.Contains(user))
+            if (queue.Members.Contains(user) && queue.Status == QueueStatus.Activated)
             {
                 alertDisplayTimer.ShowAlert();
             }
