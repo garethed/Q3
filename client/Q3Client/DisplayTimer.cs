@@ -30,7 +30,9 @@ namespace Q3Client
                 cancel = false;
                 idleTimer.IsActive = false;
 
-                Action reset; 
+                Action reset;
+
+                targetWindow.Topmost = true;
 
                 if (targetWindow.WindowStateExtended != QueueList.eWindowStateExtended.Normal)
                 {
@@ -49,6 +51,8 @@ namespace Q3Client
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
                 await Task.Delay(TimeSpan.FromSeconds(3));
+
+                targetWindow.Topmost = false;
 
                 if (!cancel && !targetWindow.IsActive)
                 {
