@@ -33,7 +33,7 @@
 
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
                     <Setter Property="Foreground" Value="{StaticResource GreenBackgroundBrush}" />
-                    <Setter Property="Content" Value="ACTIVE"></Setter>
+                    <Setter Property="Content" Value="STARTED"></Setter>
                     <Setter Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -53,17 +53,28 @@
 
         <Style TargetType="Button" x:Key="Button">
             <Setter Property="Background" Value="#FF3737A2"></Setter>
-            <Setter Property="Width" Value="80" />
+            <Setter Property="Width" Value="70" />
             <Setter Property="Margin" Value="2" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="White"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
                     <Setter Property="Background" Value="#FF6CBD6C" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="Button" x:Key="LeaveButton" BasedOn="{StaticResource Button}">
+        
+        <Style TargetType="Button" x:Key="MutedButton" BasedOn="{StaticResource Button}">
+            <Setter Property="Foreground" Value="#77e"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                    <Setter Property="Foreground" Value="#7d7"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style TargetType="Button" x:Key="LeaveButton" BasedOn="{StaticResource MutedButton}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="false">
@@ -79,6 +90,15 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Button" x:Key="HideButton" BasedOn="{StaticResource JoinButton}">
+            <Setter Property="Foreground" Value="#77e"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                    <Setter Property="Foreground" Value="#7d7"></Setter>
+                </DataTrigger>
+            </Style.Triggers>            
+        </Style>
+
         <Style TargetType="Button" x:Key="ActivateButton" BasedOn="{StaticResource Button}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
@@ -89,6 +109,14 @@
 
         </Style>
 
+        <Style TargetType="Expander">
+            <Setter Property="Visibility" Value="Visible"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="q3Client:QueueNotification.Flash">
@@ -122,10 +150,12 @@
         </StackPanel>
         
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,3">
-            <Button x:Name="ButtonLeave" Style="{StaticResource LeaveButton}"  Content="Leave" Foreground="White" Click="ButtonLeave_Click" />
-            <Button x:Name="ButtonJoin" Style="{StaticResource JoinButton}"  HorizontalAlignment="Right"  Content="Join" Foreground="White" Click="ButtonJoin_Click" />
-            <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" HorizontalAlignment="Right"  Content="Activate" Foreground="White"   Click="ButtonActivate_Click"/>
-            <Button x:Name="ButtonClose" Style="{StaticResource Button}"  HorizontalAlignment="Right"  Content="Close" Foreground="White" Click="ButtonClose_Click"/>
+            <Button x:Name="ButtonJoin" Style="{StaticResource JoinButton}"  HorizontalAlignment="Right"  Content="Join" Click="ButtonJoin_Click" />
+            <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" HorizontalAlignment="Right"  Content="Start"    Click="ButtonActivate_Click"/>
+            <Button x:Name="ButtonLeave" Style="{StaticResource LeaveButton}"  Content="Leave" Click="ButtonLeave_Click" />
+            <Button x:Name="ButtonIgnore" Style="{StaticResource HideButton}"  HorizontalAlignment="Right"  Content="Hide"  Click="ButtonIgnore_Click"/>
+            <Button x:Name="ButtonClose" Style="{StaticResource MutedButton}"  HorizontalAlignment="Right"  Content="End" Click="ButtonClose_Click"/>
+            
         </StackPanel>
         
     </Grid>

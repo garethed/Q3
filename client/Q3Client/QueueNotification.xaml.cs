@@ -154,5 +154,10 @@ namespace Q3Client
         {
             CloseQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
+
+        private void ButtonIgnore_Click(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Collapsed;
+        }
     }
 }
