@@ -31,14 +31,14 @@ namespace Q3Client
 
         public async void NewQueueClicked(object sender, RoutedEventArgs e)
         {
-            var window = new NewQueue();
+            var window = new NewQueue(GroupsCache);
             window.Owner = ParentQueueList;
             window.ShowDialog();
 
             if (!string.IsNullOrWhiteSpace(window.NewQueueName))
             {
                 var hub = Hub;
-                Dispatcher.InvokeAsync(() => hub.CreateQueue(window.NewQueueName));
+                Dispatcher.InvokeAsync(() => hub.CreateQueue(window.NewQueueName, (string)window.GroupSelector.SelectedValue));
             }
             Win32.IsApplicationActive();
         }
@@ -63,6 +63,8 @@ namespace Q3Client
         {
             get { return (QueueList) Window.GetWindow(this); }
         }
+
+        public GroupsCache GroupsCache { get; set; }
 
         private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

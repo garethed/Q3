@@ -2,10 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="NewQueue" Height="Auto" Width="300" Background="{StaticResource BlueBackgroundBrush}" WindowStyle="None" BorderThickness="0" Foreground="White"
-        SizeToContent="Height" AllowsTransparency="True" Activated="Window_Activated" KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen">
-    <StackPanel>
-        <Label Foreground="White" HorizontalContentAlignment="Center" FontSize="20">Start a new queue</Label>
+        SizeToContent="Height" AllowsTransparency="True" Activated="Window_Activated" KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+>
+    <StackPanel Height="153">
+        <Label Foreground="White" HorizontalContentAlignment="Center" FontSize="20">New queue</Label>
         <TextBox x:Name="QueueName" Padding="10,0,10,2" Margin="20,10" FontSize="16" TabIndex="1" Height="30" VerticalAlignment="Center" MaxLength="100" VerticalContentAlignment="Center" />
-        <Button Background="{StaticResource BlueHighlightBrush}" Width="150" Margin="10" IsDefault="True" Click="Button_Click">Start Queue</Button>
+        <ComboBox x:Name="GroupSelector" ItemsSource="{Binding GroupList}" Width="260" IsEditable="True"></ComboBox>
+        <Button Background="{StaticResource BlueHighlightBrush}" Width="150" Margin="75,10" IsDefault="True" Click="Button_Click" Content="Create Queue"/>
     </StackPanel>
 </Window>

@@ -19,13 +19,16 @@ namespace Q3Client
     /// </summary>
     public partial class NewQueue : Window
     {
-        public NewQueue()
+        private readonly GroupsCache groupsCache;
+
+        public NewQueue(GroupsCache groupsCache)
         {
+            this.groupsCache = groupsCache;
             InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        {   
             NewQueueName = QueueName.Text;
             Close();
         }
@@ -43,6 +46,11 @@ namespace Q3Client
             {
                 Close();
             }
+        }
+
+        public IEnumerable<string> GroupList
+        {
+            get { return groupsCache.ServerGroups; }
         }
     }
 }

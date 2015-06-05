@@ -31,11 +31,11 @@ namespace Q3Client
 
             this.DataContext = queue;
 
-            var text = new TextBlock();
-            text.Inlines.Add(new Bold(new Run(queue.Name)) { FontSize = 20});
-            text.Inlines.Add(new Run(" queue"));
-
-            this.LabelTitle.Text = queue.Name;
+            LabelTitle.Inlines.Add(new Bold(new Run(queue.Name + " ")));
+            if (!string.IsNullOrWhiteSpace(queue.RestrictToGroup))
+            {
+                LabelTitle.Inlines.Add(new Run(queue.RestrictToGroup) { FontSize = 12, Foreground  = new SolidColorBrush(Color.FromRgb(0x77, 0x77, 0xee))});
+            }
 
 
             MembersChanged();

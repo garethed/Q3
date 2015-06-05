@@ -7,7 +7,7 @@ namespace Q3Server
 {
     public interface IQManager
     {
-        Queue CreateQueue(string QueueName, User creatingUser);
+        Queue CreateQueue(string QueueName, string restrictToGroup, User creatingUser);
         Queue GetQueue(int QueueId);
         event EventHandler<QueueEventArgs> queueCreated;
 
@@ -26,7 +26,7 @@ namespace Q3Server
             this.queueCreated += eventListener.OnQueueCreated;
         }
 
-        public Queue CreateQueue(string queueName, User creatingUser)
+        public Queue CreateQueue(string queueName, string restrictToGroup, User creatingUser)
         {
             lock (lockable)
             {
@@ -35,7 +35,7 @@ namespace Q3Server
                     throw new DuplicateQueueException();
                 }
 
-                var queue = new Queue(++lastQueueId, queueName, creatingUser);
+                var queue = new Queue(++lastQueueId, queueName, creatingUser, restrictToGroup);
                 queues.Add(queue.Id, queue);
 
                 if (queueCreated != null)

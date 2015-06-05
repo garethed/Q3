@@ -20,6 +20,7 @@ namespace Q3Client
         private Hub hub;
         private User user;
         private QueueUpdater queueUpdater;
+        private GroupsCache groupsCache;
 
 
 
@@ -31,7 +32,8 @@ namespace Q3Client
             user = GetUser();
 
             hub = new Hub(user);
-            queueUpdater = new QueueUpdater(hub, user);
+            groupsCache = new GroupsCache();            
+            queueUpdater = new QueueUpdater(hub, user, groupsCache);
 
 
             hub.QueueMembershipChanged += QueueMembershipChanged;
@@ -75,7 +77,6 @@ namespace Q3Client
         private void QueueCreated(object sender, QueueActionEventArgs args)
         {
             var queue = args.Queue;
-
             Dispatcher.Invoke(() => queueUpdater.AddQueue(queue));
         }
 

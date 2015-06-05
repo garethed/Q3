@@ -10,17 +10,20 @@ namespace Q3Server
         private List<User> members = new List<User>();
         private object lockable = new object();
 
-        public Queue (int id, string name, User creatingUser)
+        public Queue (int id, string name, User creatingUser, string restrictToGroup)
         {
             this.Id = id;
             this.Name = name;
             this.Status = QueueStatus.Waiting;
             this.members.Add(creatingUser);
+            this.RestrictToGroup = restrictToGroup;
         }
 
         public int Id { get; private set; }
         public string Name { get; private set; }
         public QueueStatus Status { get; private set; }
+
+        public string RestrictToGroup { get; private set; }
 
         public IEnumerable<User> Members
         {

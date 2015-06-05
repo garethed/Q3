@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,6 +79,7 @@
     </Compile>
     <Compile Include="DisplayTimer.cs" />
     <Compile Include="EventExtensions.cs" />
+    <Compile Include="GroupsCache.cs" />
     <Compile Include="HashtagParser.cs" />
     <Compile Include="Header.xaml.cs">
       <DependentUpon>Header.xaml</DependentUpon>

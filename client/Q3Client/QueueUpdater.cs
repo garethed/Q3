@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,14 +19,17 @@ namespace Q3Client
 
         private QueueList queueList;
         private DisplayTimer alertDisplayTimer;
+        private GroupsCache groupsCache;
 
 
-        public QueueUpdater(Hub hub, User user)
+        public QueueUpdater(Hub hub, User user, GroupsCache groupsCache)
         {
             this.hub = hub;
             this.user = user;
 
-            queueList = new QueueList(hub);
+            this.groupsCache = groupsCache;           
+
+            queueList = new QueueList(hub, groupsCache);
             queueList.Show();
 
             alertDisplayTimer = new DisplayTimer(queueList);
@@ -38,6 +42,8 @@ namespace Q3Client
 
         public async Task RefreshALl()
         {
+            await RefreshGroups();
+
             var serverQueues = await hub.ListQueues();
 
 
@@ -75,6 +81,12 @@ namespace Q3Client
             
         }
 
+        private async Task RefreshGroups()
+        {
+            var serverGroups = await hub.ListGroups();
+            this.groupsCache.UpdateGroupList(serverGroups);
+        }
+
         private void MergeChanges(Queue clientQueue, Queue serverQueue)
         {
             clientQueue.Name = serverQueue.Name;
@@ -89,6 +101,13 @@ namespace Q3Client
 
         private void AddQueue(Queue queue, bool isNew)
         {
+            if (!string.IsNullOrWhiteSpace(queue.RestrictToGroup) && !groupsCache.UserIsInGroup(queue.RestrictToGroup))
+            {
+                Trace.WriteLine("Queue ignored. User is not in group " + queue.RestrictToGroup);
+                return;
+            }
+
+
             queueList.Dispatcher.Invoke(() =>
             {
 

@@ -7,7 +7,12 @@
         "Microsoft.AspNet.Diagnostics": "1.0.0-beta3"
     },
     "frameworks": {
-        "aspnet50": { }
+        "aspnet50": {
+            "frameworkAssemblies": {
+                "System.DirectoryServices": "4.0.0.0",
+                "System.DirectoryServices.AccountManagement": "4.0.0.0"
+            }
+        }
     },
     "bundleExclude": [
         "node_modules",

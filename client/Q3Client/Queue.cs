@@ -18,6 +18,7 @@ namespace Q3Client
         private QueueStatus status;
         private List<User> members;
         public User User;
+        public string RestrictToGroup { get; set; }
 
         public override string ToString()
         {

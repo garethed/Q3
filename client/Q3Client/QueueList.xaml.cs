@@ -27,10 +27,11 @@ namespace Q3Client
             Closed
         }
 
-        public QueueList(Hub hub)
+        public QueueList(Hub hub, GroupsCache groupsCache)
         {
             InitializeComponent();
             Header.Hub = hub;
+            Header.GroupsCache = groupsCache;
 
             this.Activated += (sender, args) => Trace.WriteLine("Activated");
             this.Deactivated+= (sender, args) => Trace.WriteLine("Deactivated");

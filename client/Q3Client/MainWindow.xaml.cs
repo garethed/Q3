@@ -94,7 +94,7 @@ namespace Q3Client
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await hub.CreateQueue(QueueName.Text);
+            await hub.CreateQueue(QueueName.Text, null);
         }
 
         private async void JoinQueue_Click(object sender, RoutedEventArgs e)

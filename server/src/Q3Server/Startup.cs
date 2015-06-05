@@ -14,6 +14,7 @@ namespace Q3Server
             services.AddSingleton<IQManager, QManager>();
             services.AddSingleton<IQEventsListener, QEventsListener>();
             services.AddTransient<IUserAccessor, UserAccessor>();
+            services.AddInstance<IGroupCache>(new GroupCache());
         }
 
         public void Configure(IApplicationBuilder app)

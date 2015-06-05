@@ -11,18 +11,19 @@ namespace Q3Server
     {
         private IQManager queueManager;
         private IUserAccessor userAccessor;
+        private IGroupCache groupCache;
 
-        public QHub(IQManager queueManager, IUserAccessor userAccessor)
+        public QHub(IQManager queueManager, IUserAccessor userAccessor, IGroupCache groupCache)
         {
             this.queueManager = queueManager;
             this.userAccessor = userAccessor;
+            this.groupCache = groupCache;
         }
 
-        public void StartQueue(string queueName)
+        public void StartQueue(string queueName, string restrictToGroup)
         {
-            Trace.WriteLine("-> StartQueue: " + queueName);
-            queueManager.CreateQueue(queueName, userAccessor.User);
-
+            Trace.WriteLine("-> StartQueue: " + queueName + " restricted to " + restrictToGroup);
+            queueManager.CreateQueue(queueName, restrictToGroup, userAccessor.User);
         }
 
         public void JoinQueue(int id)
@@ -52,6 +53,11 @@ namespace Q3Server
         public IEnumerable<Queue> ListQueues()
         {
             return queueManager.ListQueues();
+        }
+
+        public IEnumerable<string> ListGroups()
+        {
+            return groupCache.GetGroups();
         }
     }
 }
