@@ -42,8 +42,6 @@ namespace Q3Client
 
         public async Task RefreshALl()
         {
-            await RefreshGroups();
-
             var serverQueues = await hub.ListQueues();
 
 
@@ -79,12 +77,6 @@ namespace Q3Client
                 }
             }
             
-        }
-
-        private async Task RefreshGroups()
-        {
-            var serverGroups = await hub.ListGroups();
-            this.groupsCache.UpdateGroupList(serverGroups);
         }
 
         private void MergeChanges(Queue clientQueue, Queue serverQueue)

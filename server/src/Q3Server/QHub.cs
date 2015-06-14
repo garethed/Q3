@@ -11,13 +11,11 @@ namespace Q3Server
     {
         private IQManager queueManager;
         private IUserAccessor userAccessor;
-        private IGroupCache groupCache;
 
-        public QHub(IQManager queueManager, IUserAccessor userAccessor, IGroupCache groupCache)
+        public QHub(IQManager queueManager, IUserAccessor userAccessor)
         {
             this.queueManager = queueManager;
             this.userAccessor = userAccessor;
-            this.groupCache = groupCache;
         }
 
         public void StartQueue(string queueName, string restrictToGroup)
@@ -53,11 +51,6 @@ namespace Q3Server
         public IEnumerable<Queue> ListQueues()
         {
             return queueManager.ListQueues();
-        }
-
-        public IEnumerable<string> ListGroups()
-        {
-            return groupCache.GetGroups();
         }
     }
 }

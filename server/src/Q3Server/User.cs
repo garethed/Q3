@@ -5,7 +5,6 @@
         public string UserName;
         public string FullName;
         public string EmailAddress;
-        private string name;
 
         public User(string serialized)
         {

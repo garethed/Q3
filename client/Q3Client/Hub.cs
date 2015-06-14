@@ -64,11 +64,6 @@ namespace Q3Client
             get { return hubConnection.State; }
         }
 
-        public async Task<IEnumerable<string>> ListGroups()
-        {
-            return await hub.Invoke<IEnumerable<string>>("ListGroups");
-        }
-
         public async Task<IEnumerable<Queue>> ListQueues()
         {
             return await hub.Invoke<IEnumerable<Queue>>("ListQueues");

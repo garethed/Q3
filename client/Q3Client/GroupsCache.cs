@@ -13,43 +13,54 @@ namespace Q3Client
 {
     public class GroupsCache
     {
-        private readonly object lockable = new {};
-        private DateTime lastUpdated = DateTime.MinValue;
-        private IEnumerable<string> serverGroups = new List<string>();
-        private IEnumerable<string> userGroups = new List<string>(); 
-
-
-        public IEnumerable<string> ServerGroups { get { return serverGroups; } }
+        public IEnumerable<string> Groups { get; private set; }
 
         public GroupsCache()
         {
-            UpdateUserGroupList();
+            var list = DataCache.Load<DataCache.ListContainer<string>>("Groups");
+            Groups = list == null ? new List<string>() : list.items;
+            Task.Run(() => UpdateGroupList());
         }
 
         public bool UserIsInGroup(string groupName)
         {
             groupName = groupName.ToLower();
-            return userGroups.Contains(groupName);
+            return Groups.Contains(groupName);
         }
 
-        public void UpdateGroupList(IEnumerable<string> serverGroups)
+        private void UpdateGroupList()
         {
-            this.serverGroups = serverGroups.ToList();
-        }
+            try
+            {
+                var user = UserPrincipal.Current;
 
-        private void UpdateUserGroupList()
-        {
-            var user = UserPrincipal.Current;
+                var context = new PrincipalContext(ContextType.Domain);
+                var searcher = new DirectorySearcher(context.ConnectedServer);
 
-            var context = new PrincipalContext(ContextType.Domain);
-            var searcher = new DirectorySearcher(context.ConnectedServer);
+                // the OID is for recursive memberof search
+                searcher.Filter = "(member:1.2.840.113556.1.4.1941:=" + user.DistinguishedName + ")";
+                searcher.PropertiesToLoad.Add("cn");
+                searcher.PropertiesToLoad.Add("distinguishedName");
+                searcher.PropertiesToLoad.Add("mail");
 
-            // the OID is for recursive memberof search
-            searcher.Filter = "(member:1.2.840.113556.1.4.1941:=" + user.DistinguishedName + ")";
 
-
-            var newGroups = searcher.FindAll().Cast<SearchResult>().Select(r => r.Properties["cn"][0] as string).Select(s => s.ToLower()).OrderBy(s => s).ToList();
-            this.userGroups = newGroups;
+                var newGroups =
+                    searcher.FindAll()
+                        .Cast<SearchResult>()
+                        .Where(r => r.Properties["mail"].Count > 0)
+                        .Where(r => !((string)r.Properties["distinguishedName"][0]).ToLower().Contains("security groups"))
+                        .Select(r => r.Properties["cn"][0] as string)
+                        .Select(s => s.ToLower())
+                        .OrderBy(s => s)
+                        .ToList();
+                this.Groups = newGroups;
+                DataCache.Save(new DataCache.ListContainer<string>(Groups), "Groups");
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Failed to read groups " + e);
+                Groups = new List<string>();
+            }
         }
     }
 }

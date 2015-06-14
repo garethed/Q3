@@ -54,6 +54,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,6 +78,7 @@
     <Compile Include="Avatar.xaml.cs">
       <DependentUpon>Avatar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataCache.cs" />
     <Compile Include="DisplayTimer.cs" />
     <Compile Include="EventExtensions.cs" />
     <Compile Include="GroupsCache.cs" />

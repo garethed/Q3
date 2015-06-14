@@ -82,17 +82,28 @@ namespace Q3Client
 
         private User GetUser()
         {
-            var principal = UserPrincipal.Current;
+            User user;
 
-            var user = new User()
+            try
             {
-                UserName = principal.SamAccountName,
-                EmailAddress = principal.EmailAddress,
-                FullName = principal.DisplayName
-            };
+                var principal = UserPrincipal.Current;
 
+                user = new User()
+                {
+                    UserName = principal.SamAccountName,
+                    EmailAddress = principal.EmailAddress,
+                    FullName = principal.DisplayName
+                };
+
+            }
+            catch (Exception e)
+            {
+
+                user = DataCache.Load<User>();
+            }
 
 #if DEBUG
+            user = user ?? new User();
             var suffix = (DateTime.Now.Ticks % 100).ToString();
             var alphabet = "abcdefghijklmnopqrstuvwxyz";
             user.UserName = user.UserName + suffix;
@@ -104,6 +115,11 @@ namespace Q3Client
             user.EmailAddress = alphabet[first] + "." + alphabet[second] + "@softwire.com";
 
 #endif
+            if (user == null)
+            {
+                throw new Exception("Unable to retrieve user details from Active Directory");
+            }
+
 
             return user;
         }

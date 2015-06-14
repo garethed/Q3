@@ -11,24 +11,27 @@ namespace Q3Tests
         private QManager manager;
         private bool membershipChangedEventFired = false;
         private bool statusChangedEventFired = false;
+        private User user = new User("me;me myself and i;me@me.com");
+        private User user2 = new User("him;he him;him@there.com");
+
 
         public QManagerTests()
         {
             var listener = new Mock<IQEventsListener>();
-            manager = new QManager(listener.Object);
+            manager = new QManager(listener.Object);            
         }
 
         [Fact]
         public void ICanCreateANewQueue()
         {
-            Assert.NotNull(manager.CreateQueue("newQueue", "me"));
+            Assert.NotNull(createQueue());
         }
 
         [Fact]
         public void ICannotCreateADuplicateQueue()
         {
-            manager.CreateQueue("dupe", "me");
-            Assert.Throws<DuplicateQueueException>(() => manager.CreateQueue("dupe", "me"));
+            createQueue();
+            Assert.Throws<DuplicateQueueException>(() => createQueue());
         }
 
         [Fact]
@@ -36,15 +39,15 @@ namespace Q3Tests
         {
             bool eventFired = false;
             manager.queueCreated += (s, e) => eventFired = true;
-            manager.CreateQueue("event", "me");
+            manager.CreateQueue("event", null, user);
             Assert.True(eventFired);
         }
 
         [Fact]
         public void CreatedQueueIsInTheListOfQueues()
         {
-            manager.CreateQueue("new", "me");
-            Assert.Contains(manager.ListQueues(), q => q.Name == "new");
+            var queue = createQueue();
+            Assert.Contains(manager.ListQueues(), q => q.Name == queue.Name);
         }
 
         [Fact]
@@ -56,15 +59,14 @@ namespace Q3Tests
         [Fact]
         public void ICanGetAQueueThatDoesExist()
         {
-            var q = manager.CreateQueue("queue", "me");
-            Assert.Equal("queue", q.Name);            
+            var q = createQueue();
+            Assert.Equal("q", q.Name);            
         }
 
         [Fact]
         public void NewQueueShouldContainTheStartingUser()
         {
-            var user = "me";
-            var q = manager.CreateQueue("queue", user);
+            var q = createQueue();
             Assert.Equal(user, q.Members.First());
 
         }
@@ -84,7 +86,7 @@ namespace Q3Tests
         public void ICanLeaveAQueue()
         {
             var q = createQueue();
-            q.RemoveUser("me");
+            q.RemoveUser(user);
 
             Assert.Empty(q.Members);
             Assert.True(membershipChangedEventFired);
@@ -93,10 +95,11 @@ namespace Q3Tests
         [Fact]
         public void ICanJoinAQueue()
         {
+            
             var q = createQueue();
-            q.AddUser("him");
+            q.AddUser(user2);
 
-            Assert.Contains("him", q.Members);
+            Assert.Contains(user2, q.Members);
             Assert.True(membershipChangedEventFired);
         }
 
@@ -104,7 +107,7 @@ namespace Q3Tests
         public void JoiningTwiceHasNoEffect()
         {
             var q = createQueue();
-            q.AddUser("me");
+            q.AddUser(user);
 
             Assert.False(membershipChangedEventFired);
         }
@@ -113,14 +116,14 @@ namespace Q3Tests
         public void LeavingTwiceHasNoEffect()
         {
             var q = createQueue();
-            q.RemoveUser("her");
+            q.RemoveUser(user2);
 
             Assert.False(membershipChangedEventFired);
         }
 
         private Queue createQueue()
         {
-            var q = manager.CreateQueue("q", "me");
+            var q = manager.CreateQueue("q", null, user);
             q.QueueMembershipChanged += (s,e) => membershipChangedEventFired = true;
             q.QueueStatusChanged += (s, e) => statusChangedEventFired = true;
             return q;

@@ -50,7 +50,7 @@ namespace Q3Client
 
         public IEnumerable<string> GroupList
         {
-            get { return groupsCache.ServerGroups; }
+            get { return groupsCache.Groups; }
         }
     }
 }

@@ -15,14 +15,14 @@ namespace Q3Tests
         {
             var manager = new Mock<IQManager>();
             var userAccessor = new Mock<IUserAccessor>();
-            userAccessor.Setup(c => c.User).Returns("mockUser");
+            userAccessor.Setup(c => c.User).Returns(new User("test;testy test;test@test.test"));
             hub = new QHub(manager.Object, userAccessor.Object);
         }
 
         [Fact]
         public void ICanStartAQueue()
         {
-            hub.StartQueue("New Queue");
+            hub.StartQueue("New Queue", null);
         }
     }
 }
