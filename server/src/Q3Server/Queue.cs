@@ -9,6 +9,7 @@ namespace Q3Server
     {
         private List<User> members = new List<User>();
         private object lockable = new object();
+        private List<Message> messages = new List<Message>();
 
         public Queue (int id, string name, User creatingUser, string restrictToGroup)
         {
@@ -29,6 +30,12 @@ namespace Q3Server
         {
             get { return members; }
         }
+
+        public IEnumerable<Message> Messages
+        {
+            get { return messages; }
+        }
+
 
         public void AddUser(User name)
         {
@@ -62,8 +69,23 @@ namespace Q3Server
             }
         }
 
+        internal void AddMessage(User sender, string message)
+        {
+            lock (lockable)
+            {
+                var msg = new Message() { Sender = sender, Content = message };
+                messages.Add(msg);
+
+                if (QueueMessageSent != null)
+                {
+                    QueueMessageSent(this, new QueueMessageEventArgs(this, msg));
+                }
+            }
+        }
+
         public event EventHandler<QueueEventArgs> QueueMembershipChanged;
         public event EventHandler<QueueEventArgs> QueueStatusChanged;
+        public event EventHandler<QueueMessageEventArgs> QueueMessageSent;
 
         internal void Activate()
         {
@@ -94,6 +116,12 @@ namespace Q3Server
                     }
                 }
             }
+        }
+
+        public class Message
+        {
+            public User Sender;
+            public string Content;
         }
     }
 }

@@ -96,6 +96,11 @@ namespace Q3Client
             await hub.Invoke("CloseQueue", queueId);
         }
 
+        public async Task MessageQueue(int queueId, string message)
+        {
+            await hub.Invoke("MessageQueue", queueId, message);
+        }
+
 
         #region Events triggered by server
 

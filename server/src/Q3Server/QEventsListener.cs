@@ -26,6 +26,12 @@ namespace Q3Server
 
             e.Queue.QueueMembershipChanged += QueueMembershipChanged;
             e.Queue.QueueStatusChanged += QueueStatusChanged;
+            e.Queue.QueueMessageSent += QueueMessageSent;
+        }
+
+        private void QueueMessageSent(object sender, QueueMessageEventArgs e)
+        {
+            hubContext.Clients.All.QueueMessageSent(e.Queue.Id, e.Message.Sender.UserName, e.Message.Content);
         }
 
         private void QueueStatusChanged(object sender, QueueEventArgs e)

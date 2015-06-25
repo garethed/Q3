@@ -23,6 +23,7 @@ namespace Q3Client
     public partial class QueueNotification : UserControl
     {
         private readonly Queue queue;
+        private readonly ChatControls chatControls;
 
         public QueueNotification(Queue queue)
         {
@@ -43,7 +44,17 @@ namespace Q3Client
             queue.PropertyChanged += QueuePropertyChanged;
 
             this.Loaded += OnLoaded;
-            
+
+            chatControls = new ChatControls(queue.User);
+            chatControls.MessageSubmitted += ChatControlsOnMessageSubmitted;
+
+            this.ChatPanel.Children.Add(chatControls);
+
+        }
+
+        private void ChatControlsOnMessageSubmitted(object sender, ChatControls.MessageEventArgs messageEventArgs)
+        {
+            SendMessage.SafeInvoke(this, new QueueMessageEventArgs(queue, messageEventArgs.Message));
         }
 
         public Queue Queue { get { return queue; } }
@@ -118,6 +129,7 @@ namespace Q3Client
         public event EventHandler<QueueActionEventArgs> LeaveQueue;
         public event EventHandler<QueueActionEventArgs> ActivateQueue;
         public event EventHandler<QueueActionEventArgs> CloseQueue;
+        public event EventHandler<QueueMessageEventArgs> SendMessage; 
 
         public static readonly RoutedEvent FlashEvent = EventManager.RegisterRoutedEvent("Flash", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(QueueNotification));
 
@@ -158,6 +170,12 @@ namespace Q3Client
         private void ButtonIgnore_Click(object sender, RoutedEventArgs e)
         {
             this.Visibility = Visibility.Collapsed;
+        }
+
+        private void ButtonMessage_Click(object sender, RoutedEventArgs e)
+        {
+            chatControls.Visibility = Visibility.Visible;
+            chatControls.MessageText.Focus();
         }
     }
 }

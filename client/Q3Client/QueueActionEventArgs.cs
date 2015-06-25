@@ -16,4 +16,16 @@ namespace Q3Client
 
         public Queue Queue { get { return queue;  } }
     }
+
+    public class QueueMessageEventArgs : QueueActionEventArgs
+    {
+        private readonly string message;
+
+        public QueueMessageEventArgs(Queue queue, string message) : base(queue)
+        {
+            this.message = message;
+        }
+
+        public string Message { get { return message; } }
+    }
 }

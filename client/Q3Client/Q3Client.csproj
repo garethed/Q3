@@ -78,6 +78,9 @@
     <Compile Include="Avatar.xaml.cs">
       <DependentUpon>Avatar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChatControls.xaml.cs">
+      <DependentUpon>ChatControls.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataCache.cs" />
     <Compile Include="DisplayTimer.cs" />
     <Compile Include="EventExtensions.cs" />
@@ -104,6 +107,10 @@
     <Compile Include="User.cs" />
     <Compile Include="Win32.cs" />
     <Page Include="Avatar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChatControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

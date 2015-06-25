@@ -42,6 +42,12 @@ namespace Q3Server
             queueManager.GetQueue(id).Activate();
         }
 
+        public void MessageQueue(int id, string message)
+        {
+            Trace.WriteLine("-> MessageQueue: " + id + " - " + message);
+            queueManager.GetQueue(id).AddMessage(userAccessor.User, message);
+        }
+
         public void CloseQueue(int id)
         {
             Trace.WriteLine("-> CloseQueue: " + id);
