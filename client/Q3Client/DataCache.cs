@@ -35,7 +35,7 @@ namespace Q3Client
             var store = GetIsolatedStorageFile();
             var fileName = name ?? (typeof(T)).Name;
 
-            using (var stream = store.OpenFile(fileName, FileMode.OpenOrCreate | FileMode.Create))
+            using (var stream = store.OpenFile(fileName, FileMode.OpenOrCreate | FileMode.Truncate))
             {
                 var serializer = new DataContractJsonSerializer(typeof(T));
                 serializer.WriteObject(stream, data);
