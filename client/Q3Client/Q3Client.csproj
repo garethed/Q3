@@ -81,6 +81,9 @@
     <Compile Include="ChatControls.xaml.cs">
       <DependentUpon>ChatControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChatMessage.xaml.cs">
+      <DependentUpon>ChatMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataCache.cs" />
     <Compile Include="DisplayTimer.cs" />
     <Compile Include="EventExtensions.cs" />
@@ -111,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ChatControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChatMessage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
