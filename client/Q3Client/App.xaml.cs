@@ -39,6 +39,7 @@ namespace Q3Client
             hub.QueueMembershipChanged += QueueMembershipChanged;
             hub.QueueCreated += QueueCreated;
             hub.QueueStatusChanged += QueueStatusChanged;
+            hub.QueueMessageReceived += QueueMessageReceived;
 
             hub.PropertyChanged += HubPropertyChanged;
 
@@ -48,6 +49,14 @@ namespace Q3Client
             }
 
 
+        }
+
+        private void QueueMessageReceived(object sender, QueueMessageEventArgs queueMessageEventArgs)
+        {
+            Dispatcher.Invoke(
+                () =>
+                    queueUpdater.AddQueueMessage(queueMessageEventArgs.QueueId, queueMessageEventArgs.Sender,
+                        queueMessageEventArgs.Message));
         }
 
         private async void HubPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

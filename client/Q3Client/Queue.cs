@@ -18,6 +18,7 @@ namespace Q3Client
         private QueueStatus status;
         private List<User> members;
         public User User;
+        private IList<Message> messages = new List<Message>();
         public string RestrictToGroup { get; set; }
 
         public override string ToString()
@@ -57,6 +58,20 @@ namespace Q3Client
             get { return members.Contains(User); }
         }
 
+        public IList<Message> Messages
+        {
+            get { return messages; }
+            set
+            {
+                if (messages == null || !value.SequenceEqual(messages))
+                {
+                    messages = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
         public bool Equals(Queue other)
         {
             return other.Id == this.Id;
@@ -69,6 +84,42 @@ namespace Q3Client
             Trace.WriteLine("q changed " + propertyName);
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public class Message
+        {
+            public User Sender;
+            public string Content;
+
+            protected bool Equals(Message other)
+            {
+                return Equals(Sender, other.Sender) && string.Equals(Content, other.Content);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((Message) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return ((Sender != null ? Sender.GetHashCode() : 0)*397) ^ (Content != null ? Content.GetHashCode() : 0);
+                }
+            }
+        }
+
+        public void AddMessage(Message message)
+        {
+            if (!messages.Contains(message))
+            {
+                messages.Add(message);
+                OnPropertyChanged("Messages");
+            }
         }
     }
 }

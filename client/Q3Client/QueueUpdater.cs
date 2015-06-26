@@ -136,5 +136,15 @@ namespace Q3Client
             }
             UpdateQueue(queue);
         }
+
+        public void AddQueueMessage(int queueId, User sender, string message)
+        {
+            var q = queuesById[queueId];
+
+            if (q != null)
+            {
+                q.AddMessage(new Queue.Message() {Sender = sender, Content = message});
+            }
+        }
     }
 }

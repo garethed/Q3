@@ -54,7 +54,7 @@ namespace Q3Client
 
         private void ChatControlsOnMessageSubmitted(object sender, ChatControls.MessageEventArgs messageEventArgs)
         {
-            SendMessage.SafeInvoke(this, new QueueMessageEventArgs(queue, messageEventArgs.Message));
+            SendMessage.SafeInvoke(this, new QueueMessageEventArgs(queue.Id, messageEventArgs.Message));
         }
 
         public Queue Queue { get { return queue; } }
