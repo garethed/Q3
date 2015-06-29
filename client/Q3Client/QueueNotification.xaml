@@ -154,7 +154,7 @@
         </EventTrigger>
 
     </UserControl.Triggers>
-    <StackPanel Name="ChatPanel">
+    <StackPanel Name="OuterPanel">
         <Grid Style="{StaticResource Background}">
             <Grid.RowDefinitions>
                 <RowDefinition ></RowDefinition>
@@ -188,5 +188,8 @@
             </StackPanel>
         
         </Grid>
+        <q3Client:AutoScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="140">
+            <StackPanel Name="ChatPanel"/>
+        </q3Client:AutoScrollViewer>
     </StackPanel>
 </UserControl>

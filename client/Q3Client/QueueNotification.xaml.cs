@@ -48,7 +48,7 @@ namespace Q3Client
             chatControls = new ChatControls(queue.User);
             chatControls.MessageSubmitted += ChatControlsOnMessageSubmitted;
 
-            this.ChatPanel.Children.Add(chatControls);
+            this.OuterPanel.Children.Add(chatControls);
 
             MessagesChanged();
 
@@ -76,25 +76,19 @@ namespace Q3Client
 
         private void MessagesChanged()
         {
-            var oldMessageCount = ChatPanel.Children.Count - 2; // 1 is main window, other is chat entry control
+            var oldMessageCount = ChatPanel.Children.Count; 
             if (queue.Messages.Count() == oldMessageCount + 1)
             {
-                ChatPanel.Children.Insert(oldMessageCount + 1, new ChatMessage(queue.Messages.Last()));
+                ChatPanel.Children.Add(new ChatMessage(queue.Messages.Last()));
             }
             else
             {
-                while (ChatPanel.Children.Count > 2)
-                {
-                    ChatPanel.Children.RemoveAt(1);
-                }
+                ChatPanel.Children.Clear();
                 foreach (var msg in queue.Messages)
                 {
-                    ChatPanel.Children.Insert(ChatPanel.Children.Count - 1, new ChatMessage(msg));
+                    ChatPanel.Children.Add(new ChatMessage(msg));
                 }
             }
-
-
-
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
