@@ -7,3 +7,4 @@ client/Q3Client/obj/
 *.pdb
 client/Q3Client/bin/
 *.user
+client/.vs/

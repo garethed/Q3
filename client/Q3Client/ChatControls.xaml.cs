@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Q3Client
 {
@@ -37,6 +38,19 @@ namespace Q3Client
             AvatarCanvas.Children.Add(new Avatar(user));
 
             MessageText.KeyUp += MessageTextOnKeyUp;
+
+            this.IsVisibleChanged += ChatControls_IsVisibleChanged;
+        }
+
+        private void ChatControls_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (IsVisible)
+            {
+                this.Dispatcher.BeginInvoke((Action)delegate
+                {
+                    Keyboard.Focus(MessageText);
+                }, DispatcherPriority.Render);
+            }
         }
 
         private void MessageTextOnKeyUp(object sender, KeyEventArgs keyEventArgs)
@@ -57,7 +71,6 @@ namespace Q3Client
             MessageText.Clear();
             this.Visibility = Visibility.Collapsed;
         }
-
         public event EventHandler<MessageEventArgs> MessageSubmitted;
     }
 }

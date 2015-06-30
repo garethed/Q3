@@ -197,7 +197,6 @@ namespace Q3Client
         private void ButtonMessage_Click(object sender, RoutedEventArgs e)
         {
             chatControls.Visibility = Visibility.Visible;
-            chatControls.MessageText.Focus();
         }
     }
 }
