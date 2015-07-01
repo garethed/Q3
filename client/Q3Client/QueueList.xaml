@@ -10,7 +10,7 @@
     </Window.Background>
     <DockPanel>
         <q:Header DockPanel.Dock="Top" x:Name="Header"></q:Header>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
             <StackPanel Name="QueuesPanel">
                 <tb:TaskbarIcon ToolTipText="Q3" IconSource="q3.ico">
                     <tb:TaskbarIcon.ContextMenu>
