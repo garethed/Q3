@@ -26,9 +26,8 @@ namespace Q3Client
         }
 
         public bool UserIsInGroup(string groupName)
-        {
-            groupName = groupName.ToLower();
-            return Groups.Contains(groupName);
+        {            
+            return Groups.Any(g => string.Equals(g, groupName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         private void UpdateGroupList()
@@ -53,9 +52,9 @@ namespace Q3Client
                     searcher.FindAll()
                         .Cast<SearchResult>()
                         .Where(r => r.Properties["mail"].Count > 0)
-                        .Where(r => !((string)r.Properties["distinguishedName"][0]).ToLower().Contains("security groups"))
-                        .Select(r => r.Properties["cn"][0] as string)
-                        .Select(s => s.ToLower())
+                        .Select(r => new { Name = (string)r.Properties["cn"][0], Path = (string)r.Properties["distinguishedName"][0] })
+                        .Where(r => !r.Path.ToLowerInvariant().Contains("security groups") || r.Name.StartsWith("Softwire - ") || r.Name.StartsWith("Office - "))
+                        .Select(s => s.Name)
                         .OrderBy(s => s)
                         .ToList();
                 this.Groups = newGroups;
