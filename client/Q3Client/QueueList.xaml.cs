@@ -38,12 +38,19 @@ namespace Q3Client
 
             this.Activated += (sender, args) => logger.Debug("Activated");
             this.Deactivated+= (sender, args) => logger.Debug("Deactivated");
+            this.LocationChanged += (sender, args) => AdjustHeight();
         }
 
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
             this.Left = SystemParameters.WorkArea.Right - this.Width;
+            AdjustHeight();           
+        }
+
+        public void AdjustHeight()
+        {
+            this.Height = SystemParameters.WorkArea.Bottom - this.Top;
         }
 
         private void ShowQueuesClicked(object sender, RoutedEventArgs e)

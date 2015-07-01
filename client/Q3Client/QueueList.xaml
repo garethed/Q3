@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:q="clr-namespace:Q3Client"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        Title="QueueList" Height="810" Width="520" WindowStyle="None" WindowStartupLocation="Manual" AllowsTransparency="True" ResizeMode="CanMinimize"
+        Title="QueueList" Height="810" MinHeight="300" Width="520" WindowStyle="None" WindowStartupLocation="Manual" AllowsTransparency="True" ResizeMode="CanMinimize"
         Left="5" Top="5" Focusable="False" ShowActivated="False" Icon="q3.ico">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="Black"></SolidColorBrush>

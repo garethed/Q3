@@ -69,6 +69,7 @@ namespace Q3Client
         private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Window.GetWindow(this).DragMove();
+            ParentQueueList.AdjustHeight();
         }
     }
 }
