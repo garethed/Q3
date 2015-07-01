@@ -179,10 +179,10 @@
         
             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,3">
                 <Button x:Name="ButtonJoin" Style="{StaticResource JoinButton}"  HorizontalAlignment="Right"  Content="Join" Click="ButtonJoin_Click" />
+                <Button x:Name="ButtonIgnore" Style="{StaticResource JoinButton}"  HorizontalAlignment="Right"  Content="Hide"  Click="ButtonIgnore_Click"/>
                 <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" HorizontalAlignment="Right"  Content="Start"    Click="ButtonActivate_Click"/>
                 <Button x:Name="ButtonMessage" Style="{StaticResource MessageButton}" HorizontalAlignment="Right"  Content="Message" Click="ButtonMessage_Click" />
                 <Button x:Name="ButtonLeave" Style="{StaticResource LeaveButton}"  Content="Leave" Click="ButtonLeave_Click" />
-                <Button x:Name="ButtonIgnore" Style="{StaticResource HideButton}"  HorizontalAlignment="Right"  Content="Hide"  Click="ButtonIgnore_Click"/>
                 <Button x:Name="ButtonClose" Style="{StaticResource MutedButton}"  HorizontalAlignment="Right"  Content="End" Click="ButtonClose_Click"/>
             
             </StackPanel>
