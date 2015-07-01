@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.DirectoryServices;
@@ -13,6 +14,8 @@ namespace Q3Client
 {
     public class GroupsCache
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public IEnumerable<string> Groups { get; private set; }
 
         public GroupsCache()
@@ -32,6 +35,8 @@ namespace Q3Client
         {
             try
             {
+                logger.Info("Retrieving group list");
+
                 var user = UserPrincipal.Current;
 
                 var context = new PrincipalContext(ContextType.Domain);
@@ -58,7 +63,7 @@ namespace Q3Client
             }
             catch (Exception e)
             {
-                Trace.WriteLine("Failed to read groups " + e);
+                logger.Warn(e, "Failed to read groups");   
                 Groups = new List<string>();
             }
         }

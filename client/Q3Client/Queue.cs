@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,6 +14,8 @@ namespace Q3Client
 {
     public class Queue : IEquatable<Queue>, INotifyPropertyChanged
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public int Id;
         public string Name;
         private QueueStatus status;
@@ -81,7 +84,7 @@ namespace Q3Client
 
         protected  void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            Trace.WriteLine("q changed " + propertyName);
+            logger.Info("q changed " + propertyName);
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }

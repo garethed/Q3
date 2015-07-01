@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace Q3Client
 {
     public static class Win32
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         const uint SWP_NOACTIVATE = 0x0010;
         const uint SWP_NOMOVE = 0x0002;
         const uint SWP_NOSIZE = 0x0001;
@@ -27,7 +30,7 @@ namespace Q3Client
         {
             IntPtr HWND_TOP = new IntPtr(0);
             var result = SetWindowPos(new WindowInteropHelper(window).Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-            Trace.WriteLine(Marshal.GetLastWin32Error());
+            logger.Debug("BringToFront returned {0}", Marshal.GetLastWin32Error());
         }
 
         public static void SendToBack(Window window)
@@ -48,7 +51,7 @@ namespace Q3Client
         public static bool IsApplicationActive()
         {
             var active = Application.Current.Windows.OfType<Window>().Any(IsActive);
-            Trace.WriteLine("is active: " + active);
+            logger.Debug("is active: " + active);
 
             return active;
         }

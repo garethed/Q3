@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace Q3Client
     /// </summary>
     public partial class QueueList : Window
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public enum eWindowStateExtended
         {
             Normal,
@@ -33,8 +36,8 @@ namespace Q3Client
             Header.Hub = hub;
             Header.GroupsCache = groupsCache;
 
-            this.Activated += (sender, args) => Trace.WriteLine("Activated");
-            this.Deactivated+= (sender, args) => Trace.WriteLine("Deactivated");
+            this.Activated += (sender, args) => logger.Debug("Activated");
+            this.Deactivated+= (sender, args) => logger.Debug("Deactivated");
         }
 
         protected override void OnInitialized(EventArgs e)

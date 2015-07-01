@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -6,6 +7,8 @@ namespace Q3Client
 {
     public class IdleTimer : IDisposable
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public bool IsActive
         {
             get { return _isActive; }
@@ -13,7 +16,7 @@ namespace Q3Client
             {
                 if (_isActive != value)
                 {
-                    Trace.WriteLine("user is active");
+                    logger.Debug("user is active");
                     _isActive = value;
                 }
             }

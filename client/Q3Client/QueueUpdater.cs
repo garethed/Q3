@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -12,6 +13,8 @@ namespace Q3Client
 {
     class QueueUpdater
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private readonly Hub hub;
         private readonly ObservableCollection<Queue> queues = new ObservableCollection<Queue>();
         private Dictionary<int, Queue> queuesById = new Dictionary<int, Queue>();
@@ -95,7 +98,7 @@ namespace Q3Client
         {
             if (!string.IsNullOrWhiteSpace(queue.RestrictToGroup) && !groupsCache.UserIsInGroup(queue.RestrictToGroup))
             {
-                Trace.WriteLine("Queue ignored. User is not in group " + queue.RestrictToGroup);
+                logger.Info("Queue ignored. User is not in group " + queue.RestrictToGroup);
                 return;
             }
 

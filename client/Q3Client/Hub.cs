@@ -7,11 +7,14 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
+using NLog;
 
 namespace Q3Client
 {
     public class Hub : INotifyPropertyChanged
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private readonly User user;
 
         private HubConnection hubConnection;
@@ -41,17 +44,18 @@ namespace Q3Client
         {
             try
             {
+                logger.Info("Attempting to connect");
                 await hubConnection.Start();
             }
             catch (Exception e)
             {
-                Trace.WriteLine("cannot connect" + e.ToString());
+                logger.Warn(e, "Cannot connect");
             }
         }
 
         private async void HubConnectionOnStateChanged(StateChange stateChange)
         {
-            Trace.WriteLine("hub: " + stateChange.OldState + " -> " + stateChange.NewState);
+            logger.Info("hub: " + stateChange.OldState + " -> " + stateChange.NewState);
             OnPropertyChanged("ConnectionState");
             if (hubConnection.State == ConnectionState.Disconnected)
             {
@@ -112,13 +116,13 @@ namespace Q3Client
 
         private void RaiseEvent(string name, EventHandler<QueueActionEventArgs> eventHandler, Queue queue)
         {
-            Trace.WriteLine("hub " + name + " " + queue.Id);
+            logger.Info("hub " + name + " " + queue.Id);
             eventHandler.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
         private void RaiseMessageEvent(int queueId, User sender, string message)
         {
-            Trace.WriteLine("hub messaage " + queueId + " " + sender + " " + message);
+            logger.Info("hub messaage " + queueId + " " + sender + " " + message);
             QueueMessageReceived.SafeInvoke(this, new QueueMessageEventArgs(queueId, sender, message));
 
         }
@@ -129,7 +133,7 @@ namespace Q3Client
 
         protected void OnPropertyChanged(string propertyName)
         {
-            Trace.WriteLine("hub changed " + propertyName);
+            logger.Info("hub changed " + propertyName);
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }

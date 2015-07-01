@@ -98,7 +98,6 @@ namespace Q3Client
 
         private void RaiseFlashEvent()
         {
-            Trace.WriteLine("flash fired");
             RaiseEvent(new RoutedEventArgs(FlashEvent));
         }
 

@@ -1,10 +1,14 @@
-﻿using System;
+﻿using NLog;
+using NLog.Config;
+using NLog.Targets;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,17 +21,20 @@ namespace Q3Client
     /// </summary>
     public partial class App : Application
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private Hub hub;
         private User user;
         private QueueUpdater queueUpdater;
         private GroupsCache groupsCache;
 
-
-
         protected async override void OnStartup(StartupEventArgs e)
         {
+            InitLog();
+
             base.OnStartup(e);
 
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
             user = GetUser();
 
@@ -51,6 +58,36 @@ namespace Q3Client
 
         }
 
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            logger.Fatal(e.Exception, "Unhandled exception on dispatcher thread");
+        }
+
+        private void InitLog()
+        {
+            var config = new LoggingConfiguration();
+            var basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Q3");
+
+            var fileTarget = new FileTarget()
+            {
+                FileName = Path.Combine(basePath, "activity.log"),
+                ArchiveFileName = Path.Combine(basePath, "activity.{#####}.log"),
+                ArchiveAboveSize = 1024 * 1024,
+                ArchiveNumbering = ArchiveNumberingMode.Sequence,
+                ConcurrentWrites = false,
+                Layout = "${longdate} | ${level} | ${message} ${exception:format=tostring}"
+            };
+
+            config.AddTarget("file", fileTarget);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
+
+            var traceTarget = new TraceTarget() { Layout = "${level} | ${message} ${exception:format=tostring}" };
+            config.AddTarget("trace", traceTarget);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, traceTarget));
+
+            LogManager.Configuration = config;
+        }
+
         private void QueueMessageReceived(object sender, QueueMessageEventArgs queueMessageEventArgs)
         {
             Dispatcher.Invoke(
@@ -65,7 +102,7 @@ namespace Q3Client
             {
                 if (hub.ConnectionState == ConnectionState.Connected)
                 {
-                    Trace.WriteLine("refresh all");
+                    logger.Info("Connected. Refresh all");
                     await queueUpdater.RefreshALl();
                 }
             }
@@ -107,7 +144,7 @@ namespace Q3Client
             }
             catch (Exception e)
             {
-
+                logger.Warn("Failed to read user from AD. Using cache");
                 user = DataCache.Load<User>();
             }
 
@@ -135,7 +172,7 @@ namespace Q3Client
 
         private void Application_Deactivated(object sender, EventArgs e)
         {
-            Trace.WriteLine("app deactivated");
+            logger.Info("app deactivated");
         }
 
     }
