@@ -1,14 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Color x:Key="BlueBackground">#FF16169E</Color>
-    <Color x:Key="BlueHighlight">#FF3737A2</Color>
-    <Color x:Key="GreenBackground">#FF47BB47</Color>
-    <Color x:Key="GreenHighlight">#FF6CBD6C</Color>
+    <Color x:Key="BlueBackground">#24247F</Color>
+    <Color x:Key="BlueHighlight">#5959B2</Color>
+    <Color x:Key="BlueLowlight">#07074C</Color>
+    <Color x:Key="GreenBackground">#33B233</Color>
+    <Color x:Key="GreenHighlight">#66CC66</Color>
+    <Color x:Key="GreenLowlight">#197F19</Color>
            
     <SolidColorBrush x:Key="BlueBackgroundBrush" Color="{StaticResource BlueBackground}"></SolidColorBrush>
     <SolidColorBrush x:Key="BlueHighlightBrush" Color="{StaticResource BlueHighlight}"></SolidColorBrush>
+    <SolidColorBrush x:Key="BlueLowlightBrush" Color="{StaticResource BlueLowlight}"></SolidColorBrush>
     <SolidColorBrush x:Key="GreenBackgroundBrush" Color="{StaticResource GreenBackground}"></SolidColorBrush>
     <SolidColorBrush x:Key="GreenHighlightBrush" Color="{StaticResource GreenHighlight}"></SolidColorBrush>
+    <SolidColorBrush x:Key="GreenLowlightBrush" Color="{StaticResource GreenLowlight}"></SolidColorBrush>
 
     <Style TargetType="Button">
         <Setter Property="BorderThickness" Value="0"></Setter>

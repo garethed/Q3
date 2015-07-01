@@ -68,7 +68,7 @@
         </Style>
 
         <Style TargetType="Button" x:Key="Button">
-            <Setter Property="Background" Value="#FF3737A2"></Setter>
+            <Setter Property="Background" Value="{StaticResource BlueHighlightBrush}"></Setter>
             <Setter Property="Width" Value="70" />
             <Setter Property="Margin" Value="2" />
             <Setter Property="BorderThickness" Value="0" />
@@ -76,16 +76,16 @@
             <Setter Property="Foreground" Value="White"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
-                    <Setter Property="Background" Value="#FF6CBD6C" />
+                    <Setter Property="Background" Value="{StaticResource GreenHighlightBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
         
         <Style TargetType="Button" x:Key="MutedButton" BasedOn="{StaticResource Button}">
-            <Setter Property="Foreground" Value="#77e"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource BlueLowlightBrush}"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
-                    <Setter Property="Foreground" Value="#7d7"></Setter>
+                    <Setter Property="Foreground" Value="{StaticResource GreenLowlightBrush}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -116,10 +116,10 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="Button" x:Key="HideButton" BasedOn="{StaticResource JoinButton}">
-            <Setter Property="Foreground" Value="#77e"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource BlueLowlightBrush}"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
-                    <Setter Property="Foreground" Value="#7d7"></Setter>
+                    <Setter Property="Foreground" Value="{StaticResource GreenLowlightBrush}"></Setter>
                 </DataTrigger>
             </Style.Triggers>            
         </Style>
