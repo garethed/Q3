@@ -13,6 +13,14 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="q3Client:AutoScrollViewer">
+            <Setter Property="Visibility" Value="Collapsed"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>        
         <Style x:Key="Background" TargetType="Grid">
             <Setter Property="Background" Value="{StaticResource BlueBackgroundBrush}"></Setter>
             <Style.Triggers>
