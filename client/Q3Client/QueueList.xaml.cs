@@ -96,6 +96,17 @@ namespace Q3Client
             }
 
         }
+
+        internal void RestoreHidden()
+        {
+            foreach (QueueNotification queue in QueuesPanel.Children)
+            {
+                if (queue.Queue.Status != QueueStatus.Closed && queue.Visibility == Visibility.Collapsed)
+                {
+                    queue.Visibility = Visibility.Visible;
+                }
+            }
+        }
     }
 
 }

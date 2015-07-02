@@ -71,5 +71,22 @@ namespace Q3Client
             Window.GetWindow(this).DragMove();
             ParentQueueList.AdjustHeight();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsButton.ContextMenu.PlacementTarget = SettingsButton;
+            SettingsButton.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            SettingsButton.ContextMenu.IsOpen = true;
+        }
+
+        private void ShowHidden_Click(object sender, RoutedEventArgs e)
+        {
+            ParentQueueList.RestoreHidden();
+        }
+
+        private void Quit_Click(object sender, RoutedEventArgs e)
+        {
+            ParentQueueList.Close();
+        }
     }
 }
