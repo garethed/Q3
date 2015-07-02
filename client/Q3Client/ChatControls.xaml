@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:q3Client="clr-namespace:Q3Client"
              mc:Ignorable="d" 
-             d:DesignHeight="26" d:DesignWidth="400" Margin="1" Visibility="Collapsed" MaxWidth="400" Height="26">
+             d:DesignHeight="26" d:DesignWidth="400" Margin="1" Visibility="Collapsed" MaxWidth="400" MinHeight="26" HorizontalAlignment="Right">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="26"></ColumnDefinition>
@@ -13,11 +13,11 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="26"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         
           <Canvas Name="AvatarCanvas" Grid.Column="0" Grid.Row="0" Height="26" Width="26" VerticalAlignment="Center"/>
 
-        <TextBox Grid.Column="1" Grid.Row="0"  Name="MessageText" MaxLength="55" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,2" Margin="5,0"></TextBox>  
+        <TextBox Grid.Column="1" Grid.Row="0" Name="MessageText" MaxLength="140" VerticalAlignment="Center" Width="364" VerticalContentAlignment="Center" Padding="5,2" Margin="5,0" TextWrapping="Wrap"></TextBox>  
     </Grid>
 </UserControl>

@@ -24,7 +24,7 @@ namespace Q3Client
         {
             InitializeComponent();
             AvatarCanvas.Children.Add(new Avatar(message.Sender));
-            MessageText.Content = message.Content;
+            MessageText.Text = message.Content;
         }
     }
 }
