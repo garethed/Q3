@@ -50,7 +50,10 @@ namespace Q3Client
 
         public void AdjustHeight()
         {
-            this.Height = SystemParameters.WorkArea.Bottom - this.Top;
+            if (this.Top < SystemParameters.WorkArea.Bottom)
+            {
+                this.Height = SystemParameters.WorkArea.Bottom - this.Top;
+            }
         }
 
         private void ShowQueuesClicked(object sender, RoutedEventArgs e)
