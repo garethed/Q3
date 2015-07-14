@@ -23,7 +23,6 @@ namespace Q3Client
         public static readonly DependencyProperty HubProperty =
             DependencyProperty.Register("Hub", typeof (Hub), typeof (Header));
 
-
         public Header()
         {
             InitializeComponent();
@@ -87,6 +86,18 @@ namespace Q3Client
         private void Quit_Click(object sender, RoutedEventArgs e)
         {
             ParentQueueList.Close();
+        }
+
+        public bool RunOnWindowsStart
+        {
+            get { return StartupRegistration.IsRegisteredForStartup; }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var shouldBeRegistered = !StartupRegistration.IsRegisteredForStartup;
+            StartupRegistration.IsRegisteredForStartup = shouldBeRegistered;
+            ((MenuItem)sender).IsChecked = shouldBeRegistered;
         }
     }
 }

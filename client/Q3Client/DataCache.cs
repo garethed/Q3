@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -13,6 +14,8 @@ namespace Q3Client
 {
     static class DataCache
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public static T Load<T>(string name = null) where T : class
         {
             var store = GetIsolatedStorageFile();
@@ -20,10 +23,18 @@ namespace Q3Client
 
             if (store.FileExists(fileName))
             {
-                using (var stream = store.OpenFile(fileName, FileMode.Open))
+                try
                 {
-                    var serializer = new DataContractJsonSerializer(typeof (T));
-                    return (T)serializer.ReadObject(stream);
+                    using (var stream = store.OpenFile(fileName, FileMode.Open))
+                    {
+                        var serializer = new DataContractJsonSerializer(typeof(T));
+                        return (T)serializer.ReadObject(stream);
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "Failed to deserialize " + fileName);
+                    File.Delete(fileName);
                 }
             }
 

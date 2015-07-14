@@ -36,6 +36,15 @@ namespace Q3Client
 
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
+            var config = DataCache.Load<UserConfig>();
+            if (config == null)
+            {
+                config = new UserConfig();
+                config.FirstRun = false;
+                StartupRegistration.IsRegisteredForStartup = true;
+                DataCache.Save(config);
+            }
+
             user = GetUser();
 
             hub = new Hub(user);

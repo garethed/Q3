@@ -28,6 +28,7 @@
             <Button.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Restore Hidden Queues" Click="ShowHidden_Click"/>
+                    <MenuItem Header="Start when windows starts" IsChecked="{Binding Path=RunOnWindowsStart, Mode=OneWay}" Click="MenuItem_Click" />
                     <MenuItem Header="Quit" Click="Quit_Click"/>
                 </ContextMenu>
             </Button.ContextMenu>            
