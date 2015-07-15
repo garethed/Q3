@@ -14,7 +14,7 @@ namespace Q3Client
         {
             get
             {
-                return File.Exists(GetStartupShortcutPath("Q3"));
+                return File.Exists(StartupShortcutPath);
             }
             set
             {
@@ -35,14 +35,14 @@ namespace Q3Client
 
         private static void UnregisterForStartup()
         {
-            File.Delete(GetStartupShortcutPath("Q3"));
+            File.Delete(StartupShortcutPath);
         }
 
         private static void RegisterForStartup()
         {
             if (!IsRegisteredForStartup)
             {
-                CreateShortcut("Q3", @"C:\Programs\Q3.exe");
+                CreateShortcut(ApplicationName, LaunchingApplicationFilename);
             }
         }
 
@@ -52,7 +52,7 @@ namespace Q3Client
             dynamic shell = Activator.CreateInstance(t);
             try
             {
-                var lnk = shell.CreateShortcut(GetStartupShortcutPath(name));
+                var lnk = shell.CreateShortcut(StartupShortcutPath);
                 try
                 {
                     lnk.TargetPath = targetLocation;
@@ -75,9 +75,20 @@ namespace Q3Client
             get { return Environment.GetFolderPath(Environment.SpecialFolder.Startup); }
         }
 
-        private static string GetStartupShortcutPath(string name)
+        private static string StartupShortcutPath
         {
-            return StartupShortcutFolder + @"\" + name + ".lnk"; 
+            get { return StartupShortcutFolder + @"\" + ApplicationName + ".lnk"; }
         }
+
+        private static string LaunchingApplicationFilename
+        {
+            get { return Environment.GetCommandLineArgs().First(); }
+        }
+
+        private static string ApplicationName
+        {
+            get { return Path.GetFileNameWithoutExtension(LaunchingApplicationFilename); }
+        }
+
     }
 }
