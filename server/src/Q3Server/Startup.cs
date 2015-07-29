@@ -1,25 +1,18 @@
 ﻿using System;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
-using Microsoft.Framework.DependencyInjection;
+using System.Threading.Tasks;
+using Microsoft.Owin;
+using Owin;
+
+[assembly: OwinStartup(typeof(Q3Server.Startup))]
 
 namespace Q3Server
 {
     public class Startup
     {
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public void Configuration(IAppBuilder app)
         {
-            services.AddSignalR();
-            services.AddSingleton<IQManager, QManager>();
-            services.AddSingleton<IQEventsListener, QEventsListener>();
-            services.AddTransient<IUserAccessor, UserAccessor>();
-        }
-
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseMiddleware<SimpleHeaderAuthenticator>();
-            app.UseSignalR();            
+            app.Use<SimpleHeaderAuthenticator>();
+            app.MapSignalR();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Q3Client
         {
             this.user = user;
 #if DEBUG
-            hubConnection = new HubConnection("http://localhost:51442/");
+            hubConnection = new HubConnection("http://localhost:51443/");
 #else
             hubConnection = new HubConnection("http://poolq3/");
 #endif

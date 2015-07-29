@@ -8,3 +8,6 @@ client/Q3Client/obj/
 client/Q3Client/bin/
 *.user
 client/.vs/
+server/src/Q3Server/bin/
+server/packages/
+server/src/Q3Server/obj/
