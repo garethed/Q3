@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using NLog;
+using Microsoft.AspNet.SignalR.Client.Transports;
+using System.Windows.Threading;
 
 namespace Q3Client
 {
@@ -19,13 +21,17 @@ namespace Q3Client
 
         private HubConnection hubConnection;
         private IHubProxy hub;
+        private Dispatcher dispatcher;
 
 
-        public Hub(User user)
+        public Hub(User user, Dispatcher dispatcher)
         {
             this.user = user;
-#if DEBUG
+            this.dispatcher = dispatcher;
+#if DEBUG && !LIVE
             hubConnection = new HubConnection("http://localhost:51443/");
+            hubConnection.TraceLevel = TraceLevels.All;
+            hubConnection.TraceWriter = Console.Out;
 #else
             hubConnection = new HubConnection("http://poolq3/");
 #endif
@@ -36,6 +42,7 @@ namespace Q3Client
             hub.On<int, User, string>("QueueMessageSent", RaiseMessageEvent);
             hubConnection.Headers["User"] = this.user.ToString();
             hubConnection.StateChanged += HubConnectionOnStateChanged;
+            hubConnection.Error += e => logger.Error(e, "hub error");
 
             TryConnect();
         }
@@ -45,7 +52,8 @@ namespace Q3Client
             try
             {
                 logger.Info("Attempting to connect");
-                await hubConnection.Start();
+                await hubConnection.Start(new LongPollingTransport()).ConfigureAwait(false);
+                logger.Info("Finished connection attempt");
             }
             catch (Exception e)
             {
@@ -55,12 +63,13 @@ namespace Q3Client
 
         private async void HubConnectionOnStateChanged(StateChange stateChange)
         {
-            logger.Info("hub: " + stateChange.OldState + " -> " + stateChange.NewState);
+            logger.Info("hub connection state changed: " + stateChange.OldState + " -> " + stateChange.NewState);
             OnPropertyChanged("ConnectionState");
             if (hubConnection.State == ConnectionState.Disconnected)
             {
-                await Task.Delay(TimeSpan.FromSeconds(10));
-                await TryConnect();
+                logger.Info("Queuing new connection attempt in 10s");
+                await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
+                await TryConnect().ConfigureAwait(false);
             }
         }
 
@@ -71,38 +80,44 @@ namespace Q3Client
 
         public async Task<IEnumerable<Queue>> ListQueues()
         {
+            logger.Debug("listqueues");
             return await hub.Invoke<IEnumerable<Queue>>("ListQueues");
         }
 
         public async Task CreateQueue(string queueName, string restrictToGroup)
         {
+            logger.Debug("createqueue");
             await hub.Invoke("StartQueue", queueName, restrictToGroup ?? "");
             
         }
 
         public async Task JoinQueue(int queueId)
         {
-            await hub.Invoke("JoinQueue", queueId);
-            
+            logger.Debug("joinqueue " + queueId);
+            await hub.Invoke("JoinQueue", queueId);            
         }
 
         public async Task LeaveQueue(int queueId)
         {
+            logger.Debug("leavequeue " + queueId);
             await hub.Invoke("LeaveQueue", queueId);
         }
 
         public async Task ActivateQueue(int queueId)
         {
+            logger.Debug("activatequeue " + queueId);
             await hub.Invoke("ActivateQueue", queueId);
         }
 
         public async Task CloseQueue(int queueId)
         {
+            logger.Debug("closequeue " + queueId);
             await hub.Invoke("CloseQueue", queueId);
         }
 
         public async Task MessageQueue(int queueId, string message)
         {
+            logger.Debug("messagequeue " + queueId + " - " + message);
             await hub.Invoke("MessageQueue", queueId, message);
         }
 
@@ -116,7 +131,7 @@ namespace Q3Client
 
         private void RaiseEvent(string name, EventHandler<QueueActionEventArgs> eventHandler, Queue queue)
         {
-            logger.Info("hub " + name + " " + queue.Id);
+            logger.Info("hub " + name + " " + queue.Id + " " + queue.Status);
             eventHandler.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
@@ -133,10 +148,12 @@ namespace Q3Client
 
         protected void OnPropertyChanged(string propertyName)
         {
-            logger.Info("hub changed " + propertyName);
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            dispatcher.Invoke(() =>
+            {
+                logger.Info("hub changed " + propertyName);
+                PropertyChangedEventHandler handler = PropertyChanged;
+                if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            });
         }
-
     }
 }

@@ -45,39 +45,47 @@ namespace Q3Client
 
         public async Task RefreshALl()
         {
-            var serverQueues = await hub.ListQueues();
-
-
-            foreach (var q in serverQueues.OrderBy(q => q.Id))
+            try
             {
-                if (queuesById.ContainsKey(q.Id))
+                logger.Debug(nameof(RefreshALl));
+                var serverQueues = await hub.ListQueues();
+
+
+                foreach (var q in serverQueues.OrderBy(q => q.Id))
                 {
-                    MergeChanges(queuesById[q.Id], q);
+                    if (queuesById.ContainsKey(q.Id))
+                    {
+                        MergeChanges(queuesById[q.Id], q);
+                    }
+                    else
+                    {
+                        AddQueue(q, false);
+                    }
                 }
-                else
+
+                foreach (var q in queues.ToList())
                 {
-                    AddQueue(q, false);
+                    if (!serverQueues.Any(sq => sq.Id == q.Id))
+                    {
+                        queues.Remove(q);
+                        queuesById.Remove(q.Id);
+
+                        queueList.Dispatcher.Invoke(() =>
+                        {
+                            var window =
+                                queueList.QueuesPanel.Children.OfType<QueueNotification>()
+                                    .FirstOrDefault(w => w.Queue.Id == q.Id);
+                            if (window != null)
+                            {
+                                queueList.QueuesPanel.Children.Remove(window);
+                            }
+                        });
+                    }
                 }
             }
-
-            foreach (var q in queues.ToList())
+            catch (Exception e)
             {
-                if (!serverQueues.Any(sq => sq.Id == q.Id))
-                {
-                    queues.Remove(q);
-                    queuesById.Remove(q.Id);
-
-                    queueList.Dispatcher.Invoke(() =>
-                    {
-                        var window =
-                            queueList.QueuesPanel.Children.OfType<QueueNotification>()
-                                .FirstOrDefault(w => w.Queue.Id == q.Id);
-                        if (window != null)
-                        {
-                            queueList.QueuesPanel.Children.Remove(window);
-                        }
-                    });
-                }
+                logger.Error(e, "RefreshAll Failed");
             }
             
         }
@@ -91,6 +99,7 @@ namespace Q3Client
 
         public void AddQueue(Queue queue)
         {
+            logger.Debug(nameof(AddQueue));
             AddQueue(queue, true);
         }
 
@@ -127,12 +136,16 @@ namespace Q3Client
 
         public void UpdateQueue(Queue serverQueue)
         {
-            MergeChanges(queuesById[serverQueue.Id], serverQueue);
-
+            logger.Debug(nameof(UpdateQueue));
+            if (queuesById.ContainsKey(serverQueue.Id))
+            {
+                MergeChanges(queuesById[serverQueue.Id], serverQueue);
+            }
         }
 
         public void UpdateQueueStatus(Queue queue)
         {
+            logger.Debug(nameof(UpdateQueueStatus));
             if (queue.Members.Contains(user) && queue.Status == QueueStatus.Activated)
             {
                 alertDisplayTimer.ShowAlert();
@@ -142,10 +155,10 @@ namespace Q3Client
 
         public void AddQueueMessage(int queueId, User sender, string message)
         {
-            var q = queuesById[queueId];
-
-            if (q != null)
-            {
+            logger.Debug(nameof(AddQueueMessage));
+            if (queuesById.ContainsKey(queueId))
+            { 
+                var q = queuesById[queueId];
                 q.AddMessage(new Queue.Message() {Sender = sender, Content = message});
             }
         }

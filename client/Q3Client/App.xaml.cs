@@ -47,7 +47,7 @@ namespace Q3Client
 
             user = GetUser();
 
-            hub = new Hub(user);
+            hub = new Hub(user, Dispatcher);
             groupsCache = new GroupsCache();            
             queueUpdater = new QueueUpdater(hub, user, groupsCache);
 
@@ -76,6 +76,7 @@ namespace Q3Client
         {
             var config = new LoggingConfiguration();
             var basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Q3");
+            //var basePath = AppDomain.CurrentDomain.BaseDirectory;
 
             var fileTarget = new FileTarget()
             {
@@ -84,7 +85,8 @@ namespace Q3Client
                 ArchiveAboveSize = 1024 * 1024,
                 ArchiveNumbering = ArchiveNumberingMode.Sequence,
                 ConcurrentWrites = false,
-                Layout = "${longdate} | ${level} | ${message} ${exception:format=tostring}"
+                Layout = "${longdate} | ${level} | ${message} ${exception:format=tostring}",
+                AutoFlush = true
             };
 
             config.AddTarget("file", fileTarget);
@@ -112,7 +114,7 @@ namespace Q3Client
                 if (hub.ConnectionState == ConnectionState.Connected)
                 {
                     logger.Info("Connected. Refresh all");
-                    await queueUpdater.RefreshALl();
+                    await queueUpdater.RefreshALl().ConfigureAwait(false);
                 }
             }
         }
