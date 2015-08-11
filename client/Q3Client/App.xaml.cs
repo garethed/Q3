@@ -86,7 +86,8 @@ namespace Q3Client
                 ArchiveNumbering = ArchiveNumberingMode.Sequence,
                 ConcurrentWrites = false,
                 Layout = "${longdate} | ${level} | ${message} ${exception:format=tostring}",
-                AutoFlush = true
+                AutoFlush = true,
+                MaxArchiveFiles = 50
             };
 
             config.AddTarget("file", fileTarget);

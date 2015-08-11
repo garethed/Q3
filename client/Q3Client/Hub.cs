@@ -28,13 +28,16 @@ namespace Q3Client
         {
             this.user = user;
             this.dispatcher = dispatcher;
+
 #if DEBUG && !LIVE
             hubConnection = new HubConnection("http://localhost:51443/");
-            hubConnection.TraceLevel = TraceLevels.All;
-            hubConnection.TraceWriter = Console.Out;
 #else
             hubConnection = new HubConnection("http://poolq3/");
 #endif
+
+            hubConnection.TraceLevel = TraceLevels.All;
+            hubConnection.TraceWriter = new NLogTextWriter("signalr");
+
             hub = hubConnection.CreateHubProxy("QHub");
             hub.On<Queue>("NewQueue", q => RaiseEvent("created", QueueCreated, q));
             hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent("membershipchanged", QueueMembershipChanged, q));

@@ -111,6 +111,7 @@
     <Compile Include="NewQueue.xaml.cs">
       <DependentUpon>NewQueue.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NLogTextWriter.cs" />
     <Compile Include="Queue.cs" />
     <Compile Include="QueueActionEventArgs.cs" />
     <Compile Include="QueueList.xaml.cs">

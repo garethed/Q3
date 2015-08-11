@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +27,8 @@ namespace Q3Client
         public Header()
         {
             InitializeComponent();
+
+            this.SettingsButton.ToolTip = "Q3 " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         public async void NewQueueClicked(object sender, RoutedEventArgs e)
