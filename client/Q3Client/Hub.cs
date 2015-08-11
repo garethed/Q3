@@ -55,7 +55,7 @@ namespace Q3Client
             try
             {
                 logger.Info("Attempting to connect");
-                await hubConnection.Start(new LongPollingTransport()).ConfigureAwait(false);
+                await hubConnection.Start().ConfigureAwait(false);
                 logger.Info("Finished connection attempt");
             }
             catch (Exception e)
