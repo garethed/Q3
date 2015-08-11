@@ -1,18 +1,20 @@
 ﻿using Microsoft.AspNet.SignalR;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.Owin.Logging;
 
 namespace Q3Server
 {
     [Authorize]
     public class QHub : Hub
     {
+        private IQManager queueManager;
+        private ILogger logger;
 
-        private static IQManager queueManager;
-
-        static QHub()
+        public QHub(IQManager manager, ILogger logger)
         {
-            queueManager = new QManager(new QEventsListener(GlobalHost.ConnectionManager));
+            this.queueManager = manager;
+            this.logger = logger;
         }
 
         public void StartQueue(string queueName, string restrictToGroup)

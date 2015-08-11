@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin;
+using System.Diagnostics;
 
 namespace Q3Server
 {
@@ -18,6 +19,7 @@ namespace Q3Server
             {
                 var identity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, user), new Claim(ClaimTypes.Authentication, "true") }, "SimpleHeader");
                 context.Authentication.User = new ClaimsPrincipal(identity);
+                Trace.WriteLine("Request from " + user + " for " + context.Request.Uri);
 
                 await this.Next.Invoke(context);
             }
