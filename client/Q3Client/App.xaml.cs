@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using ConnectionState = Microsoft.AspNet.SignalR.Client.ConnectionState;
@@ -85,7 +86,7 @@ namespace Q3Client
                 ArchiveAboveSize = 1024 * 1024,
                 ArchiveNumbering = ArchiveNumberingMode.Sequence,
                 ConcurrentWrites = false,
-                Layout = "${longdate} | ${level} | ${message} ${exception:format=tostring}",
+                Layout = "${longdate} | ${level} | ${logger} | ${message} ${exception:format=tostring}",
                 AutoFlush = true,
                 MaxArchiveFiles = 50
             };
@@ -93,11 +94,13 @@ namespace Q3Client
             config.AddTarget("file", fileTarget);
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
 
-            var traceTarget = new TraceTarget() { Layout = "${level} | ${message} ${exception:format=tostring}" };
+            var traceTarget = new TraceTarget() { Layout = "${level} | ${logger} | ${message} ${exception:format=tostring}" };
             config.AddTarget("trace", traceTarget);
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, traceTarget));
 
             LogManager.Configuration = config;
+
+            logger.Info("startup " + Assembly.GetExecutingAssembly().GetName().ToString());
         }
 
         private void QueueMessageReceived(object sender, QueueMessageEventArgs queueMessageEventArgs)
