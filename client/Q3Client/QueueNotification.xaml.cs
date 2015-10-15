@@ -183,7 +183,7 @@ namespace Q3Client
             ActivateQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        private void EndQueue(object sender, RoutedEventArgs e)
         {
             CloseQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
@@ -196,6 +196,11 @@ namespace Q3Client
         private void ButtonMessage_Click(object sender, RoutedEventArgs e)
         {
             chatControls.Visibility = Visibility.Visible;
+        }
+
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
+        {
+            OuterPanel.ContextMenu.IsOpen = true;
         }
     }
 }

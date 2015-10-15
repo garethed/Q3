@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:q3Client="clr-namespace:Q3Client"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         MinHeight="98" Width="500"  
          Focusable="False" Margin="0,10,0,0" TextOptions.TextFormattingMode="Display">
     <UserControl.Resources>
@@ -114,6 +115,14 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        
+        <Style TargetType="Button" x:Key="SettingsButton" BasedOn="{StaticResource Button}">
+            <Setter Property="Visibility" Value="Visible"></Setter>
+            <Setter Property="Width" Value="27" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="1 0 0 0" />
+        </Style>
+        
 
         <Style TargetType="Button" x:Key="JoinButton" BasedOn="{StaticResource Button}">
             <Setter Property="Visibility" Value="Visible"></Setter>
@@ -163,6 +172,11 @@
 
     </UserControl.Triggers>
     <StackPanel Name="OuterPanel">
+        <StackPanel.ContextMenu>
+            <ContextMenu>
+                <MenuItem Name="MenuItem_EndQueue" Header="End Queue" Click="EndQueue"/>
+            </ContextMenu>
+        </StackPanel.ContextMenu>
         <Grid Style="{StaticResource Background}">
             <Grid.RowDefinitions>
                 <RowDefinition ></RowDefinition>
@@ -190,9 +204,8 @@
                 <Button x:Name="ButtonIgnore" Style="{StaticResource JoinButton}"  HorizontalAlignment="Right"  Content="Hide"  Click="ButtonIgnore_Click"/>
                 <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" HorizontalAlignment="Right"  Content="Start"    Click="ButtonActivate_Click"/>
                 <Button x:Name="ButtonMessage" Style="{StaticResource MessageButton}" HorizontalAlignment="Right"  Content="Message" Click="ButtonMessage_Click" />
-                <Button x:Name="ButtonLeave" Style="{StaticResource LeaveButton}"  Content="Leave" Click="ButtonLeave_Click" />
-                <Button x:Name="ButtonClose" Style="{StaticResource MutedButton}"  HorizontalAlignment="Right"  Content="End" Click="ButtonClose_Click"/>
-            
+                <Button x:Name="ButtonLeave" Style="{StaticResource MessageButton}"  Content="Leave" Click="ButtonLeave_Click" />
+                <Button x:Name="SettingsButton" DockPanel.Dock="Right" Style="{StaticResource SettingsButton}" Click="ButtonSettings_Click" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" fa:Awesome.Content="Gear" />
             </StackPanel>
         
         </Grid>
