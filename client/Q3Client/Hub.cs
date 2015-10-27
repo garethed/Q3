@@ -32,7 +32,7 @@ namespace Q3Client
 #if DEBUG && !LIVE
             hubConnection = new HubConnection("http://localhost:51443/");
 #else
-            hubConnection = new HubConnection("http://poolq3/");
+            hubConnection = new HubConnection("http://poolq3.zoo.lan/"); 
 #endif
 
             hubConnection.TraceLevel = TraceLevels.All;
