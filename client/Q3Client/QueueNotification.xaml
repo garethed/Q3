@@ -147,7 +147,7 @@
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="false">
+                <DataTrigger Binding="{Binding Path=UserOwnsQueue}" Value="false">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -174,7 +174,8 @@
     <StackPanel Name="OuterPanel">
         <StackPanel.ContextMenu>
             <ContextMenu>
-                <MenuItem Name="MenuItem_EndQueue" Header="End Queue" Click="EndQueue"/>
+                <MenuItem Name="MenuItem_StartQueue" Header="Start Queue" Click="StartQueue" Visibility="Collapsed"/>
+                <MenuItem Name="MenuItem_EndQueue" Header="Delete Queue" Click="EndQueue" />
             </ContextMenu>
         </StackPanel.ContextMenu>
         <Grid Style="{StaticResource Background}">
@@ -202,7 +203,7 @@
             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,3">
                 <Button x:Name="ButtonJoin" Style="{StaticResource JoinButton}"  HorizontalAlignment="Right"  Content="Join" Click="ButtonJoin_Click" />
                 <Button x:Name="ButtonIgnore" Style="{StaticResource JoinButton}"  HorizontalAlignment="Right"  Content="Hide"  Click="ButtonIgnore_Click"/>
-                <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" HorizontalAlignment="Right"  Content="Start"    Click="ButtonActivate_Click"/>
+                <Button x:Name="ButtonActivate" Style="{StaticResource ActivateButton}" HorizontalAlignment="Right"  Content="Start"    Click="StartQueue"/>
                 <Button x:Name="ButtonMessage" Style="{StaticResource MessageButton}" HorizontalAlignment="Right"  Content="Message" Click="ButtonMessage_Click" />
                 <Button x:Name="ButtonLeave" Style="{StaticResource MessageButton}"  Content="Leave" Click="ButtonLeave_Click" />
                 <Button x:Name="SettingsButton" DockPanel.Dock="Right" Style="{StaticResource SettingsButton}" Click="ButtonSettings_Click" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" fa:Awesome.Content="Gear" />

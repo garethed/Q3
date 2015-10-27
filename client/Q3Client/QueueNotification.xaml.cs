@@ -178,7 +178,7 @@ namespace Q3Client
             LeaveQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
-        private void ButtonActivate_Click(object sender, RoutedEventArgs e)
+        private void StartQueue(object sender, RoutedEventArgs e)
         {
             ActivateQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
@@ -200,7 +200,13 @@ namespace Q3Client
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
+            OuterPanel_ContextMenuOpening(null, null);
             OuterPanel.ContextMenu.IsOpen = true;
+        }
+
+        private void OuterPanel_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            MenuItem_StartQueue.Visibility = queue.Status == QueueStatus.Activated ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }

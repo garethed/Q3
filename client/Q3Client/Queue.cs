@@ -61,6 +61,11 @@ namespace Q3Client
             get { return members.Contains(User); }
         }
 
+        public bool UserOwnsQueue
+        {
+            get { return members.Count > 0 && members.First().Equals(User); }
+        }
+
         public IList<Message> Messages
         {
             get { return messages; }
