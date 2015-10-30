@@ -24,6 +24,8 @@ namespace Q3Client
         private IList<Message> messages = new List<Message>();
         public string RestrictToGroup { get; set; }
 
+        public event EventHandler<EventArgs> Flash;
+
         public override string ToString()
         {
             return "Q" + this.Id + ": " + this.Name + " (" + string.Join(", ", Members.Select(u => u.UserName)) + ")";
@@ -128,6 +130,11 @@ namespace Q3Client
                 messages.Add(message);
                 OnPropertyChanged("Messages");
             }
+        }
+
+        public void Nag()
+        {
+            Flash.SafeInvoke(this, EventArgs.Empty);
         }
     }
 }

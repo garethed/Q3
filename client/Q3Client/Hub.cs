@@ -43,6 +43,7 @@ namespace Q3Client
             hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent("membershipchanged", QueueMembershipChanged, q));
             hub.On<Queue>("QueueStatusChanged", q => RaiseEvent("statuschanged", QueueStatusChanged, q));
             hub.On<int, User, string>("QueueMessageSent", RaiseMessageEvent);
+            hub.On<int>("NagQueue", id => RaiseEvent("nag", QueueNagged, id));
             hubConnection.Headers["User"] = this.user.ToString();
             hubConnection.StateChanged += HubConnectionOnStateChanged;
             hubConnection.Error += e => logger.Error(e, "hub error");
@@ -112,6 +113,12 @@ namespace Q3Client
             await hub.Invoke("ActivateQueue", queueId);
         }
 
+        public async Task NagQueue(int queueId)
+        {
+            logger.Debug("nagqueue " + queueId);
+            await hub.Invoke("NagQueue", queueId);
+        }
+
         public async Task CloseQueue(int queueId)
         {
             logger.Debug("closequeue " + queueId);
@@ -124,13 +131,13 @@ namespace Q3Client
             await hub.Invoke("MessageQueue", queueId, message);
         }
 
-
         #region Events triggered by server
 
         public event EventHandler<QueueActionEventArgs> QueueCreated;
         public event EventHandler<QueueActionEventArgs> QueueMembershipChanged;
         public event EventHandler<QueueActionEventArgs> QueueStatusChanged;
         public event EventHandler<QueueMessageEventArgs> QueueMessageReceived;
+        public event EventHandler<QueueIdEventArgs> QueueNagged;
 
         private void RaiseEvent(string name, EventHandler<QueueActionEventArgs> eventHandler, Queue queue)
         {
@@ -138,11 +145,16 @@ namespace Q3Client
             eventHandler.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
+        private void RaiseEvent(string name, EventHandler<QueueIdEventArgs> eventHandler, int id)
+        {
+            logger.Info("hub " + name + " " + id);
+            eventHandler.SafeInvoke(this, new QueueIdEventArgs(id));
+        }
+
         private void RaiseMessageEvent(int queueId, User sender, string message)
         {
             logger.Info("hub messaage " + queueId + " " + sender + " " + message);
             QueueMessageReceived.SafeInvoke(this, new QueueMessageEventArgs(queueId, sender, message));
-
         }
 
         #endregion

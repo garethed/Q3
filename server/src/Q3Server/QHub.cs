@@ -41,6 +41,12 @@ namespace Q3Server
             queueManager.GetQueue(id).Activate();
         }
 
+        public void NagQueue(int id)
+        {
+            Trace.WriteLine("-> NagQueue: " + id);
+            Clients.All.NagQueue(id);
+        }
+
         public void MessageQueue(int id, string message)
         {
             Trace.WriteLine("-> MessageQueue: " + id + " - " + message);

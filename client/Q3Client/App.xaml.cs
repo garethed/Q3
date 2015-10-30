@@ -57,6 +57,7 @@ namespace Q3Client
             hub.QueueCreated += QueueCreated;
             hub.QueueStatusChanged += QueueStatusChanged;
             hub.QueueMessageReceived += QueueMessageReceived;
+            hub.QueueNagged += QueueNagged;
 
             hub.PropertyChanged += HubPropertyChanged;
 
@@ -109,6 +110,13 @@ namespace Q3Client
                 () =>
                     queueUpdater.AddQueueMessage(queueMessageEventArgs.QueueId, queueMessageEventArgs.Sender,
                         queueMessageEventArgs.Message));
+        }
+
+        private void QueueNagged(object sender, QueueIdEventArgs e)
+        {
+            Dispatcher.Invoke(
+                () =>
+                    queueUpdater.NagQueue(e.QueueId));
         }
 
         private async void HubPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -178,6 +186,7 @@ namespace Q3Client
 #endif
             if (user == null)
             {
+
                 throw new Exception("Unable to retrieve user details from Active Directory");
             }
 

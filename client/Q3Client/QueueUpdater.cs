@@ -124,6 +124,7 @@ namespace Q3Client
                 window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
                 window.ActivateQueue += (s, e) => hub.ActivateQueue(queue.Id);
                 window.CloseQueue += (s, e) => hub.CloseQueue(queue.Id);
+                window.NagQueue += (s, e) => hub.NagQueue(queue.Id);
                 window.SendMessage += (sender, args) => hub.MessageQueue(queue.Id, args.Message);
                 queueList.QueuesPanel.Children.Insert(0, window);
             });
@@ -160,6 +161,20 @@ namespace Q3Client
             { 
                 var q = queuesById[queueId];
                 q.AddMessage(new Queue.Message() {Sender = sender, Content = message});
+            }
+        }
+
+        public void NagQueue(int queueId)
+        {
+            logger.Debug(nameof(NagQueue));
+            if (queuesById.ContainsKey(queueId))
+            {
+                var q = queuesById[queueId];
+                if (!q.Members.Contains(user))
+                {
+                    alertDisplayTimer.ShowAlert();
+                    q.Nag();
+                }
             }
         }
     }

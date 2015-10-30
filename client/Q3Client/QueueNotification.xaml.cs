@@ -42,6 +42,7 @@ namespace Q3Client
             MembersChanged();
 
             queue.PropertyChanged += QueuePropertyChanged;
+            queue.Flash += (s, e) => RaiseFlashEvent();
 
             this.Loaded += OnLoaded;
 
@@ -98,7 +99,7 @@ namespace Q3Client
 
         private void RaiseFlashEvent()
         {
-            RaiseEvent(new RoutedEventArgs(FlashEvent));
+            MainGrid.RaiseEvent(new RoutedEventArgs(FlashEvent));
         }
 
         private async Task UpdateHashtagImage()
@@ -150,7 +151,8 @@ namespace Q3Client
         public event EventHandler<QueueActionEventArgs> LeaveQueue;
         public event EventHandler<QueueActionEventArgs> ActivateQueue;
         public event EventHandler<QueueActionEventArgs> CloseQueue;
-        public event EventHandler<QueueMessageEventArgs> SendMessage; 
+        public event EventHandler<QueueMessageEventArgs> SendMessage;
+        public event EventHandler<QueueActionEventArgs> NagQueue;
 
         public static readonly RoutedEvent FlashEvent = EventManager.RegisterRoutedEvent("Flash", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(QueueNotification));
 
@@ -188,6 +190,12 @@ namespace Q3Client
             CloseQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
+        private void NagQueueClicked(object sender, RoutedEventArgs e)
+        {
+            NagQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
+            RaiseFlashEvent();
+        }
+
         private void ButtonIgnore_Click(object sender, RoutedEventArgs e)
         {
             this.Visibility = Visibility.Collapsed;
@@ -206,7 +214,8 @@ namespace Q3Client
 
         private void OuterPanel_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            MenuItem_StartQueue.Visibility = queue.Status == QueueStatus.Activated ? Visibility.Collapsed : Visibility.Visible;
+            var visibility = queue.Status == QueueStatus.Activated ? Visibility.Collapsed : Visibility.Visible;        
+            MenuItem_StartQueue.Visibility = MenuItem_NagQueue.Visibility = visibility;
         }
     }
 }

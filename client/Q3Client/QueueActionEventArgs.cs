@@ -17,32 +17,36 @@ namespace Q3Client
         public Queue Queue { get { return queue;  } }
     }
 
-    public class QueueMessageEventArgs  : EventArgs
+    public class QueueIdEventArgs : EventArgs
     {
-        private readonly int queueId;
+        private readonly int id;
+
+        public QueueIdEventArgs(int id)
+        {
+            this.id = id;
+        }
+
+        public int QueueId { get { return id; } }
+    }
+
+
+    public class QueueMessageEventArgs  : QueueIdEventArgs
+    {
         private readonly User sender;
         private readonly string message;
 
-        public QueueMessageEventArgs(int queueId, string message)
+        public QueueMessageEventArgs(int queueId, string message) : base(queueId)
         {
-            this.queueId = queueId;
             this.message = message;
         }
 
-        public QueueMessageEventArgs(int queueId, User sender, string message)
+        public QueueMessageEventArgs(int queueId, User sender, string message) : base(queueId)
         {
-            this.queueId = queueId;
             this.sender = sender;
             this.message = message;
         }
 
-
         public string Message { get { return message; } }
-
-        public int QueueId
-        {
-            get { return queueId; }
-        }
 
         public User Sender
         {
