@@ -48,10 +48,24 @@ namespace Q3Client
 
             user = GetUser();
 
+            if (user == null)
+            {
+                Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                var editUser = new EditUser();
+                editUser.ShowDialog();
+                user = new User()
+                {
+                    EmailAddress = editUser.FirstName + "." + editUser.LastName + "@placeholder",
+                    FullName = editUser.FirstName + " " + editUser.LastName,
+                    UserName = editUser.FirstName + "~" + editUser.LastName
+                };
+                DataCache.Save(user);
+                Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            }
+
             hub = new Hub(user, Dispatcher);
             groupsCache = new GroupsCache();            
             queueUpdater = new QueueUpdater(hub, user, groupsCache);
-
 
             hub.QueueMembershipChanged += QueueMembershipChanged;
             hub.QueueCreated += QueueCreated;
@@ -65,7 +79,6 @@ namespace Q3Client
             {
                 await queueUpdater.RefreshALl();
             }
-
 
         }
 
@@ -163,6 +176,7 @@ namespace Q3Client
                     EmailAddress = principal.EmailAddress,
                     FullName = principal.DisplayName
                 };
+                DataCache.Save(user);
 
             }
             catch (Exception e)
@@ -171,7 +185,7 @@ namespace Q3Client
                 user = DataCache.Load<User>();
             }
 
-#if DEBUG
+#if DEBUG 
             user = user ?? new User();
             var suffix = (DateTime.Now.Ticks % 100).ToString();
             var alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -184,13 +198,6 @@ namespace Q3Client
             user.EmailAddress = alphabet[first] + "." + alphabet[second] + "@softwire.com";
 
 #endif
-            if (user == null)
-            {
-
-                throw new Exception("Unable to retrieve user details from Active Directory");
-            }
-
-
             return user;
         }
 

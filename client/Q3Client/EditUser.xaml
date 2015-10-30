@@ -1,0 +1,50 @@
+﻿<Window x:Class="Q3Client.EditUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit User Details" Height="Auto" Width="300" Background="{StaticResource BlueBackgroundBrush}" WindowStyle="None" BorderThickness="0" Foreground="White"
+        SizeToContent="Height" AllowsTransparency="True" Activated="Window_Activated"  WindowStartupLocation="CenterScreen"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+         </Grid.RowDefinitions>
+
+        <Label Foreground="White" HorizontalContentAlignment="Center" FontSize="20" Grid.ColumnSpan="2">Please enter your details</Label>
+        <TextBox x:Name="FirstNameBox" Padding="10,0,10,2" Margin="10,10,5,10" FontSize="16" TabIndex="1" Height="30" VerticalAlignment="Center" MaxLength="100" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="0" />
+        <TextBlock IsHitTestVisible="False" Text="First Name" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="DarkGray" Grid.Row="1">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=FirstNameBox}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBox x:Name="LastNameBox" Padding="10,0,10,2" Margin="5,10,10,10" FontSize="16" TabIndex="1" Height="30" VerticalAlignment="Center" MaxLength="100" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" />
+        <TextBlock IsHitTestVisible="False" Text="Last Name" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="DarkGray" Grid.Row="1" Grid.Column="1">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=LastNameBox}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <Button Background="{StaticResource BlueHighlightBrush}" Margin="5,10,10,10" IsDefault="True" Click="Button_Click" Content="Continue" Grid.Row="3" Grid.Column="1"/>
+
+    </Grid>
+</Window>
