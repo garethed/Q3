@@ -23,7 +23,7 @@ namespace Q3Client
             idleTimer.Start();
         }
 
-        public async void ShowAlert()
+        public async void ShowAlert(bool leaveInForeground = false)
         {
             if (!targetWindow.IsActive)
             {
@@ -54,13 +54,12 @@ namespace Q3Client
 
                 targetWindow.Topmost = false;
 
-                if (!cancel && !targetWindow.IsActive)
+                if (!cancel && !targetWindow.IsActive && !leaveInForeground)
                 {
                     reset();
                 }
 
             }
-
         }
     }
 }

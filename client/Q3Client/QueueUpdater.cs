@@ -149,7 +149,7 @@ namespace Q3Client
             logger.Debug(nameof(UpdateQueueStatus));
             if (queue.Members.Contains(user) && queue.Status == QueueStatus.Activated)
             {
-                alertDisplayTimer.ShowAlert();
+                alertDisplayTimer.ShowAlert(true);
             }
             UpdateQueue(queue);
         }
