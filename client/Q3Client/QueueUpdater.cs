@@ -59,7 +59,7 @@ namespace Q3Client
                     }
                     else
                     {
-                        AddQueue(q, false);
+                        AddQueue(q);
                     }
                 }
 
@@ -100,17 +100,12 @@ namespace Q3Client
         public void AddQueue(Queue queue)
         {
             logger.Debug(nameof(AddQueue));
-            AddQueue(queue, true);
-        }
 
-        private void AddQueue(Queue queue, bool isNew)
-        {
             if (!string.IsNullOrWhiteSpace(queue.RestrictToGroup) && !groupsCache.UserIsInGroup(queue.RestrictToGroup))
             {
                 logger.Info("Queue ignored. User is not in group " + queue.RestrictToGroup);
                 return;
             }
-
 
             queueList.Dispatcher.Invoke(() =>
             {
@@ -129,10 +124,7 @@ namespace Q3Client
                 queueList.QueuesPanel.Children.Insert(0, window);
             });
 
-            if (isNew)
-            {
-                alertDisplayTimer.ShowAlert();
-            }
+            alertDisplayTimer.ShowAlert();
         }
 
         public void UpdateQueue(Queue serverQueue)
