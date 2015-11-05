@@ -13,14 +13,11 @@ namespace Q3Client
         private QueueList targetWindow;
         private QueueList.eWindowStateExtended previousState;
         private volatile bool cancel;
-        private IdleTimer idleTimer;
 
         public DisplayTimer(QueueList targetWindow)
         {
             this.targetWindow = targetWindow;
             targetWindow.GotFocus += (s, e) => cancel = true;
-            idleTimer = new IdleTimer();
-            idleTimer.Start();
         }
 
         public async void ShowAlert(bool leaveInForeground = false)
@@ -28,9 +25,9 @@ namespace Q3Client
             if (!targetWindow.IsActive)
             {
                 cancel = false;
-                idleTimer.IsActive = false;
 
                 Action reset;
+                DateTime startTime = DateTime.Now;
 
                 targetWindow.Topmost = true;
 
@@ -46,11 +43,11 @@ namespace Q3Client
                     reset = () => Win32.SendToBack(targetWindow);
                 }
 
-                while (!idleTimer.IsActive)
+                while (startTime > IdleTimer.GetLastInputTime())
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                await Task.Delay(TimeSpan.FromSeconds(4));
 
                 targetWindow.Topmost = false;
 
