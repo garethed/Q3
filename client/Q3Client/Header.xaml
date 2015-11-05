@@ -21,7 +21,7 @@
 
     </UserControl.Resources>
     <DockPanel MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
-        <Label DockPanel.Dock="Left" Style="{StaticResource LogoStyle}"  Width="40" Height="50" Margin="5" Foreground="{StaticResource BlueBackgroundBrush}" FontSize="24" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center">Q&#0179;</Label>
+        <Label Name="Logo" DockPanel.Dock="Left" Style="{StaticResource LogoStyle}"  Width="40" Height="50" Margin="5" Foreground="{StaticResource BlueBackgroundBrush}" FontSize="24" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center">Q&#0179;</Label>
         <Button DockPanel.Dock="Right" Margin="0,5,5,0" Width="20" Height="20" Background="{StaticResource BlueHighlightBrush}" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="1,2,1,4" Click="Button_Click_1">&#x274E;</Button>
         <Button DockPanel.Dock="Right" Margin="0,5,5,0" Width="20" Height="20" Background="{StaticResource BlueHighlightBrush}" FontSize="8" VerticalAlignment="Top"  VerticalContentAlignment="Bottom"  HorizontalAlignment="Center" Padding="1" Click="Button_Click_2"><Label Width="14" Height="2" Background="White" Margin="0,5,0,2"></Label></Button>
         <Button x:Name="SettingsButton" DockPanel.Dock="Right" Margin="0,0,20,0" Width="30" Height="30" Background="{StaticResource BlueHighlightBrush}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,0,1,1" Content="&#9776;" Click="Button_Click" FontFamily="Segoe UI Black">

@@ -32,6 +32,10 @@ namespace Q3Client
 
             this.SettingsButton.ToolTip = "Q3 " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             userConfig = DataCache.Load<UserConfig>();
+
+#if DEBUG
+            Logo.Content = "D\u00b3";
+#endif
         }
 
         public async void NewQueueClicked(object sender, RoutedEventArgs e)
