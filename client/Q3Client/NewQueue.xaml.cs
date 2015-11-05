@@ -19,12 +19,22 @@ namespace Q3Client
     /// </summary>
     public partial class NewQueue : Window
     {
+        private readonly string[] defaultGroups = { "Office - London", "Office - Bristol", "Office - Romania" };
+
         private readonly GroupsCache groupsCache;
 
         public NewQueue(GroupsCache groupsCache)
         {
             this.groupsCache = groupsCache;
             InitializeComponent();
+
+            var defaultGroup = groupsCache.Groups.Intersect(defaultGroups).FirstOrDefault();
+
+            if (defaultGroup != null)
+            {
+                GroupSelector.SelectedItem = defaultGroup;
+
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
