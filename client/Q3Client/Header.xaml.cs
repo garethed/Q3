@@ -24,11 +24,14 @@ namespace Q3Client
         public static readonly DependencyProperty HubProperty =
             DependencyProperty.Register("Hub", typeof (Hub), typeof (Header));
 
+        private UserConfig userConfig;
+
         public Header()
         {
             InitializeComponent();
 
             this.SettingsButton.ToolTip = "Q3 " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            userConfig = DataCache.Load<UserConfig>();
         }
 
         public async void NewQueueClicked(object sender, RoutedEventArgs e)
@@ -96,11 +99,22 @@ namespace Q3Client
             get { return StartupRegistration.IsRegisteredForStartup; }
         }
 
+        public bool PersistNewQueueNotifications
+        {
+            get { return userConfig.PersistentNewQueueNotifications; }
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             var shouldBeRegistered = !StartupRegistration.IsRegisteredForStartup;
             StartupRegistration.IsRegisteredForStartup = shouldBeRegistered;
             ((MenuItem)sender).IsChecked = shouldBeRegistered;
+        }
+
+        private void PersistNotificationsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            userConfig.PersistentNewQueueNotifications = ((MenuItem)sender).IsChecked = !userConfig.PersistentNewQueueNotifications;
+            DataCache.Save(userConfig);
         }
     }
 }

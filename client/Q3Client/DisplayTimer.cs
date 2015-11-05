@@ -51,7 +51,7 @@ namespace Q3Client
 
                 targetWindow.Topmost = false;
 
-                if (!cancel && !targetWindow.IsActive && !leaveInForeground)
+                if (!cancel && !targetWindow.IsActive && !leaveInForeground && !DataCache.Load<UserConfig>().PersistentNewQueueNotifications)
                 {
                     reset();
                 }

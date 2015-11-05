@@ -12,5 +12,8 @@ namespace Q3Client
     {
         [DataMember]
         public bool FirstRun = true;
+
+        [DataMember]
+        public bool PersistentNewQueueNotifications = false;
     }
 }
