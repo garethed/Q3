@@ -67,7 +67,6 @@
             </Style.Triggers>
         </Style>
 
-
         <Style TargetType="Label" x:Key="HashtagPlaceholder">
             <Setter Property="Background" Value="{StaticResource BlueHighlightBrush}"></Setter>
             <Setter Property="Foreground" Value="{StaticResource BlueBackgroundBrush}"></Setter>
@@ -164,6 +163,16 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="Run" x:Key="GroupStyle">
+            <Setter Property="Foreground" Value="{StaticResource BlueHighlightBrush}"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                    <Setter Property="Foreground" Value="{StaticResource GreenHighlightBrush}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
     </UserControl.Resources>
     <StackPanel Name="OuterPanel">
         <StackPanel.ContextMenu>
@@ -190,7 +199,12 @@
             <StackPanel Grid.Column="1" Grid.Row="0">
                 <DockPanel>
                     <Label DockPanel.Dock="Right" Style="{StaticResource StatusLabel}"  FontSize="16" FontWeight="Bold" Margin="5" Padding="6,3" MinWidth="0" MinHeight="0" ></Label>
-                    <TextBlock  Name="LabelTitle"  Foreground="#FFFFFF" FontSize="20" TextWrapping="Wrap" MinHeight="37"></TextBlock>
+                    <TextBlock  Name="LabelTitle" Foreground="#FFFFFF" FontSize="20" TextWrapping="Wrap" MinHeight="37">
+                        <TextBlock.Inlines>
+                            <Run Name="QueueName" FontWeight="Bold"></Run>
+                            <Run Name="GroupName" FontSize="12" Style="{StaticResource GroupStyle}"></Run>
+                        </TextBlock.Inlines>
+                    </TextBlock>
                 </DockPanel>
                 <WrapPanel Name="Members"></WrapPanel>
             </StackPanel>

@@ -32,10 +32,10 @@ namespace Q3Client
 
             this.DataContext = queue;
 
-            LabelTitle.Inlines.Add(new Bold(new Run(queue.Name + " ")));
+            QueueName.Text = queue.Name + " ";
             if (!string.IsNullOrWhiteSpace(queue.RestrictToGroup))
             {
-                LabelTitle.Inlines.Add(new Run(queue.RestrictToGroup) { FontSize = 12, Foreground  = new SolidColorBrush(Color.FromRgb(0x77, 0x77, 0xee))});
+                GroupName.Text = queue.RestrictToGroup.Replace(" ", "\u00A0");
             }
 
 
