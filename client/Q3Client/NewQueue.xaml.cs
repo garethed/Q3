@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfAnimatedGif;
 
 namespace Q3Client
 {
@@ -61,6 +62,31 @@ namespace Q3Client
         public IEnumerable<string> GroupList
         {
             get { return groupsCache.Groups; }
+        }
+
+        private async Task UpdateHashtagImage()
+        {
+            var hashtag = HashtagParser.FindHashtags(QueueName.Text).FirstOrDefault();
+            var queueName = QueueName.Text;
+
+            if (hashtag != null)
+            {
+                // Debounce to prevent loading while typing
+                await Task.Delay(TimeSpan.FromSeconds(0.3));
+
+                if (QueueName.Text == queueName)
+                {
+                    // BitmapImage here gives an odd error - https://wpfanimatedgif.codeplex.com/discussions/439040
+                    var image = BitmapFrame.Create(new Uri("https://softwire.ontoast.io/hashtags/image/" + hashtag, UriKind.Absolute));
+
+                    ImageBehavior.SetAnimatedSource(HashtagImage, image);
+                }
+            }
+        }
+
+        private async void QueueName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateHashtagImage();
         }
     }
 }
