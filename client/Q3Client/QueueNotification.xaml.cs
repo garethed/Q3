@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfAnimatedGif;
@@ -52,7 +53,6 @@ namespace Q3Client
             this.OuterPanel.Children.Add(chatControls);
 
             MessagesChanged();
-
         }
 
         private void ChatControlsOnMessageSubmitted(object sender, ChatControls.MessageEventArgs messageEventArgs)
@@ -101,6 +101,12 @@ namespace Q3Client
         {
             MainGrid.RaiseEvent(new RoutedEventArgs(FlashEvent));
         }
+
+        private void RaiseStopFlashEvent()
+        {
+            MainGrid.RaiseEvent(new RoutedEventArgs(StopFlashEvent));
+        }
+
 
         private async Task UpdateHashtagImage()
         {
@@ -155,6 +161,7 @@ namespace Q3Client
         public event EventHandler<QueueActionEventArgs> NagQueue;
 
         public static readonly RoutedEvent FlashEvent = EventManager.RegisterRoutedEvent("Flash", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(QueueNotification));
+        public static readonly RoutedEvent StopFlashEvent = EventManager.RegisterRoutedEvent("StopFlash", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(QueueNotification));
 
         public event RoutedEventHandler Flash
         {
@@ -169,24 +176,40 @@ namespace Q3Client
             }
         }
 
+        public event RoutedEventHandler StopFlash
+        {
+            add
+            {
+                this.AddHandler(FlashEvent, value);
+            }
+
+            remove
+            {
+                this.RemoveHandler(FlashEvent, value);
+            }
+        }
 
         private void ButtonJoin_Click(object sender, RoutedEventArgs e)
         {
+            RaiseStopFlashEvent();
             JoinQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
         private void ButtonLeave_Click(object sender, RoutedEventArgs e)
         {
+            RaiseStopFlashEvent();
             LeaveQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
         private void StartQueue(object sender, RoutedEventArgs e)
         {
+            RaiseStopFlashEvent();
             ActivateQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
         private void EndQueue(object sender, RoutedEventArgs e)
         {
+            RaiseStopFlashEvent();
             CloseQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 

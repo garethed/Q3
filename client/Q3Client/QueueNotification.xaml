@@ -28,23 +28,34 @@
                 <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
                     <Setter Property="Background" Value="{StaticResource GreenBackgroundBrush}" />
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard>
+                        <BeginStoryboard Name="ActivateStoryboard">
                             <Storyboard>
-                                <ColorAnimation  By="#ccc" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True"  Duration="0:0:0.5"/>
+                                <ColorAnimation  By="#ccc" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True" Duration="0:0:1" RepeatBehavior="Forever" />
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                 </DataTrigger>
                 <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard>
+                    <BeginStoryboard Name="LoadedStoryboard">
                         <Storyboard>
-                            <ColorAnimation  By="#ccc" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True"  Duration="0:0:0.5"/>
+                            <ColorAnimation  By="#ccc" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True"  Duration="0:0:1" RepeatBehavior="Forever" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
                 <EventTrigger RoutedEvent="q3Client:QueueNotification.Flash">
-                    <BeginStoryboard Storyboard="{StaticResource FlashStoryboard}" />
+                    <BeginStoryboard Storyboard="{StaticResource FlashStoryboard}" Name="FlashStoryboard"/>
                 </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeftButtonUp">
+                    <StopStoryboard BeginStoryboardName="FlashStoryboard"/>
+                    <StopStoryboard BeginStoryboardName="LoadedStoryboard"/>
+                    <StopStoryboard BeginStoryboardName="ActivateStoryboard"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="q3Client:QueueNotification.StopFlash">
+                    <StopStoryboard BeginStoryboardName="FlashStoryboard"/>
+                    <StopStoryboard BeginStoryboardName="LoadedStoryboard"/>
+                    <StopStoryboard BeginStoryboardName="ActivateStoryboard"/>
+                </EventTrigger>
+
             </Style.Triggers>
         </Style>
 
