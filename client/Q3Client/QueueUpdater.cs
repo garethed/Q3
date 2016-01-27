@@ -118,6 +118,7 @@ namespace Q3Client
                 window.JoinQueue += (s, e) => hub.JoinQueue(queue.Id);
                 window.LeaveQueue += (s, e) => hub.LeaveQueue(queue.Id);
                 window.ActivateQueue += (s, e) => hub.ActivateQueue(queue.Id);
+                window.DeactivateQueue += (s, e) => hub.DeactivateQueue(queue.Id);
                 window.CloseQueue += (s, e) => hub.CloseQueue(queue.Id);
                 window.NagQueue += (s, e) => hub.NagQueue(queue.Id);
                 window.SendMessage += (sender, args) => hub.MessageQueue(queue.Id, args.Message);

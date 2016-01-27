@@ -113,6 +113,12 @@ namespace Q3Client
             await hub.Invoke("ActivateQueue", queueId);
         }
 
+        public async Task DeactivateQueue(int queueId)
+        {
+            logger.Debug("deactivatequeue " + queueId);
+            await hub.Invoke("DeactivateQueue", queueId);
+        }
+
         public async Task NagQueue(int queueId)
         {
             logger.Debug("nagqueue " + queueId);

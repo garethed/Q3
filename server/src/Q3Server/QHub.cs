@@ -41,6 +41,13 @@ namespace Q3Server
             queueManager.GetQueue(id).Activate();
         }
 
+        public void DeactivateQueue(int id)
+        {
+            Trace.WriteLine("-> DeactivateQueue: " + id);
+            queueManager.GetQueue(id).Deactivate();
+        }
+
+
         public void NagQueue(int id)
         {
             Trace.WriteLine("-> NagQueue: " + id);

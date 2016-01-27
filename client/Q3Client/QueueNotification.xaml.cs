@@ -156,6 +156,7 @@ namespace Q3Client
         public event EventHandler<QueueActionEventArgs> JoinQueue;
         public event EventHandler<QueueActionEventArgs> LeaveQueue;
         public event EventHandler<QueueActionEventArgs> ActivateQueue;
+        public event EventHandler<QueueActionEventArgs> DeactivateQueue;
         public event EventHandler<QueueActionEventArgs> CloseQueue;
         public event EventHandler<QueueMessageEventArgs> SendMessage;
         public event EventHandler<QueueActionEventArgs> NagQueue;
@@ -206,10 +207,13 @@ namespace Q3Client
             RaiseStopFlashEvent();
             ActivateQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
+        private void ResetQueue(object sender, RoutedEventArgs e)
+        {
+            DeactivateQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
+        }
 
         private void EndQueue(object sender, RoutedEventArgs e)
         {
-            RaiseStopFlashEvent();
             CloseQueue.SafeInvoke(this, new QueueActionEventArgs(queue));
         }
 
@@ -239,6 +243,7 @@ namespace Q3Client
         {
             var visibility = queue.Status == QueueStatus.Activated ? Visibility.Collapsed : Visibility.Visible;        
             MenuItem_StartQueue.Visibility = MenuItem_NagQueue.Visibility = visibility;
+            MenuItem_ResetQueue.Visibility = queue.Status == QueueStatus.Activated ? Visibility.Visible : Visibility.Collapsed; ;
         }
     }
 }

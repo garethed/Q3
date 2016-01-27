@@ -188,6 +188,7 @@
     <StackPanel Name="OuterPanel">
         <StackPanel.ContextMenu>
             <ContextMenu>
+                <MenuItem Name="MenuItem_ResetQueue" Header="Reset Queue" Click="ResetQueue" Visibility="Collapsed"/>
                 <MenuItem Name="MenuItem_StartQueue" Header="Start Queue" Click="StartQueue" Visibility="Collapsed"/>
                 <MenuItem Name="MenuItem_NagQueue" Header="Nag for more people" Click="NagQueueClicked" Visibility="Collapsed"/>
                 <MenuItem Name="MenuItem_EndQueue" Header="Delete Queue" Click="EndQueue" />

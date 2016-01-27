@@ -92,6 +92,11 @@ namespace Q3Server
             UpdateStatus(QueueStatus.Activated);
         }
 
+        internal void Deactivate()
+        {
+            UpdateStatus(QueueStatus.Waiting);
+        }
+
         public override string ToString()
         {
             return "Q" + this.Id + ": " + this.Name;
@@ -106,7 +111,7 @@ namespace Q3Server
         {
             lock (lockable)
             {
-                if (Status < newStatus)
+                if (Status != newStatus)
                 {
                     Status = newStatus;
 
