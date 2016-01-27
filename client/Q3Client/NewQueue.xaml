@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Q3Client.NewQueue"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="NewQueue" Height="Auto" Width="380" Background="{StaticResource BlueBackgroundBrush}" WindowStyle="None" BorderThickness="0" Foreground="White"
+        Title="NewQueue" Height="Auto" Width="396" Background="{StaticResource BlueBackgroundBrush}" WindowStyle="None" BorderThickness="0" Foreground="White"
         SizeToContent="Height" AllowsTransparency="True" Activated="Window_Activated" KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" TextOptions.TextFormattingMode="Display"
 >
@@ -20,5 +20,6 @@
             <ComboBox x:Name="GroupSelector" ItemsSource="{Binding GroupList}" Width="260" IsEditable="True"></ComboBox>
             <Button Background="{StaticResource BlueHighlightBrush}" Width="150" Margin="60,10" IsDefault="True" Click="Button_Click" Content="Create Queue"/>
         </StackPanel>
+        <Button Margin="0,4,5,0" Width="20" Height="20" Background="{StaticResource BlueBackgroundBrush}" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="1,2,1,4" Click="CloseButton_Click">&#x274E;</Button>
     </StackPanel>
 </Window>
