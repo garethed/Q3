@@ -101,7 +101,7 @@ namespace Q3Client
         {
             logger.Debug(nameof(AddQueue));
 
-            if (!string.IsNullOrWhiteSpace(queue.RestrictToGroup) && !groupsCache.UserIsInGroup(queue.RestrictToGroup))
+            if (user.EmailAddress.EndsWith("softwire.com") && !string.IsNullOrWhiteSpace(queue.RestrictToGroup) && !groupsCache.UserIsInGroup(queue.RestrictToGroup))
             {
                 logger.Info("Queue ignored. User is not in group " + queue.RestrictToGroup);
                 return;
