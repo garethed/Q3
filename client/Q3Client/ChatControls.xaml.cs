@@ -72,5 +72,10 @@ namespace Q3Client
             this.Visibility = Visibility.Collapsed;
         }
         public event EventHandler<MessageEventArgs> MessageSubmitted;
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ClearAndHide();
+        }
     }
 }
