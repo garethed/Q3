@@ -110,6 +110,11 @@ namespace Q3Client
                 }
             }
         }
+
+        private void ShowClient(object sender, RoutedEventArgs e)
+        {
+            WindowStateExtended = eWindowStateExtended.Normal;
+        }
     }
 
 }
