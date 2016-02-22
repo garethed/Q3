@@ -19,50 +19,57 @@ namespace Q3Server
 
         public void StartQueue(string queueName, string restrictToGroup)
         {
-            Trace.WriteLine("-> StartQueue: " + queueName + " restricted to " + restrictToGroup);
-            queueManager.CreateQueue(queueName, restrictToGroup, User);
+            logger.WriteInformation(User.FullName + " -> StartQueue: " + queueName + " restricted to " + restrictToGroup);
+            var q = queueManager.CreateQueue(queueName, restrictToGroup, User);
+            TraceQueue(q.Id);
         }
 
         public void JoinQueue(int id)
         {
-            Trace.WriteLine("-> JoinQueue: " + id);
+            logger.WriteInformation(User.FullName + " -> JoinQueue: " + id);
             queueManager.GetQueue(id).AddUser(User);
+            TraceQueue(id);
         }
 
         public void LeaveQueue(int id)
         {
-            Trace.WriteLine("-> LeaveQueue: " + id);
+            logger.WriteInformation(User.FullName + " -> LeaveQueue: " + id);
             queueManager.GetQueue(id).RemoveUser(User);
+            TraceQueue(id);
+
         }
 
         public void ActivateQueue(int id)
         {
-            Trace.WriteLine("-> ActivateQueue: " + id);
+            logger.WriteInformation(User.FullName + " -> ActivateQueue: " + id);
             queueManager.GetQueue(id).Activate();
+            TraceQueue(id);
         }
 
         public void DeactivateQueue(int id)
         {
-            Trace.WriteLine("-> DeactivateQueue: " + id);
+            logger.WriteInformation(User.FullName + " -> DeactivateQueue: " + id);
             queueManager.GetQueue(id).Deactivate();
+            TraceQueue(id);
         }
-
 
         public void NagQueue(int id)
         {
-            Trace.WriteLine("-> NagQueue: " + id);
+            logger.WriteInformation(User.FullName + " -> NagQueue: " + id);
             Clients.All.NagQueue(id);
+            TraceQueue(id);
         }
 
         public void MessageQueue(int id, string message)
         {
-            Trace.WriteLine("-> MessageQueue: " + id + " - " + message);
+            logger.WriteInformation(User.FullName + " -> MessageQueue: " + id + " - " + message);
             queueManager.GetQueue(id).AddMessage(User, message);
+            TraceQueue(id);
         }
 
         public void CloseQueue(int id)
         {
-            Trace.WriteLine("-> CloseQueue: " + id);
+            logger.WriteInformation(User.FullName + " -> CloseQueue: " + id);
             queueManager.CloseQueue(id);
         }
 
@@ -74,6 +81,11 @@ namespace Q3Server
         private User User
         {
             get { return new User(Context.User.Identity.Name); }
+        }
+
+        private void TraceQueue(int id)
+        {
+            logger.WriteInformation(queueManager.GetQueue(id).Describe());
         }
     }
 }

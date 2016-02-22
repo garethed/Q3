@@ -102,6 +102,13 @@ namespace Q3Server
             return "Q" + this.Id + ": " + this.Name;
         }
 
+        public string Describe()
+        {
+            return ToString()
+                + "; Members: [" + string.Join(", ", Members.Select(u => u.UserName)) + "]; Messages: ["
+                + string.Join(", ", Messages.Select(m => m.Sender.UserName + ": " + m.Content.Replace("\n", "").Substring(0,32))) + "]";
+        }
+
         internal void Close()
         {
             UpdateStatus(QueueStatus.Closed);
