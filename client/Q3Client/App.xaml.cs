@@ -17,6 +17,8 @@ using ConnectionState = Microsoft.AspNet.SignalR.Client.ConnectionState;
 
 namespace Q3Client
 {
+    using System.Threading;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -29,8 +31,16 @@ namespace Q3Client
         private QueueUpdater queueUpdater;
         private GroupsCache groupsCache;
 
+        private Mutex singleInstanceMutex;
+        private bool mutexAcquired;
+
         protected async override void OnStartup(StartupEventArgs e)
         {
+            if (HasAnotherInstanceRunning())
+            {
+                Current.Shutdown();
+            }
+
             InitLog();
 
             base.OnStartup(e);
@@ -79,7 +89,40 @@ namespace Q3Client
             {
                 await queueUpdater.RefreshALl();
             }
+        }
 
+        private bool HasAnotherInstanceRunning()
+        {
+            var currentDistinguishedName = UserPrincipal.Current.DistinguishedName;
+            singleInstanceMutex = singleInstanceMutex ?? new Mutex(true, currentDistinguishedName + ":{411C91EA-7B41-49DB-8CB9-20D5B58A75F7}");
+            try
+            {
+                mutexAcquired = singleInstanceMutex.WaitOne(TimeSpan.Zero, true);
+            }
+            catch (AbandonedMutexException)
+            {
+                mutexAcquired = true;
+            }
+            return !mutexAcquired; // If mutex is acquired, no other instance is running
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            DisposeMutex();
+            base.OnExit(e);
+        }
+
+        private void DisposeMutex()
+        {
+            if (singleInstanceMutex == null)
+            {
+                return;
+            }
+            if (mutexAcquired)
+            {
+                singleInstanceMutex.ReleaseMutex();
+            }
+            singleInstanceMutex.Close();
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
