@@ -78,6 +78,12 @@ namespace Q3Server
             return queueManager.ListQueues();
         }
 
+        public IEnumerable<string> ListGroups(string userSerialized)
+        {
+            var user = new User(userSerialized);
+            return user.GetUserGroups();
+        }
+
         private User User
         {
             get { return new User(Context.User.Identity.Name); }

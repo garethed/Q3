@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using System.Diagnostics;
+using System.ServiceModel.Security;
 
 namespace Q3Server
 {
@@ -14,6 +15,10 @@ namespace Q3Server
         public async override Task Invoke(IOwinContext context)
         {
             var user = context.Request.Headers["User"];
+            if (string.IsNullOrWhiteSpace(user))
+            {
+                user = context.Request.Query["User"];
+            }
 
             if (!string.IsNullOrWhiteSpace(user))
             {

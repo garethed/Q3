@@ -11,6 +11,7 @@ using NLog.Config;
 using System.IO;
 using NLog.Targets;
 using NLog;
+using Microsoft.Owin.Cors;
 
 [assembly: OwinStartup(typeof(Q3Server.Startup))]
 
@@ -32,7 +33,12 @@ namespace Q3Server
                     app.CreateLogger<QHub>()));
 
             app.Use<SimpleHeaderAuthenticator>();
-            app.MapSignalR();
+			
+            app.UseCors(CorsOptions.AllowAll);
+            app.MapSignalR(new HubConfiguration()
+            {
+                EnableJSONP = true
+            });
 
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("Application started");
