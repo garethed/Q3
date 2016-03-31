@@ -105,8 +105,12 @@ namespace Q3Server
         public string Describe()
         {
             return ToString()
-                + "; Members: [" + string.Join(", ", Members.Select(u => u.UserName)) + "]; Messages: ["
-                + string.Join(", ", Messages.Select(m => m.Sender.UserName + ": " + m.Content.Replace("\n", "").Substring(0,32))) + "]";
+                   + "; Members: ["
+                   + string.Join(", ", Members.Select(u => u.UserName))
+                   + "]; Messages: ["
+                   + string.Join(", ",
+                       Messages.Select(m => m.Sender.UserName + ": " + m.Content.Replace("\n", "").Take(32).ToString()))
+                   + "]";
         }
 
         internal void Close()
