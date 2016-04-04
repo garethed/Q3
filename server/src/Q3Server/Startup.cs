@@ -9,6 +9,7 @@ using Pysco68.Owin.Logging.NLogAdapter;
 using System.Web.Hosting;
 using NLog.Config;
 using System.IO;
+using System.Runtime.Caching;
 using NLog.Targets;
 using NLog;
 using Microsoft.Owin.Cors;
@@ -25,12 +26,14 @@ namespace Q3Server
             app.UseNLog();
 
             var manager = new QManager(new QEventsListener(GlobalHost.ConnectionManager));
+            var userManager = new UserManager(MemoryCache.Default);
 
             GlobalHost.DependencyResolver.Register(
                 typeof(QHub),
                 () => new QHub(
                     manager,
-                    app.CreateLogger<QHub>()));
+                    app.CreateLogger<QHub>(),
+                    userManager));
 
             app.Use<SimpleHeaderAuthenticator>();
 			

@@ -10,11 +10,13 @@ namespace Q3Server
     {
         private IQManager queueManager;
         private ILogger logger;
+        private IUserManager userManager;
 
-        public QHub(IQManager manager, ILogger logger)
+        public QHub(IQManager manager, ILogger logger, IUserManager userManager)
         {
             this.queueManager = manager;
             this.logger = logger;
+            this.userManager = userManager;
         }
 
         public void StartQueue(string queueName, string restrictToGroup)
@@ -78,15 +80,14 @@ namespace Q3Server
             return queueManager.ListQueues();
         }
 
-        public IEnumerable<string> ListGroups(string userSerialized)
+        public IEnumerable<string> ListGroups()
         {
-            var user = new User(userSerialized);
-            return user.GetUserGroups();
+            return User.GetUserGroups();
         }
 
         private User User
         {
-            get { return new User(Context.User.Identity.Name); }
+            get { return userManager.GetUser(Context.User.Identity.Name); }
         }
 
         private void TraceQueue(int id)

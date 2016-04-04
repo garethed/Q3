@@ -259,13 +259,42 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Owin/1.0.0": {
+      "NLog/4.2.3": {
         "type": "package",
         "compile": {
-          "lib/net40/Owin.dll": {}
+          "lib/net45/NLog.dll": {}
         },
         "runtime": {
-          "lib/net40/Owin.dll": {}
+          "lib/net45/NLog.dll": {}
+        }
+      },
+      "NLog.Web/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.1"
+        },
+        "compile": {
+          "lib/net35/NLog.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NLog.Web.dll": {}
+        }
+      },
+      "Owin/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6"
+      },
+      "Pysco68.Owin.Logging.NLogAdapter/1.0.2": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.0",
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Pysco68.Owin.Logging.NLogAdapter.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Pysco68.Owin.Logging.NLogAdapter.dll": {}
         }
       },
       "Q3Server/1.0.0": {
@@ -281,7 +310,10 @@
           "Microsoft.Owin.Host.SystemWeb": "3.0.1",
           "Microsoft.Owin.Security": "3.0.1",
           "Newtonsoft.Json": "8.0.3",
-          "Owin": "1.0.0"
+          "NLog": "4.2.3",
+          "NLog.Web": "4.2.0",
+          "Owin": "1.0.0",
+          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2"
         }
       },
       "xunit/2.1.0": {
@@ -654,13 +686,42 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Owin/1.0.0": {
+      "NLog/4.2.3": {
         "type": "package",
         "compile": {
-          "lib/net40/Owin.dll": {}
+          "lib/net45/NLog.dll": {}
         },
         "runtime": {
-          "lib/net40/Owin.dll": {}
+          "lib/net45/NLog.dll": {}
+        }
+      },
+      "NLog.Web/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.1"
+        },
+        "compile": {
+          "lib/net35/NLog.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NLog.Web.dll": {}
+        }
+      },
+      "Owin/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6"
+      },
+      "Pysco68.Owin.Logging.NLogAdapter/1.0.2": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.0",
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Pysco68.Owin.Logging.NLogAdapter.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Pysco68.Owin.Logging.NLogAdapter.dll": {}
         }
       },
       "Q3Server/1.0.0": {
@@ -676,7 +737,10 @@
           "Microsoft.Owin.Host.SystemWeb": "3.0.1",
           "Microsoft.Owin.Security": "3.0.1",
           "Newtonsoft.Json": "8.0.3",
-          "Owin": "1.0.0"
+          "NLog": "4.2.3",
+          "NLog.Web": "4.2.0",
+          "Owin": "1.0.0",
+          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2"
         }
       },
       "xunit/2.1.0": {
@@ -1049,13 +1113,42 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Owin/1.0.0": {
+      "NLog/4.2.3": {
         "type": "package",
         "compile": {
-          "lib/net40/Owin.dll": {}
+          "lib/net45/NLog.dll": {}
         },
         "runtime": {
-          "lib/net40/Owin.dll": {}
+          "lib/net45/NLog.dll": {}
+        }
+      },
+      "NLog.Web/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.1"
+        },
+        "compile": {
+          "lib/net35/NLog.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NLog.Web.dll": {}
+        }
+      },
+      "Owin/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6"
+      },
+      "Pysco68.Owin.Logging.NLogAdapter/1.0.2": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.0",
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Pysco68.Owin.Logging.NLogAdapter.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Pysco68.Owin.Logging.NLogAdapter.dll": {}
         }
       },
       "Q3Server/1.0.0": {
@@ -1071,7 +1164,10 @@
           "Microsoft.Owin.Host.SystemWeb": "3.0.1",
           "Microsoft.Owin.Security": "3.0.1",
           "Newtonsoft.Json": "8.0.3",
-          "Owin": "1.0.0"
+          "NLog": "4.2.3",
+          "NLog.Web": "4.2.0",
+          "Owin": "1.0.0",
+          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2"
         }
       },
       "xunit/2.1.0": {
@@ -1189,6 +1285,10 @@
     }
   },
   "libraries": {
+    "Owin/1.0.0": {
+      "type": "project",
+      "path": "../../wrap/Owin/project.json"
+    },
     "Q3Server/1.0.0": {
       "type": "project",
       "path": "../../wrap/Q3Server/project.json"
@@ -1434,14 +1534,46 @@
         "tools/install.ps1"
       ]
     },
-    "Owin/1.0.0": {
+    "NLog/4.2.3": {
       "type": "package",
-      "sha512": "OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
+      "sha512": "j6ZuwmXtiRUdlmon8ekYTKYFuQuIVi3ACJm7izHZL9KMmX2x/5Dvi98/EE7wcFNwmSz85QTITKYU4Q04u6VXSg==",
       "files": [
-        "lib/net40/Owin.dll",
-        "Owin.1.0.0.nupkg",
-        "Owin.1.0.0.nupkg.sha512",
-        "Owin.nuspec"
+        "lib/net35/NLog.dll",
+        "lib/net35/NLog.xml",
+        "lib/net40/NLog.dll",
+        "lib/net40/NLog.xml",
+        "lib/net45/NLog.dll",
+        "lib/net45/NLog.xml",
+        "lib/sl4/NLog.dll",
+        "lib/sl4/NLog.xml",
+        "lib/sl5/NLog.dll",
+        "lib/sl5/NLog.xml",
+        "NLog.4.2.3.nupkg",
+        "NLog.4.2.3.nupkg.sha512",
+        "NLog.nuspec"
+      ]
+    },
+    "NLog.Web/4.2.0": {
+      "type": "package",
+      "sha512": "amCmJGQXlfooME7jNDz4TOoLckFq7W1AcsCz9+xSE/3pRz6YeOvMPDNJDIRnPY9ku2lCOF5aBietodAl8m557Q==",
+      "files": [
+        "lib/net35/NLog.Web.dll",
+        "lib/net35/NLog.Web.XML",
+        "NLog.Web.4.2.0.nupkg",
+        "NLog.Web.4.2.0.nupkg.sha512",
+        "NLog.Web.nuspec"
+      ]
+    },
+    "Pysco68.Owin.Logging.NLogAdapter/1.0.2": {
+      "type": "package",
+      "sha512": "+3X2zzIEE904+avG9FH5pT3gzJdLLcCSXr09/WK19AlWOGhYTVuaUHcSH5ujAmi48MRZ+TEHj+ZPTdvgKFoskg==",
+      "files": [
+        "lib/net45/Pysco68.Owin.Logging.NLogAdapter.dll",
+        "lib/net45/Pysco68.Owin.Logging.NLogAdapter.pdb",
+        "lib/net45/Pysco68.Owin.Logging.NLogAdapter.xml",
+        "Pysco68.Owin.Logging.NLogAdapter.1.0.2.nupkg",
+        "Pysco68.Owin.Logging.NLogAdapter.1.0.2.nupkg.sha512",
+        "Pysco68.Owin.Logging.NLogAdapter.nuspec"
       ]
     },
     "xunit/2.1.0": {

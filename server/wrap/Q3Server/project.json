@@ -17,7 +17,10 @@
         "Microsoft.Owin.Host.SystemWeb": "3.0.1",
         "Microsoft.Owin.Security": "3.0.1",
         "Newtonsoft.Json": "8.0.3",
-        "Owin": "1.0"
+        "Owin": "1.0",
+        "NLog": "4.2.3",
+        "NLog.Web": "4.2",
+        "Pysco68.Owin.Logging.NLogAdapter": "1.0.2"
       }
     }
   }

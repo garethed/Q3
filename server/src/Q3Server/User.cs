@@ -9,19 +9,17 @@ namespace Q3Server
 {
     public class User
     {
-        public string UserName;
-        public string FullName;
-        public string EmailAddress;
+        public string UserName { get; }
+        public string FullName { get; }
+        public string EmailAddress { get; }
+        public string DistinguishedName { get; }
 
-        public User(string serialized)
+        public User(string userName, string fullName, string emailAddress, string distinguishedName)
         {
-            string[] parts = serialized.Split(new[] { ';' }, 3);
-            UserName = parts[0];
-            if (parts.Length > 1)
-            {
-                FullName = parts[1];
-                EmailAddress = parts[2];
-            }
+            UserName = userName;
+            FullName = fullName;
+            EmailAddress = emailAddress;
+            DistinguishedName = distinguishedName;
         }
 
         public override string ToString()
@@ -49,15 +47,13 @@ namespace Q3Server
             try
             {
                 var context = new PrincipalContext(ContextType.Domain);
-                var user = UserPrincipal.FindByIdentity(context, UserName);
                 var searcher = new DirectorySearcher(context.ConnectedServer);
 
                 // the OID is for recursive memberof search
-                searcher.Filter = "(member:1.2.840.113556.1.4.1941:=" + user.DistinguishedName + ")";
+                searcher.Filter = "(member:1.2.840.113556.1.4.1941:=" + StripSemis(DistinguishedName) + ")";
                 searcher.PropertiesToLoad.Add("cn");
                 searcher.PropertiesToLoad.Add("distinguishedName");
                 searcher.PropertiesToLoad.Add("mail");
-
 
                 var userGroups =
                     searcher.FindAll()

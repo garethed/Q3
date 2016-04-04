@@ -85,6 +85,7 @@
       <HintPath>..\..\packages\CRMConnection.1.0.2\lib\System.DirectoryServices.AccountManagement.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security">
       <HintPath>..\..\packages\CRMConnection.1.0.2\lib\System.Security.dll</HintPath>
@@ -157,6 +158,7 @@
     <Compile Include="SimpleHeaderAuthenticator.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserManager.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -173,7 +175,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>10869</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://birman.zoo.lan:51443/</IISUrl>
+          <IISUrl>http://localhost:51443/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

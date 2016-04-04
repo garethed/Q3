@@ -13,7 +13,8 @@ namespace Q3Tests
         {
             var manager = new Mock<IQManager>();
             var logger = new Mock<ILogger>();
-            hub = new QHub(manager.Object, logger.Object);
+            var userManager = new Mock<IUserManager>();
+            hub = new QHub(manager.Object, logger.Object, userManager.Object);
         }
 
         [Fact(Skip = "Failing test after revival of UTs - needs fixing")]
