@@ -108,8 +108,7 @@ namespace Q3Server
                    + "; Members: ["
                    + string.Join(", ", Members.Select(u => u.UserName))
                    + "]; Messages: ["
-                   + string.Join(", ",
-                       Messages.Select(m => m.Sender.UserName + ": " + m.Content.Replace("\n", "").Take(32).ToString()))
+                   + string.Join(", ", Messages.Select(m => m.Describe()))
                    + "]";
         }
 
@@ -138,6 +137,12 @@ namespace Q3Server
         {
             public User Sender;
             public string Content;
+
+            public string Describe()
+            {
+                var trimmedContent = Content.Length > 32 ? Content.Substring(0, 32) : Content;
+                return Sender.UserName + ": " + trimmedContent;
+            }
         }
     }
 }

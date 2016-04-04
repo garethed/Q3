@@ -17,8 +17,11 @@ namespace Q3Server
         {
             string[] parts = serialized.Split(new[] { ';' }, 3);
             UserName = parts[0];
-            FullName = parts[1];
-            EmailAddress = parts[2];
+            if (parts.Length > 1)
+            {
+                FullName = parts[1];
+                EmailAddress = parts[2];
+            }
         }
 
         public override string ToString()
@@ -46,7 +49,7 @@ namespace Q3Server
             try
             {
                 var context = new PrincipalContext(ContextType.Domain);
-                var user = UserPrincipal.FindByIdentity(context, EmailAddress);
+                var user = UserPrincipal.FindByIdentity(context, UserName);
                 var searcher = new DirectorySearcher(context.ConnectedServer);
 
                 // the OID is for recursive memberof search
