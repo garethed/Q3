@@ -40,7 +40,7 @@ namespace Q3Server.Tests
             var getter1 = new Mock<IObjectGetter<string>>();
             getter1.Setup(g => g.Get("id")).Returns("value1");
             var getter2 = new Mock<IObjectGetter<string>>();
-            getter1.Setup(g => g.Get("id")).Returns("value2");
+            getter2.Setup(g => g.Get("id")).Returns("value2");
             var ternaryGetter = new ObjectGetterTernary<string>(getter1.Object, getter2.Object, s => s != null);
 
             var value = ternaryGetter.Get("id");
