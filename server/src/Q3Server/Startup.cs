@@ -5,6 +5,7 @@ using Owin;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Logging;
 using System.Diagnostics;
+using System.DirectoryServices.AccountManagement;
 using Pysco68.Owin.Logging.NLogAdapter;
 using System.Web.Hosting;
 using NLog.Config;
@@ -26,14 +27,18 @@ namespace Q3Server
             app.UseNLog();
 
             var manager = new QManager(new QEventsListener(GlobalHost.ConnectionManager));
-            var userManager = new UserManager(MemoryCache.Default);
+
+            var userGetterCombined = new ObjectGetterTernary<User>(new UserGetterDomain(),
+                                                                   new UserGetterSerialized(),
+                                                                   (user => user != null));
+            var userGetterCached = new CachedObjectGetter<User>(MemoryCache.Default, userGetterCombined);
 
             GlobalHost.DependencyResolver.Register(
                 typeof(QHub),
                 () => new QHub(
                     manager,
                     app.CreateLogger<QHub>(),
-                    userManager));
+                    userGetterCached));
 
             app.Use<SimpleHeaderAuthenticator>();
 			

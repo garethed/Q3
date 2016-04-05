@@ -1780,7 +1780,8 @@
       "xunit.runner.visualstudio >= 2.1.0"
     ],
     "DNX,Version=v4.6": [
-      "Q3Server >= 1.0.0-*"
+      "Q3Server >= 1.0.0-*",
+      "fx/System.Runtime.Caching >= 4.0.0"
     ]
   }
 }

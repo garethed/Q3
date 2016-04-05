@@ -14,12 +14,12 @@ namespace Q3Server
         public string EmailAddress { get; }
         public string DistinguishedName { get; }
 
-        public User(string userName, string fullName, string emailAddress, string distinguishedName)
+        public User(string userName, string fullName, string emailAddress, string distinguishedName = null)
         {
             UserName = userName;
             FullName = fullName;
             EmailAddress = emailAddress;
-            DistinguishedName = distinguishedName;
+            DistinguishedName = distinguishedName ?? userName;
         }
 
         public override string ToString()

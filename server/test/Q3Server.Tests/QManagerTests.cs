@@ -1,24 +1,25 @@
-﻿using System;
-using Q3Server;
-using Xunit;
+﻿using System.Linq;
 using Moq;
-using System.Linq;
+using Xunit;
 
-namespace Q3Tests
+namespace Q3Server.Tests
 {
     public class QManagerTests
     {
         private QManager manager;
         private bool membershipChangedEventFired = false;
         private bool statusChangedEventFired = false;
-        private User user = new User("me;me myself and i;me@me.com");
-        private User user2 = new User("him;he him;him@there.com");
+        private User user;
+        private User user2;
 
 
         public QManagerTests()
         {
             var listener = new Mock<IQEventsListener>();
-            manager = new QManager(listener.Object);            
+            manager = new QManager(listener.Object);
+            var userGetterSerialized = new UserGetterSerialized();
+            user = userGetterSerialized.Get("me;me myself and i;me@me.com");
+            user2 = userGetterSerialized.Get("him;he him;him@there.com");
         }
 
         [Fact]
