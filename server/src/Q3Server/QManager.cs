@@ -32,7 +32,7 @@ namespace Q3Server
             {
                 if (string.IsNullOrWhiteSpace(queueName))
                 {
-                    throw new Exception();
+                    throw new EmptyQueueNameException();
                 }
 
                 if (queues.Any(q => q.Value.Name.Equals(queueName, StringComparison.InvariantCultureIgnoreCase)))
