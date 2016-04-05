@@ -135,18 +135,14 @@
     <None Include="Properties\PublishProfiles\Q3MobileTest.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DuplicateQueueException.cs" />
