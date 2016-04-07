@@ -43,10 +43,7 @@ namespace Q3Server
             app.Use<SimpleHeaderAuthenticator>();
 			
             app.UseCors(CorsOptions.AllowAll);
-            app.MapSignalR(new HubConfiguration()
-            {
-                EnableJSONP = true
-            });
+            app.MapSignalR();
 
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("Application started");
