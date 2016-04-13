@@ -12,12 +12,17 @@ namespace Q3Server
         private IQManager queueManager;
         private ILogger logger;
         private IObjectGetter<User> userGetter;
+        private IObjectGetter<List<string>> groupGetter;
 
-        public QHub(IQManager manager, ILogger logger, IObjectGetter<User> userGetter)
+        public QHub(IQManager manager,
+                    ILogger logger,
+                    IObjectGetter<User> userGetter,
+                    IObjectGetter<List<string>> groupGetter)
         {
             this.queueManager = manager;
             this.logger = logger;
             this.userGetter = userGetter;
+            this.groupGetter = groupGetter;
         }
 
         public void StartQueue(string queueName, string restrictToGroup)
@@ -83,7 +88,7 @@ namespace Q3Server
 
         public IEnumerable<string> ListGroups()
         {
-            return User.GetUserGroups();
+            return groupGetter.Get(User.DistinguishedName);
         }
 
         private User User

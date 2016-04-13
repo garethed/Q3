@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
@@ -33,12 +34,15 @@ namespace Q3Server
                                                                    (user => user != null));
             var userGetterCached = new CachedObjectGetter<User>(MemoryCache.Default, userGetterCombined);
 
+            var groupGetterCached = new CachedObjectGetter<List<string>>(MemoryCache.Default, new GroupGetterDomain());
+
             GlobalHost.DependencyResolver.Register(
                 typeof(QHub),
                 () => new QHub(
                     manager,
                     app.CreateLogger<QHub>(),
-                    userGetterCached));
+                    userGetterCached,
+                    groupGetterCached));
 
             app.Use<SimpleHeaderAuthenticator>();
 			

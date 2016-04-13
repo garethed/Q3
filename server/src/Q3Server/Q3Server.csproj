@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmptyQueueNameException.cs" />
+    <Compile Include="GroupGetterDomain.cs" />
     <Compile Include="ObjectGetterCached.cs" />
     <Compile Include="ObjectGetterTernary.cs" />
     <Compile Include="UserGetterDomain.cs" />
