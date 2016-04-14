@@ -30,6 +30,11 @@ namespace Q3Server
         {
             lock (lockable)
             {
+                if (string.IsNullOrWhiteSpace(queueName))
+                {
+                    throw new EmptyQueueNameException();
+                }
+
                 if (queues.Any(q => q.Value.Name.Equals(queueName, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     throw new DuplicateQueueException();

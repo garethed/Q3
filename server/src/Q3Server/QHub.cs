@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Owin.Logging;
+using Q3Server.Interfaces;
 
 namespace Q3Server
 {
@@ -10,11 +11,18 @@ namespace Q3Server
     {
         private IQManager queueManager;
         private ILogger logger;
+        private IObjectGetter<User> userGetter;
+        private IObjectGetter<List<string>> groupGetter;
 
-        public QHub(IQManager manager, ILogger logger)
+        public QHub(IQManager manager,
+                    ILogger logger,
+                    IObjectGetter<User> userGetter,
+                    IObjectGetter<List<string>> groupGetter)
         {
             this.queueManager = manager;
             this.logger = logger;
+            this.userGetter = userGetter;
+            this.groupGetter = groupGetter;
         }
 
         public void StartQueue(string queueName, string restrictToGroup)
@@ -78,9 +86,14 @@ namespace Q3Server
             return queueManager.ListQueues();
         }
 
+        public IEnumerable<string> ListGroups()
+        {
+            return groupGetter.Get(User.DistinguishedName);
+        }
+
         private User User
         {
-            get { return new User(Context.User.Identity.Name); }
+            get { return userGetter.Get(Context.User.Identity.Name); }
         }
 
         private void TraceQueue(int id)

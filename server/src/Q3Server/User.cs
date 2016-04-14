@@ -1,17 +1,23 @@
-﻿namespace Q3Server
+﻿using System.Runtime.Serialization;
+
+
+namespace Q3Server
 {
     public class User
     {
-        public string UserName;
-        public string FullName;
-        public string EmailAddress;
+        public string UserName { get; }
+        public string FullName { get; }
+        public string EmailAddress { get; }
 
-        public User(string serialized)
+        [IgnoreDataMember] //Don't send this field to clients by cancelling serialization
+        public string DistinguishedName { get; }
+
+        public User(string userName, string fullName, string emailAddress, string distinguishedName = null)
         {
-            string[] parts = serialized.Split(new[] { ';' }, 3);
-            UserName = parts[0];
-            FullName = parts[1];
-            EmailAddress = parts[2];
+            UserName = userName;
+            FullName = fullName;
+            EmailAddress = emailAddress;
+            DistinguishedName = StripSemis(distinguishedName ?? userName);
         }
 
         public override string ToString()

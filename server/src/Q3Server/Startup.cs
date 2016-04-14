@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
@@ -9,8 +10,10 @@ using Pysco68.Owin.Logging.NLogAdapter;
 using System.Web.Hosting;
 using NLog.Config;
 using System.IO;
+using System.Runtime.Caching;
 using NLog.Targets;
 using NLog;
+using Microsoft.Owin.Cors;
 
 [assembly: OwinStartup(typeof(Q3Server.Startup))]
 
@@ -25,13 +28,22 @@ namespace Q3Server
 
             var manager = new QManager(new QEventsListener(GlobalHost.ConnectionManager));
 
+            var userGetter = new UserGetter(new UserGetterSerialized(), new UserGetterDomain());
+            var userGetterCached = new CachedObjectGetter<User>(MemoryCache.Default, userGetter);
+
+            var groupGetterCached = new CachedObjectGetter<List<string>>(MemoryCache.Default, new GroupGetterDomain());
+
             GlobalHost.DependencyResolver.Register(
                 typeof(QHub),
                 () => new QHub(
                     manager,
-                    app.CreateLogger<QHub>()));
+                    app.CreateLogger<QHub>(),
+                    userGetterCached,
+                    groupGetterCached));
 
             app.Use<SimpleHeaderAuthenticator>();
+			
+            app.UseCors(CorsOptions.AllowAll);
             app.MapSignalR();
 
             var logger = LogManager.GetCurrentClassLogger();
