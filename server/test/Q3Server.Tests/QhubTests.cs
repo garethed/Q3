@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Logging;
+﻿using System.Collections.Generic;
+using Microsoft.Owin.Logging;
 using Moq;
 using Q3Server.Interfaces;
 using Xunit;
@@ -14,7 +15,8 @@ namespace Q3Server.Tests
             var manager = new Mock<IQManager>();
             var logger = new Mock<ILogger>();
             var userGetter = new Mock<IObjectGetter<User>>();
-            hub = new QHub(manager.Object, logger.Object, userGetter.Object);
+            var groupGetter = new Mock<IObjectGetter<List<string>>>();
+            hub = new QHub(manager.Object, logger.Object, userGetter.Object, groupGetter.Object);
         }
 
         [Fact(Skip = "Failing test after revival of UTs - needs fixing")]

@@ -6,7 +6,6 @@ using Owin;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Logging;
 using System.Diagnostics;
-using System.DirectoryServices.AccountManagement;
 using Pysco68.Owin.Logging.NLogAdapter;
 using System.Web.Hosting;
 using NLog.Config;
@@ -29,10 +28,8 @@ namespace Q3Server
 
             var manager = new QManager(new QEventsListener(GlobalHost.ConnectionManager));
 
-            var userGetterCombined = new ObjectGetterTernary<User>(new UserGetterDomain(),
-                                                                   new UserGetterSerialized(),
-                                                                   (user => user != null));
-            var userGetterCached = new CachedObjectGetter<User>(MemoryCache.Default, userGetterCombined);
+            var userGetter = new UserGetter(new UserGetterSerialized(), new UserGetterDomain());
+            var userGetterCached = new CachedObjectGetter<User>(MemoryCache.Default, userGetter);
 
             var groupGetterCached = new CachedObjectGetter<List<string>>(MemoryCache.Default, new GroupGetterDomain());
 

@@ -1,16 +1,14 @@
-﻿using Q3Server.Interfaces;
-
-namespace Q3Server
+﻿namespace Q3Server
 {
-    public class UserGetterSerialized : IObjectGetter<User>
+    public class UserGetterSerialized
     {
-        public User Get(string id)
+        public virtual User Get(string serializedUser)
         {
-            string[] parts = id.Split(new[] { ';' }, 3);
+            string[] parts = serializedUser.Split(new[] { ';' }, 3);
 
             return parts.Length == 3
                 ? new User(parts[0], parts[1], parts[2])
-                : new User(parts[0], id, id.Replace(";", "") + "@placeholder", id);
+                : null;
         }
     }
 }
