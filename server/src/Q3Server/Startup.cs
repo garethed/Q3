@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Logging;
 using System.Diagnostics;
+using System.IdentityModel.Tokens;
 using Pysco68.Owin.Logging.NLogAdapter;
 using System.Web.Hosting;
 using NLog.Config;
@@ -14,6 +16,7 @@ using System.Runtime.Caching;
 using NLog.Targets;
 using NLog;
 using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security.ActiveDirectory;
 
 [assembly: OwinStartup(typeof(Q3Server.Startup))]
 
@@ -41,7 +44,18 @@ namespace Q3Server
                     userGetterCached,
                     groupGetterCached));
 
-            app.Use<SimpleHeaderAuthenticator>();
+            app.Use<TokenQueryToHeaderConverter>();
+
+            app.UseWindowsAzureActiveDirectoryBearerAuthentication(
+                new WindowsAzureActiveDirectoryBearerAuthenticationOptions
+                {
+                    Tenant = ConfigurationManager.AppSettings["azureTenant"],
+                    TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidAudience = ConfigurationManager.AppSettings["serverAppId"]
+                    }
+                }
+            );
 			
             app.UseCors(CorsOptions.AllowAll);
             app.MapSignalR();

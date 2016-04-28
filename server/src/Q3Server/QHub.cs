@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.Owin.Logging;
 using Q3Server.Interfaces;
 
@@ -91,10 +91,7 @@ namespace Q3Server
             return groupGetter.Get(User.DistinguishedName);
         }
 
-        private User User
-        {
-            get { return userGetter.Get(Context.User.Identity.Name); }
-        }
+        private User User => userGetter.Get(ClaimsPrincipal.Current.FindFirst(ClaimTypes.Name).Value);
 
         private void TraceQueue(int id)
         {

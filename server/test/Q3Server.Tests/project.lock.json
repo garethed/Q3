@@ -241,6 +241,58 @@
           "lib/net45/Microsoft.Owin.Security.dll": {}
         }
       },
+      "Microsoft.Owin.Security.ActiveDirectory/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.Jwt": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
+          "Owin": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.ActiveDirectory.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.ActiveDirectory.dll": {}
+        }
+      },
+      "Microsoft.Owin.Security.Jwt/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
+          "Owin": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.Jwt.dll": {}
+        }
+      },
+      "Microsoft.Owin.Security.OAuth/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Newtonsoft.Json": "6.0.4",
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.OAuth.dll": {}
+        }
+      },
       "Moq/4.2.1502.911": {
         "type": "package",
         "compile": {
@@ -309,11 +361,24 @@
           "Microsoft.Owin.Cors": "3.0.1",
           "Microsoft.Owin.Host.SystemWeb": "3.0.1",
           "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.ActiveDirectory": "3.0.1",
+          "Microsoft.Owin.Security.Jwt": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
           "Newtonsoft.Json": "8.0.3",
           "NLog": "4.2.3",
           "NLog.Web": "4.2.0",
           "Owin": "1.0.0",
-          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2"
+          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        }
+      },
+      "System.IdentityModel.Tokens.Jwt/4.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.IdentityModel.Tokens.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.IdentityModel.Tokens.Jwt.dll": {}
         }
       },
       "xunit/2.1.0": {
@@ -668,6 +733,58 @@
           "lib/net45/Microsoft.Owin.Security.dll": {}
         }
       },
+      "Microsoft.Owin.Security.ActiveDirectory/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.Jwt": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
+          "Owin": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.ActiveDirectory.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.ActiveDirectory.dll": {}
+        }
+      },
+      "Microsoft.Owin.Security.Jwt/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
+          "Owin": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.Jwt.dll": {}
+        }
+      },
+      "Microsoft.Owin.Security.OAuth/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Newtonsoft.Json": "6.0.4",
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.OAuth.dll": {}
+        }
+      },
       "Moq/4.2.1502.911": {
         "type": "package",
         "compile": {
@@ -736,11 +853,24 @@
           "Microsoft.Owin.Cors": "3.0.1",
           "Microsoft.Owin.Host.SystemWeb": "3.0.1",
           "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.ActiveDirectory": "3.0.1",
+          "Microsoft.Owin.Security.Jwt": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
           "Newtonsoft.Json": "8.0.3",
           "NLog": "4.2.3",
           "NLog.Web": "4.2.0",
           "Owin": "1.0.0",
-          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2"
+          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        }
+      },
+      "System.IdentityModel.Tokens.Jwt/4.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.IdentityModel.Tokens.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.IdentityModel.Tokens.Jwt.dll": {}
         }
       },
       "xunit/2.1.0": {
@@ -1095,6 +1225,58 @@
           "lib/net45/Microsoft.Owin.Security.dll": {}
         }
       },
+      "Microsoft.Owin.Security.ActiveDirectory/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.Jwt": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
+          "Owin": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.Net.Http.WebRequest"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.ActiveDirectory.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.ActiveDirectory.dll": {}
+        }
+      },
+      "Microsoft.Owin.Security.Jwt/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
+          "Owin": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.Jwt.dll": {}
+        }
+      },
+      "Microsoft.Owin.Security.OAuth/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Owin": "3.0.1",
+          "Microsoft.Owin.Security": "3.0.1",
+          "Newtonsoft.Json": "6.0.4",
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.OAuth.dll": {}
+        }
+      },
       "Moq/4.2.1502.911": {
         "type": "package",
         "compile": {
@@ -1163,11 +1345,24 @@
           "Microsoft.Owin.Cors": "3.0.1",
           "Microsoft.Owin.Host.SystemWeb": "3.0.1",
           "Microsoft.Owin.Security": "3.0.1",
+          "Microsoft.Owin.Security.ActiveDirectory": "3.0.1",
+          "Microsoft.Owin.Security.Jwt": "3.0.1",
+          "Microsoft.Owin.Security.OAuth": "3.0.1",
           "Newtonsoft.Json": "8.0.3",
           "NLog": "4.2.3",
           "NLog.Web": "4.2.0",
           "Owin": "1.0.0",
-          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2"
+          "Pysco68.Owin.Logging.NLogAdapter": "1.0.2",
+          "System.IdentityModel.Tokens.Jwt": "4.0.0"
+        }
+      },
+      "System.IdentityModel.Tokens.Jwt/4.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.IdentityModel.Tokens.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.IdentityModel.Tokens.Jwt.dll": {}
         }
       },
       "xunit/2.1.0": {
@@ -1497,6 +1692,42 @@
         "Microsoft.Owin.Security.nuspec"
       ]
     },
+    "Microsoft.Owin.Security.ActiveDirectory/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "4kiD782CcOLDzyMeX+iJ5myYttWz4JphpLUYTGb72oLu9CYrpboya0nHEEuppXmPtbxzxKRnXrMDt4X9g8PQCA==",
+      "files": [
+        "lib/net45/Microsoft.Owin.Security.ActiveDirectory.dll",
+        "lib/net45/Microsoft.Owin.Security.ActiveDirectory.xml",
+        "Microsoft.Owin.Security.ActiveDirectory.3.0.1.nupkg",
+        "Microsoft.Owin.Security.ActiveDirectory.3.0.1.nupkg.sha512",
+        "Microsoft.Owin.Security.ActiveDirectory.nuspec"
+      ]
+    },
+    "Microsoft.Owin.Security.Jwt/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "80A2sPwbjGuvGnlNlylSXu96+NWB6kqe089/wt+CrSABJOhtDx5KvJYx4Af+lYY8NExeFR0iZNa2k8EcRxvZWw==",
+      "files": [
+        "lib/net45/Microsoft.Owin.Security.Jwt.dll",
+        "lib/net45/Microsoft.Owin.Security.Jwt.xml",
+        "Microsoft.Owin.Security.Jwt.3.0.1.nupkg",
+        "Microsoft.Owin.Security.Jwt.3.0.1.nupkg.sha512",
+        "Microsoft.Owin.Security.Jwt.nuspec"
+      ]
+    },
+    "Microsoft.Owin.Security.OAuth/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "wttlhNSijhsrF7iwxYzxhTr8AYxXI6qoiw3b6dhVhqXOYCDp8OQ5yhHFtWlst+65l7VHduXassspZ974rtLMaw==",
+      "files": [
+        "lib/net45/Microsoft.Owin.Security.OAuth.dll",
+        "lib/net45/Microsoft.Owin.Security.OAuth.XML",
+        "Microsoft.Owin.Security.OAuth.3.0.1.nupkg",
+        "Microsoft.Owin.Security.OAuth.3.0.1.nupkg.sha512",
+        "Microsoft.Owin.Security.OAuth.nuspec"
+      ]
+    },
     "Moq/4.2.1502.911": {
       "type": "package",
       "sha512": "Ng1jKw2jlwaBEh16+AeIfoS7jj9Hd9Zzf7OafgTsl9fIRv0bICqhAsmLaPHTsnpd4ReJyMMUyNGUGKpyp+mqkg==",
@@ -1574,6 +1805,18 @@
         "Pysco68.Owin.Logging.NLogAdapter.1.0.2.nupkg",
         "Pysco68.Owin.Logging.NLogAdapter.1.0.2.nupkg.sha512",
         "Pysco68.Owin.Logging.NLogAdapter.nuspec"
+      ]
+    },
+    "System.IdentityModel.Tokens.Jwt/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "gBq/+SI1aCgPoY397FTLtMRUhaZciIGIadzKf1hcxDixxsQPZAbs/VmcucU24b9umdw9unIkQV9efn3AeHxTHg==",
+      "files": [
+        "lib/net45/System.IdentityModel.Tokens.Jwt.dll",
+        "lib/net45/System.IdentityModel.Tokens.Jwt.Xml",
+        "System.IdentityModel.Tokens.Jwt.4.0.0.nupkg",
+        "System.IdentityModel.Tokens.Jwt.4.0.0.nupkg.sha512",
+        "System.IdentityModel.Tokens.Jwt.nuspec"
       ]
     },
     "xunit/2.1.0": {
