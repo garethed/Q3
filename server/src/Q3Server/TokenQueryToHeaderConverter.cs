@@ -9,17 +9,14 @@ namespace Q3Server
         {
         }
 
-        public async override Task Invoke(IOwinContext context)
+        public override async Task Invoke(IOwinContext context)
         {
-            var token = context.Request.Query["adToken"];
+            var token = context.Request.Query[AuthParameters.TokenKey];
 
-            if (string.IsNullOrEmpty(token))
+            if (!string.IsNullOrEmpty(token))
             {
-                context.Response.StatusCode = 401;
-                return;
+                context.Request.Headers["Authorization"] = "Bearer " + token;
             }
-
-            context.Request.Headers["Authorization"] = "Bearer " + token;
 
             await Next.Invoke(context);
         }

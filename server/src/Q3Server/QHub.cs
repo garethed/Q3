@@ -6,7 +6,7 @@ using Q3Server.Interfaces;
 
 namespace Q3Server
 {
-    [Authorize]
+    [ExternalAuthorize]
     public class QHub : Hub
     {
         private IQManager queueManager;

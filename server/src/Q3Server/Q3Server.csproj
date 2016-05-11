@@ -156,7 +156,10 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthParameterChecker.cs" />
+    <Compile Include="AuthParameters.cs" />
     <Compile Include="EmptyQueueNameException.cs" />
+    <Compile Include="ExternalAuthorizeAttribute.cs" />
     <Compile Include="GroupGetterDomain.cs" />
     <Compile Include="ObjectGetterCached.cs" />
     <Compile Include="TokenQueryToHeaderConverter.cs" />
@@ -175,6 +178,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserGetterSerialized.cs" />
+    <Compile Include="UserHeaderProcessor.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

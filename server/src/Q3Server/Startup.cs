@@ -44,6 +44,8 @@ namespace Q3Server
                     userGetterCached,
                     groupGetterCached));
 
+            app.Use<AuthParameterChecker>();
+            app.Use<UserHeaderProcessor>();
             app.Use<TokenQueryToHeaderConverter>();
 
             app.UseWindowsAzureActiveDirectoryBearerAuthentication(
