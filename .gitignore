@@ -12,4 +12,4 @@ server/src/Q3Server/bin/
 server/packages/
 server/src/Q3Server/obj/
 server/src/Q3Server/App_Data/
-**/project.lock.json
+project.lock.json
