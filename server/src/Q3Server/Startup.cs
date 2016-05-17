@@ -44,21 +44,12 @@ namespace Q3Server
                     userGetterCached,
                     groupGetterCached));
 
+            // The AuthParameterChecker must come first in the middleware and auth pipeline, as it ensures
+            // both external and internal requests are attempting to authenticate in the correct ways.
             app.Use<AuthParameterChecker>();
             app.Use<UserHeaderProcessor>();
-            app.Use<TokenQueryToHeaderConverter>();
+            app.SetUpAzureAdAuth();
 
-            app.UseWindowsAzureActiveDirectoryBearerAuthentication(
-                new WindowsAzureActiveDirectoryBearerAuthenticationOptions
-                {
-                    Tenant = ConfigurationManager.AppSettings["azureTenant"],
-                    TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidAudience = ConfigurationManager.AppSettings["serverAppId"]
-                    }
-                }
-            );
-			
             app.UseCors(CorsOptions.AllowAll);
             app.MapSignalR();
 
