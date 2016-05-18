@@ -156,6 +156,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppBuilderExtensions.cs" />
     <Compile Include="AuthParameterChecker.cs" />
     <Compile Include="AuthParameters.cs" />
     <Compile Include="EmptyQueueNameException.cs" />
