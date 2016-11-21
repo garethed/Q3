@@ -20,7 +20,11 @@
         "Owin": "1.0",
         "NLog": "4.2.3",
         "NLog.Web": "4.2",
-        "Pysco68.Owin.Logging.NLogAdapter": "1.0.2"
+        "Pysco68.Owin.Logging.NLogAdapter": "1.0.2",
+        "Microsoft.Owin.Security.ActiveDirectory": "3.0.1",
+        "Microsoft.Owin.Security.Jwt": "3.0.1",
+        "Microsoft.Owin.Security.OAuth": "3.0.1",
+        "System.IdentityModel.Tokens.Jwt": "4.0.0"
       }
     }
   }
