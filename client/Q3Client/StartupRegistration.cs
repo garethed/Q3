@@ -42,17 +42,24 @@ namespace Q3Client
         {
             if (!IsRegisteredForStartup)
             {
-                CreateShortcut(ApplicationName, LaunchingApplicationFilename);
+                CreateShortcut(ApplicationName, LaunchingApplicationFilename, StartupShortcutPath);
             }
         }
 
-        private static void CreateShortcut(string name, string targetLocation)
+        public static bool IsRegisteredForStartMenu => File.Exists(StartMenuShortcutPath);
+
+        public static void RegisterForStartMenu()
+        {
+            CreateShortcut(ApplicationName, LaunchingApplicationFilename, StartMenuShortcutPath);
+        }
+
+        private static void CreateShortcut(string name, string targetLocation, string shortcutPath)
         {
             Type t = Type.GetTypeFromCLSID(new Guid("72C24DD5-D70A-438B-8A42-98424B88AFB8")); //Windows Script Host Shell Object
             dynamic shell = Activator.CreateInstance(t);
             try
             {
-                var lnk = shell.CreateShortcut(StartupShortcutPath);
+                var lnk = shell.CreateShortcut(shortcutPath);
                 try
                 {
                     lnk.TargetPath = targetLocation;
@@ -79,6 +86,10 @@ namespace Q3Client
         {
             get { return StartupShortcutFolder + @"\" + ApplicationName + ".lnk"; }
         }
+
+        private static string StartMenuShortcutFolder => Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
+
+        private static string StartMenuShortcutPath => StartMenuShortcutFolder + @"\" + ApplicationName + ".lnk";
 
         private static string LaunchingApplicationFilename
         {

@@ -55,6 +55,10 @@ namespace Q3Client
                 StartupRegistration.IsRegisteredForStartup = true;
                 DataCache.Save(config);
             }
+            if (!StartupRegistration.IsRegisteredForStartMenu)
+            {
+                StartupRegistration.RegisterForStartMenu();
+            }
 
             user = GetUser();
 
