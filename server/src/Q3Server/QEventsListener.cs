@@ -31,7 +31,7 @@ namespace Q3Server
 
         private void QueueMessageSent(object sender, QueueMessageEventArgs e)
         {
-            hubContext.Clients.All.QueueMessageSent(e.Queue.Id, e.Message.Sender, e.Message.Content);
+            hubContext.Clients.All.QueueMessageSent(e.Queue.Id, e.Message.Sender, e.Message.Content, e.Message.Timestamp);
         }
 
         private void QueueStatusChanged(object sender, QueueEventArgs e)

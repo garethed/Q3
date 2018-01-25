@@ -137,6 +137,12 @@ namespace Q3Server
         {
             public User Sender;
             public string Content;
+            public DateTimeOffset Timestamp;
+
+            public Message()
+            {
+                Timestamp = DateTimeOffset.UtcNow;
+            }
 
             public string Describe()
             {

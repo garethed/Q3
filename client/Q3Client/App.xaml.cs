@@ -169,7 +169,7 @@ namespace Q3Client
             Dispatcher.Invoke(
                 () =>
                     queueUpdater.AddQueueMessage(queueMessageEventArgs.QueueId, queueMessageEventArgs.Sender,
-                        queueMessageEventArgs.Message));
+                        queueMessageEventArgs.Message, queueMessageEventArgs.Timestamp));
         }
 
         private void QueueNagged(object sender, QueueIdEventArgs e)
