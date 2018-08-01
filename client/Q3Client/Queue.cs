@@ -84,12 +84,12 @@ namespace Q3Client
 
         public bool Equals(Queue other)
         {
-            return other.Id == this.Id;
+            return other != null && other.Id == Id;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected  void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             logger.Info("q changed " + propertyName);
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -100,6 +100,7 @@ namespace Q3Client
         {
             public User Sender;
             public string Content;
+            public DateTimeOffset Timestamp;
 
             protected bool Equals(Message other)
             {

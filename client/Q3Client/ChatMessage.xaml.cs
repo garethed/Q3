@@ -25,6 +25,7 @@ namespace Q3Client
             InitializeComponent();
             AvatarCanvas.Children.Add(new Avatar(message.Sender));
             MessageText.Text = message.Content;
+            MessageText.ToolTip = "Sent at " + message.Timestamp.ToLocalTime().ToString("HH:mm:ss");
         }
     }
 }

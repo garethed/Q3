@@ -42,7 +42,7 @@ namespace Q3Client
             hub.On<Queue>("NewQueue", q => RaiseEvent("created", QueueCreated, q));
             hub.On<Queue>("QueueMembershipChanged", q => RaiseEvent("membershipchanged", QueueMembershipChanged, q));
             hub.On<Queue>("QueueStatusChanged", q => RaiseEvent("statuschanged", QueueStatusChanged, q));
-            hub.On<int, User, string>("QueueMessageSent", RaiseMessageEvent);
+            hub.On<int, User, string, DateTimeOffset>("QueueMessageSent", RaiseMessageEvent);
             hub.On<int>("NagQueue", id => RaiseEvent("nag", QueueNagged, id));
             hubConnection.Headers["User"] = this.user.ToString();
             hubConnection.StateChanged += HubConnectionOnStateChanged;
@@ -157,10 +157,10 @@ namespace Q3Client
             eventHandler.SafeInvoke(this, new QueueIdEventArgs(id));
         }
 
-        private void RaiseMessageEvent(int queueId, User sender, string message)
+        private void RaiseMessageEvent(int queueId, User sender, string message, DateTimeOffset timestamp)
         {
-            logger.Info("hub messaage " + queueId + " " + sender + " " + message);
-            QueueMessageReceived.SafeInvoke(this, new QueueMessageEventArgs(queueId, sender, message));
+            logger.Info("hub message " + queueId + " " + sender + " " + message);
+            QueueMessageReceived.SafeInvoke(this, new QueueMessageEventArgs(queueId, sender, message, timestamp));
         }
 
         #endregion

@@ -147,13 +147,13 @@ namespace Q3Client
             UpdateQueue(queue);
         }
 
-        public void AddQueueMessage(int queueId, User sender, string message)
+        public void AddQueueMessage(int queueId, User sender, string message, DateTimeOffset timestamp)
         {
             logger.Debug(nameof(AddQueueMessage));
             if (queuesById.ContainsKey(queueId))
             { 
                 var q = queuesById[queueId];
-                q.AddMessage(new Queue.Message() {Sender = sender, Content = message});
+                q.AddMessage(new Queue.Message() {Sender = sender, Content = message, Timestamp = timestamp});
             }
         }
 
